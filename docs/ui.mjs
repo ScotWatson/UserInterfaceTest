@@ -181,7 +181,7 @@ export function initialize() {
 
   const obj = {
     homeView: {},
-    addView() => {},
+    addView() {},
   };
   return obj;
 }
