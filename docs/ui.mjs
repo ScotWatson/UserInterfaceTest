@@ -42,7 +42,7 @@ export function initialize() {
   divMain.style.gridTemplateColumns = "2fr 1fr";
   divMain.style.gridTemplateRows = "1fr";
   divMain.style.gridTemplateAreas = '"major minor"';
-  divMain.style.backgroundColor: "#0000FF";
+  divMain.style.backgroundColor = "#0000FF";
 
   const divMajorFrame = document.createElement("div");
   divWindow.appendChild(divMajorFrame);
@@ -59,17 +59,17 @@ export function initialize() {
   divMajorTitle.style.gridArea = "breadcrumbs";
   divMajorTitle.style.gridTemplateRows: "1fr";
   // Home Only
-  divMajorTitle.style.gridTemplateColumns: "50px 1fr";
-  divMajorTitle.style.gridTemplateAreas: '"home ultimate"';
-  divMajorTitle.style.backgroundColor: "#0000C0";
+  divMajorTitle.style.gridTemplateColumns = "50px 1fr";
+  divMajorTitle.style.gridTemplateAreas = '"home ultimate"';
+  divMajorTitle.style.backgroundColor = "#0000C0";
   // One level
-  divMajorTitle.style.gridTemplateColumns: "50px 1fr 1fr";
-  divMajorTitle.style.gridTemplateAreas: '"home penultimate ultimate"';
-  divMajorTitle.style.backgroundColor: "#0000C0";
+  divMajorTitle.style.gridTemplateColumns = "50px 1fr 1fr";
+  divMajorTitle.style.gridTemplateAreas = '"home penultimate ultimate"';
+  divMajorTitle.style.backgroundColor = "#0000C0";
   // Multiple Levels
-  divMajorTitle.style.gridTemplateColumns: "50px 50px 1fr 1fr";
-  divMajorTitle.style.gridTemplateAreas: '"home ellipsis penultimate ultimate"';
-  divMajorTitle.style.backgroundColor: "#0000C0";
+  divMajorTitle.style.gridTemplateColumns = "50px 50px 1fr 1fr";
+  divMajorTitle.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
+  divMajorTitle.style.backgroundColor = "#0000C0";
 
   const imgHome = document.createElement("img");
   divMajorTitle.appendChild(imgHome);
@@ -140,7 +140,7 @@ export function initialize() {
   divMinorTitle.style.gridTemplateColumns = "50px 1fr 50px";
   divMinorTitle.style.gridTemplateRows = "1fr";
   divMinorTitle.style.gridTemplateAreas = '"expand title close"';
-  divMinorTitle.style.backgroundColor: "#000040";
+  divMinorTitle.style.backgroundColor = "#000040";
 
   const divExpand = document.createElement("div");
   divMinorTitle.appendChild(divExpand);
@@ -179,9 +179,9 @@ export function initialize() {
   divMinorContent.style.borderTop = "1px solid black";
   divMinorContent.style.boxSizing = "border-box";
 
-  const obj = {};
+  const obj = {
+    homeView: {},
+    addView() => {},
+  };
   return obj;
-  function () {
-    
-  }
 }
