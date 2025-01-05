@@ -32,7 +32,7 @@ export function initialize() {
   const divViews = document.createElement("div");
   divWindow.appendChild(divAppName);
   divViews.style.display = "block";
-  divViews.style.gridArea: "views";
+  divViews.style.gridArea = "views";
   divViews.style.backgroundColor: "#00FF00";
 
   const divMain = document.createElement("div");
