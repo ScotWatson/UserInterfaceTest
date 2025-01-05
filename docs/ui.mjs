@@ -4,6 +4,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 export function initialize() {
+  document.body.style.margin = "0px";
+  document.body.style.border = "0px";
+  document.body.style.padding = "0px";
   const divWindow = document.createElement("div");
   document.body.appendChild(divWindow);
   divWindow.style.display = "grid";
@@ -13,7 +16,7 @@ export function initialize() {
   divWindow.style.gridTemplateAreas = '"appName actions" "views main"';
   divWindow.style.backgroundColor = "black";
   const resize = () => {
-    divWindow.style.height = window.innerHeight;
+    divWindow.style.height = window.innerHeight + "px";
   };
   window.addEventListener("resize", resize);
   resize();
