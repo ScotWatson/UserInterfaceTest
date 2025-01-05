@@ -45,7 +45,7 @@ export function initialize() {
   divMain.style.backgroundColor = "#0000FF";
 
   const divMajorFrame = document.createElement("div");
-  divWindow.appendChild(divMajorFrame);
+  divMain.appendChild(divMajorFrame);
   divMajorFrame.style.display = "grid";
   divMajorFrame.style.gridArea = "major";
   divMajorFrame.style.gridTemplateColumns = "1fr";
