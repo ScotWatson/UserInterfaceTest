@@ -169,7 +169,7 @@ export function initialize() {
   divClose.style.fontSize = "24pt";
   divClose.style.overflow = "hidden";
 /*  divClose.style.borderLeft: 1px solid black; */
-  divClose.style.boxSizing: "border-box";
+  divClose.style.boxSizing = "border-box";
 
   const divMinorContent = document.createElement("div");
   divMinorFrame.appendChild(divMinorContent);
