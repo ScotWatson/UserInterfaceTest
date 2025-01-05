@@ -125,7 +125,7 @@ export function initialize() {
 
   const divMinorFrame = document.createElement("div");
   divMain.appendChild(divMinorFrame);
-  divMinorFrame.style.display = "grid;
+  divMinorFrame.style.display = "grid";
   divMinorFrame.style.gridArea = "minor";
   divMinorFrame.style.gridTemplateColumns = "1fr";
   divMinorFrame.style.gridTemplateRows = "50px 1fr";
