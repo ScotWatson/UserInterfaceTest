@@ -13,7 +13,7 @@ const loadingPage = new Promise((resolve, reject) => {
   });
 });
 
-const loadingUI = new Promise();
+const loadingUI = import("./ui.mjs");
 
 Promise.all([ loadingPage, loadingUI ]).then(start);
 
