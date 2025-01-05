@@ -57,7 +57,7 @@ export function initialize() {
   divMajorFrame.appendChild(divMajorTitle);
   divMajorTitle.style.display = "grid";
   divMajorTitle.style.gridArea = "breadcrumbs";
-  divMajorTitle.style.gridTemplateRows: "1fr";
+  divMajorTitle.style.gridTemplateRows = "1fr";
   // Home Only
   divMajorTitle.style.gridTemplateColumns = "50px 1fr";
   divMajorTitle.style.gridTemplateAreas = '"home ultimate"';
