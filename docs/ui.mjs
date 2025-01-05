@@ -11,7 +11,7 @@ export function initialize() {
   divWindow.style.gridTemplateColumns = "1fr 6fr";
   divWindow.style.gridTemplateRows = "50px 1fr";
   divWindow.style.gridTemplateAreas = '"appName actions" "views main"';
-  divWindow.style.background-color: "black";
+  divWindow.style.backgroundColor = "black";
   window.addEventListener("resize", resize);
   const resize = () => {
     divWindow.style.height = window.innerHeight;
