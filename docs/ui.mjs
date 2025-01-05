@@ -12,10 +12,10 @@ export function initialize() {
   divWindow.style.gridTemplateRows = "50px 1fr";
   divWindow.style.gridTemplateAreas = '"appName actions" "views main"';
   divWindow.style.backgroundColor = "black";
-  window.addEventListener("resize", resize);
   const resize = () => {
     divWindow.style.height = window.innerHeight;
   };
+  window.addEventListener("resize", resize);
   resize();
   const divAppName = document.createElement("div");
   divWindow.appendChild(divAppName);
