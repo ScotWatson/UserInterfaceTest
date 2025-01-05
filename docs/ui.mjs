@@ -21,7 +21,7 @@ export function initialize() {
   divWindow.appendChild(divAppName);
   divAppName.style.display = "block";
   divAppName.style.gridArea = "appName";
-  divAppName.style.backgroundColor: "#808080";
+  divAppName.style.backgroundColor = "#808080";
 
   const divActions = document.createElement("div");
   divWindow.appendChild(divAppName);
