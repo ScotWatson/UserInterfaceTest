@@ -187,7 +187,30 @@ export function initialize() {
 
   const obj = {
     homeView: {},
-    addView() {},
+    addFormView() {
+      const { div, obj } = createFormView();
+      divMajorContent.appendChild(div);
+      return obj;
+    },
   };
   return obj;
 }
+function createFormView() {
+  const divTop = document.createElement("div");
+  const elements = [];
+  const obj = {
+    addTextEntry() {},
+    addMultiSelect() {},
+    addNumericEntry() {},
+    addTextDisplay() {},
+    remove() {},
+  };
+  return {
+    div,
+    obj,
+  };
+}
+function createTilesView() {}
+function createListView() {}
+function createMapView() {}
+function createTextEntry() {}
