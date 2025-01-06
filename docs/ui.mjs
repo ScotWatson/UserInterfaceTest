@@ -4,6 +4,9 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 export function initialize(args) {
+  if (!args) {
+    args = {};
+  }
   if (!args.logo) {
     args.logo = "./hamburger-menu.svg";
   }
