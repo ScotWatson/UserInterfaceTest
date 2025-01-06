@@ -3,12 +3,13 @@
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+const viewTypes = new Map();
 export function initialize(args) {
   if (!args) {
     args = {};
   }
   if (!args.logo) {
-    args.logo = "./hamburger-menu.svg";
+    args.logo = "./icons/hamburger-menu.svg";
   }
   if (!args.appName) {
     args.appName = "";
@@ -269,38 +270,205 @@ export function initialize(args) {
   }
   const obj = {
     homeView: {},
-    addFormView() {
-      const { div, obj } = createFormView();
+    addView(type, args) {
+      const funcCreate = viewTypes.get(type);
+      const { div, obj } = funcCreate(args);
       divMajorContent.appendChild(div);
       return obj;
     },
   };
   return obj;
 }
-function createFormView() {
+
+export const symFormView = Symbol();
+export const symTilesView = Symbol();
+export const symListView = Symbol();
+export const symMapView = Symbol();
+viewTypes.set(symFormView, createFormView);
+viewTypes.set(symTilesView, createTilesView);
+viewTypes.set(symListView, createListView);
+viewTypes.set(symMapView, createMapView);
+
+function createTilesView(args) {
   const divTop = document.createElement("div");
+  const divScroll = document.createElement("div");
   const elements = [];
   const obj = {
-    addTextEntry() {},
-    addMultiSelect() {},
-    addNumericEntry() {},
-    addTextDisplay() {},
-    remove() {},
+    id: crypto.randomUUID(),
+    addElement(icon, title) {
+    },
   };
   return {
     div,
     obj,
   };
 }
-function createTilesView() {
-  
+function createListView(args) {
+  const divTop = document.createElement("div");
+  const elements = [];
+  const obj = {
+    id: crypto.randomUUID(),
+    addElement(type, args) {
+    },
+  };
+  return {
+    div,
+    obj,
+  };
 }
-function createListView() {
-  
+function createMapView(args) {
+  const divTop = document.createElement("div");
+  const canvas = document.createElement("canvas");
+  const obj = {
+    id: crypto.randomUUID(),
+  };
+  return {
+    div,
+    obj,
+  };
 }
-function createMapView() {
-  
+
+export const symTextEntry = Symbol();
+export const symMultiSelect = Symbol();
+export const symNumericEntry = Symbol();
+export const symTextDisplay = Symbol();
+export const symButton = Symbol();
+
+const formElementTypes = new Map();
+formElementTypes.set(symTextEntry, createTextEntry);
+formElementTypes.set(symMultiSelect, createMultiSelect);
+formElementTypes.set(symNumericEntry, createNumericEntry);
+formElementTypes.set(symTextDisplay, createTextDisplay);
+formElementTypes.set(symButton, createButton);
+
+function createFormView(args) {
+  const divTop = document.createElement("div");
+  const elements = [];
+  const obj = {
+    id: crypto.randomUUID(),
+    addElement(type, args) {
+      const funcCreate = elementTypes.get(type);
+      const newElement = funcCreate(args);
+      elements.push(newElement);
+      return newElement.obj;
+    },
+  };
+  return {
+    div,
+    obj,
+  };
 }
-function createTextEntry() {
-  
+function createTextEntry(args) {
+  const divTop = document.createElement("div");
+  divTop.style.display = "grid";
+  divTop.style.width = "100%";
+  if (args.icon) {
+    divTop.style.gridTemplateColumns = "50px 1fr";
+    divTop.style.gridTemplateRows = "1fr 1fr";
+    divTop.style.gridTemplateAreas = '"icon prompt" "icon input"';
+    const imgIcon = document.createElement("img");
+    divTop.appendChild(imgIcon);
+    imgIcon.src = args.icon;
+    imgIcon.style.display = "block";
+  } else {
+    divTop.style.gridTemplateColumns = "1fr";
+    divTop.style.gridTemplateRows = "1fr";
+    divTop.style.gridTemplateAreas = '"prompt" "input"';
+  }
+  const divPrompt = document.createElement("div");
+  divTop.appendChild(divPrompt);
+  divPrompt.style.display = "block";
+  divPrompt.style.width = "100%";
+  divItemTitle.style.fontSize = "12pt";
+  divItemTitle.style.overflow = "hidden";
+  const input = document.createElement("input");
+  divTop.appendChild(input);
+  input.type = "text";
+  input.style.display = "block";
+  input.style.gridArea = "input";
+  input.style.width = "100%";
+  divItemTitle.style.fontSize = "12pt";
+  input.style.border = "1px solid black";
+  input.style.boxSizing = "border-box";
+  const obj = {
+    id: crypto.randomUUID(),
+    getValue() {
+      return input.value;
+    },
+  };
+  return {
+    div: divTop,
+    obj,
+  };
+}
+function createMultiSelect(args) {
+  const divTop = document.createElement("div");
+  divTop.style.display = "block";
+  divTop.style.width = "100%";
+  divTop.style.height = "50px";
+  const div = document.createElement("div");
+  div.style.display = "block";
+  div.style.width = "100%";
+  div.style.height = "50px";
+  const obj = {
+    id: crypto.randomUUID(),
+  };
+  return {
+    div: divTop,
+    obj,
+  };
+}
+function createNumericEntry(args) {
+  const divTop = document.createElement("div");
+  divTop.style.display = "block";
+  divTop.style.width = "100%";
+  divTop.style.height = "50px";
+  const obj = {
+    id: crypto.randomUUID(),
+  };
+  return {
+    div: divTop,
+    obj,
+  };
+}
+function createTextDisplay(args) {
+  const divTop = document.createElement("div");
+  divTop.style.display = "block";
+  divTop.style.width = "100%";
+  divTop.style.height = "50px";
+  const divPrimary = document.createElement("div");
+  divPrimary.style.display = "block";
+  divPrimary.style.width = "100%";
+  divPrimary.style.height = "50px";
+  const obj = {
+    id: crypto.randomUUID(),
+  };
+  return {
+    div: divTop,
+    obj,
+  };
+}
+function createButton(args) {
+  const divTop = document.createElement("div");
+  divTop.style.display = "block";
+  divTop.style.width = "100%";
+  divTop.style.height = "50px";
+  const btn = document.createElement("button");
+  divTop.appendChild(btn);
+  btn.style.width = "80%";
+  btn.style.height = "40px";
+  btn.style.borderRadius = "20px";
+  const obj = {
+    id: crypto.randomUUID(),
+    addEventListener(eventName, handler) {
+      btn.addEventListener(eventName, handler);
+    },
+    removeEventListener(eventName, handler) {
+      btn.addEventListener(eventName, handler);
+    },
+  };
+  return {
+    div: divTop,
+    obj,
+  };
 }
