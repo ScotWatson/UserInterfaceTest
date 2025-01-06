@@ -43,6 +43,7 @@ export function initialize(args) {
   divAppName.style.display = "block";
   divAppName.style.gridArea = "appName";
   divAppName.style.backgroundColor = "#808080";
+  collapseViewsMenu();
 
   function expandViewsMenu() {
     divWindow.style.gridTemplateColumns = "1fr 6fr";
