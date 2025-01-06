@@ -3,7 +3,13 @@
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-export function initialize() {
+export function initialize(args) {
+  if (!args.logo) {
+    args.logo = "./hamburger-menu.svg";
+  }
+  if (!args.appName) {
+    args.appName = "";
+  }
   document.body.style.margin = "0px";
   document.body.style.border = "0px";
   document.body.style.padding = "0px";
@@ -11,20 +17,58 @@ export function initialize() {
   document.body.appendChild(divWindow);
   divWindow.style.display = "grid";
   divWindow.style.width = "100%";
-  divWindow.style.gridTemplateColumns = "1fr 6fr";
-  divWindow.style.gridTemplateRows = "50px 1fr";
-  divWindow.style.gridTemplateAreas = '"appName actions" "views main"';
   divWindow.style.backgroundColor = "black";
   const resize = () => {
     divWindow.style.height = window.innerHeight + "px";
   };
   window.addEventListener("resize", resize);
   resize();
+  const divHamburger = document.createElement("div");
+  divWindow.appendChild(divHamburger);
+  divHamburger.style.display = "block";
+  divHamburger.style.gridArea = "hamburger";
+  divHamburger.style.backgroundColor = "#808080";
+  const imgLogo = document.createElement("div");
+  divHamburger.appendChild(imgLogo);
+  imgLogo.src = args.logo;
+  imgLogo.style.display = "block";
+  imgLogo.style.gridArea = "appLogo";
+  imgLogo.style.backgroundColor = "#808080";
   const divAppName = document.createElement("div");
-  divWindow.appendChild(divAppName);
+  divHamburger.appendChild(divAppName);
+  divAppName.append(args.appName);
   divAppName.style.display = "block";
   divAppName.style.gridArea = "appName";
   divAppName.style.backgroundColor = "#808080";
+
+  function expandViewsMenu() {
+    divWindow.style.gridTemplateColumns = "1fr 6fr";
+    divWindow.style.gridTemplateRows = "50px 1fr";
+    divWindow.style.gridTemplateAreas = '"appName topBar" "views main"';
+    imgLogo.src = app.logo;
+    divAppName.style.gridTemplateColumns = "50px 1fr";
+    divAppName.style.gridTemplateRows = "1fr";
+    divAppName.style.gridTemplateAreas = '"appLogo appName"';
+    divAppName.style.display = "block";
+  }
+  function collapseViewsMenu() {
+    divWindow.style.gridTemplateColumns = "50px 1fr";
+    divWindow.style.gridTemplateRows = "50px 1fr";
+    divWindow.style.gridTemplateAreas = '"appName topBar" "views main"';
+    imgLogo.src = "./hamburger-menu.svg";
+    divAppName.style.gridTemplateColumns = "50px";
+    divAppName.style.gridTemplateRows = "1fr";
+    divAppName.style.gridTemplateAreas = '"appLogo"';
+    divAppName.style.display = "none";
+  }
+
+  imgLogo.addEventListener("click", () => {
+    if (divAppName.style.display === "none") {
+      expandViewsMenu();
+    } else {
+      collapseViewsMenu();
+    }
+  });
 
   const divActions = document.createElement("div");
   divWindow.appendChild(divActions);
@@ -43,36 +87,31 @@ export function initialize() {
   divMain.style.display = "grid";
   divMain.style.gridArea = "main";
   divMain.style.backgroundColor = "#0000FF";
-  divMain.style.gridTemplateColumns = "2fr 1fr";
-  divMain.style.gridTemplateRows = "1fr";
-  divMain.style.gridTemplateAreas = '"major minor"';
 
   const divMajorFrame = document.createElement("div");
   divMain.appendChild(divMajorFrame);
   divMajorFrame.style.display = "grid";
   divMajorFrame.style.gridArea = "major";
+  divMajorFrame.style.backgroundColor = "#000080";
   divMajorFrame.style.gridTemplateColumns = "1fr";
   divMajorFrame.style.gridTemplateRows = "50px 1fr";
   divMajorFrame.style.gridTemplateAreas = '"breadcrumbs" "content"';
-  divMajorFrame.style.backgroundColor = "#000080";
 
   const divMajorTitle = document.createElement("div");
   divMajorFrame.appendChild(divMajorTitle);
   divMajorTitle.style.display = "grid";
   divMajorTitle.style.gridArea = "breadcrumbs";
   divMajorTitle.style.gridTemplateRows = "1fr";
+  divMajorTitle.style.backgroundColor = "#0000C0";
   // Home Only
   divMajorTitle.style.gridTemplateColumns = "50px 1fr";
   divMajorTitle.style.gridTemplateAreas = '"home ultimate"';
-  divMajorTitle.style.backgroundColor = "#0000C0";
   // One level
   divMajorTitle.style.gridTemplateColumns = "50px 1fr 1fr";
   divMajorTitle.style.gridTemplateAreas = '"home penultimate ultimate"';
-  divMajorTitle.style.backgroundColor = "#0000C0";
   // Multiple Levels
   divMajorTitle.style.gridTemplateColumns = "50px 50px 1fr 1fr";
   divMajorTitle.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
-  divMajorTitle.style.backgroundColor = "#0000C0";
 
   const imgHome = document.createElement("img");
   divMajorTitle.appendChild(imgHome);
@@ -213,14 +252,15 @@ export function initialize() {
   });
 
   function openMinorFrame() {
+    divMain.style.gridTemplateColumns = "2fr 1fr";
+    divMain.style.gridTemplateRows = "1fr";
+    divMain.style.gridTemplateAreas = '"major minor"';
     divMinorFrame.style.display = "block";
   }
   function closeMinorFrame() {
-/*
-divMain.style.gridTemplateColumns = "1fr";
+    divMain.style.gridTemplateColumns = "1fr";
     divMain.style.gridTemplateRows = "1fr";
     divMain.style.gridTemplateAreas = '"major"';
-    */
     divMinorFrame.style.display = "none";
   }
   const obj = {
@@ -248,8 +288,15 @@ function createFormView() {
     obj,
   };
 }
-function createTilesView() {}
-function createListView() {}
-function createMapView() {}
-function createTextEntry() {}
+function createTilesView() {
   
+}
+function createListView() {
+  
+}
+function createMapView() {
+  
+}
+function createTextEntry() {
+  
+}
