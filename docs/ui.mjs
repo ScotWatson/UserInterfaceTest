@@ -42,10 +42,8 @@ export function initialize() {
   divWindow.appendChild(divMain);
   divMain.style.display = "grid";
   divMain.style.gridArea = "main";
-  divMain.style.gridTemplateColumns = "2fr 1fr";
-  divMain.style.gridTemplateRows = "1fr";
-  divMain.style.gridTemplateAreas = '"major minor"';
   divMain.style.backgroundColor = "#0000FF";
+  openMinorFrame();
 
   const divMajorFrame = document.createElement("div");
   divMain.appendChild(divMajorFrame);
@@ -185,6 +183,33 @@ export function initialize() {
   divMinorContent.style.borderTop = "1px solid black";
   divMinorContent.style.boxSizing = "border-box";
 
+  imgHome.addEventListener("click", () => {
+    
+  });
+  imgEllipsis.addEventListener("click", () => {
+    
+  });
+  imgClose.addEventListener("click", () => {
+    closeMinorFrame();
+  });
+
+  const btnOpen = document.createElement("button");
+  divMajorContent.appendChild(btnOpen);
+  btnOpen.innerHTML = "Open";
+  btnOpen.addEventListener(() => {
+    openMinorFrame();
+  });
+
+  function openMinorFrame() {
+    divMain.style.gridTemplateColumns = "2fr 1fr";
+    divMain.style.gridTemplateRows = "1fr";
+    divMain.style.gridTemplateAreas = '"major minor"';
+  }
+  function closeMinorFrame() {
+    divMain.style.gridTemplateColumns = "1fr";
+    divMain.style.gridTemplateRows = "1fr";
+    divMain.style.gridTemplateAreas = '"major"';
+  }
   const obj = {
     homeView: {},
     addFormView() {
@@ -214,3 +239,4 @@ function createTilesView() {}
 function createListView() {}
 function createMapView() {}
 function createTextEntry() {}
+  
