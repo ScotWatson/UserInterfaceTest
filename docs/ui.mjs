@@ -58,7 +58,7 @@ export function initialize(args) {
   function collapseViewsMenu() {
     divWindow.style.gridTemplateColumns = "50px 1fr";
     divWindow.style.gridTemplateRows = "50px 1fr";
-    divWindow.style.gridTemplateAreas = '"appName topBar" "views main"';
+    divWindow.style.gridTemplateAreas = '"hamburger topBar" "views main"';
     imgLogo.src = "./icons/hamburger-menu.svg";
     divHamburger.style.gridTemplateColumns = "50px";
     divHamburger.style.gridTemplateRows = "1fr";
