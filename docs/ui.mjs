@@ -43,7 +43,6 @@ export function initialize() {
   divMain.style.display = "grid";
   divMain.style.gridArea = "main";
   divMain.style.backgroundColor = "#0000FF";
-  openMinorFrame();
 
   const divMajorFrame = document.createElement("div");
   divMain.appendChild(divMajorFrame);
@@ -190,6 +189,8 @@ export function initialize() {
   divMinorContent.style.backgroundColor = "white";
   divMinorContent.style.borderTop = "1px solid black";
   divMinorContent.style.boxSizing = "border-box";
+
+  openMinorFrame();
 
   imgHome.addEventListener("click", () => {
     
