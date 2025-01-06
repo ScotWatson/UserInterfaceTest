@@ -50,9 +50,9 @@ export function initialize(args) {
     divWindow.style.gridTemplateRows = "50px 1fr";
     divWindow.style.gridTemplateAreas = '"appName topBar" "views main"';
     imgLogo.src = app.logo;
-    divAppName.style.gridTemplateColumns = "50px 1fr";
-    divAppName.style.gridTemplateRows = "1fr";
-    divAppName.style.gridTemplateAreas = '"appLogo appName"';
+    divHamburger.style.gridTemplateColumns = "50px 1fr";
+    divHamburger.style.gridTemplateRows = "1fr";
+    divHamburger.style.gridTemplateAreas = '"appLogo appName"';
     divAppName.style.display = "block";
   }
   function collapseViewsMenu() {
@@ -60,9 +60,9 @@ export function initialize(args) {
     divWindow.style.gridTemplateRows = "50px 1fr";
     divWindow.style.gridTemplateAreas = '"appName topBar" "views main"';
     imgLogo.src = "./hamburger-menu.svg";
-    divAppName.style.gridTemplateColumns = "50px";
-    divAppName.style.gridTemplateRows = "1fr";
-    divAppName.style.gridTemplateAreas = '"appLogo"';
+    divHamburger.style.gridTemplateColumns = "50px";
+    divHamburger.style.gridTemplateRows = "1fr";
+    divHamburger.style.gridTemplateAreas = '"appLogo"';
     divAppName.style.display = "none";
   }
 
