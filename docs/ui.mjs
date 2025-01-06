@@ -27,13 +27,13 @@ export function initialize() {
   divAppName.style.backgroundColor = "#808080";
 
   const divActions = document.createElement("div");
-  divWindow.appendChild(divAppName);
+  divWindow.appendChild(divActions);
   divActions.style.display = "block";
   divActions.style.gridArea = "actions";
   divActions.style.backgroundColor = "#FF0000";
 
   const divViews = document.createElement("div");
-  divWindow.appendChild(divAppName);
+  divWindow.appendChild(divViews);
   divViews.style.display = "block";
   divViews.style.gridArea = "views";
   divViews.style.backgroundColor = "#00FF00";
@@ -125,6 +125,14 @@ export function initialize() {
   divUltimateText.style.whiteSpace = "nowrap";
   divUltimateText.style.overflow = "hidden";
   divUltimateText.style.textOverflow = "ellipsis";
+
+  const divMajorContent = document.createElement("div");
+  divMajorFrame.appendChild(divMajorContent);
+  divMajorContent.style.display = "block";
+  divMajorContent.style.gridArea = "content";
+  divMajorContent.style.backgroundColor = "white";
+  divMajorContent.style.borderTop = "1px solid black";
+  divMajorContent.style.boxSizing = "border-box";
 
   const divMinorFrame = document.createElement("div");
   divMain.appendChild(divMinorFrame);
