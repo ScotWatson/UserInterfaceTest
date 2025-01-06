@@ -48,7 +48,7 @@ export function initialize(args) {
   function expandViewsMenu() {
     divWindow.style.gridTemplateColumns = "1fr 6fr";
     divWindow.style.gridTemplateRows = "50px 1fr";
-    divWindow.style.gridTemplateAreas = '"appName topBar" "views main"';
+    divWindow.style.gridTemplateAreas = '"hamburger topBar" "views main"';
     imgLogo.src = app.logo;
     divHamburger.style.gridTemplateColumns = "50px 1fr";
     divHamburger.style.gridTemplateRows = "1fr";
@@ -59,7 +59,7 @@ export function initialize(args) {
     divWindow.style.gridTemplateColumns = "50px 1fr";
     divWindow.style.gridTemplateRows = "50px 1fr";
     divWindow.style.gridTemplateAreas = '"appName topBar" "views main"';
-    imgLogo.src = "./hamburger-menu.svg";
+    imgLogo.src = "./icons/hamburger-menu.svg";
     divHamburger.style.gridTemplateColumns = "50px";
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo"';
@@ -77,7 +77,7 @@ export function initialize(args) {
   const divActions = document.createElement("div");
   divWindow.appendChild(divActions);
   divActions.style.display = "block";
-  divActions.style.gridArea = "actions";
+  divActions.style.gridArea = "topBar";
   divActions.style.backgroundColor = "#FF0000";
 
   const divViews = document.createElement("div");
@@ -102,7 +102,7 @@ export function initialize(args) {
   divMajorFrame.style.gridTemplateAreas = '"breadcrumbs" "content"';
 
   const divMajorTitle = document.createElement("div");
-  divMajorFrame.appendChild(divMajorTitle);
+  divActions.appendChild(divMajorTitle);
   divMajorTitle.style.display = "grid";
   divMajorTitle.style.gridArea = "breadcrumbs";
   divMajorTitle.style.gridTemplateRows = "1fr";
