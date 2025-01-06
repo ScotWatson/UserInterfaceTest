@@ -76,6 +76,7 @@ export function initialize() {
 
   const imgHome = document.createElement("img");
   divMajorTitle.appendChild(imgHome);
+  imgHome.src = "./icons/home.svg";
   imgHome.style.display = "block";
   imgHome.style.gridArea = "home";
   imgHome.style.backgroundColor = "white";
@@ -83,6 +84,7 @@ export function initialize() {
 
   const imgEllipsis = document.createElement("img");
   divMajorTitle.appendChild(imgEllipsis);
+  imgEllipsis.src = "./icons/ellipsis.svg";
   imgEllipsis.style.display = "block";
   imgEllipsis.style.gridArea = "ellipsis";
   imgEllipsis.style.backgroundColor = "white";
@@ -164,15 +166,16 @@ export function initialize() {
   divItemTitle.style.borderLeft = "1px solid black";
   divItemTitle.style.boxSizing = "border-box";
 
-  const divClose = document.createElement("div");
-  divMinorTitle.appendChild(divClose);
-  divClose.style.gridArea = "close";
-  divClose.style.backgroundColor = "white";
-  divClose.style.height = "50px";
-  divClose.style.fontSize = "24pt";
-  divClose.style.overflow = "hidden";
+  const imgClose = document.createElement("img");
+  divMinorTitle.appendChild(imgClose);
+  imgClose.src = "./icons/close.svg";
+  imgClose.style.gridArea = "close";
+  imgClose.style.backgroundColor = "white";
+  imgClose.style.height = "50px";
+  imgClose.style.fontSize = "24pt";
+  imgClose.style.overflow = "hidden";
 /*  divClose.style.borderLeft: 1px solid black; */
-  divClose.style.boxSizing = "border-box";
+  imgClose.style.boxSizing = "border-box";
 
   const divMinorContent = document.createElement("div");
   divMinorFrame.appendChild(divMinorContent);
