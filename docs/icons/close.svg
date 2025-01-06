@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- (c) 2025 Scot Watson  All Rights Reserved -->
+<svg stroke="#000000" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
+  <path d="M 0.25 0.25 l 0.5 0.5" stroke-width="0.1" stroke-linecap="round" fill="transparent"/>
+  <path d="M 0.25 0.75 l 0.5 -0.5" stroke-width="0.1" stroke-linecap="round" fill="transparent"/>
+</svg>
