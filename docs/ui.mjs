@@ -354,7 +354,7 @@ function createFormView(args) {
     },
   };
   return {
-    div,
+    div: divTop,
     obj,
   };
 }
