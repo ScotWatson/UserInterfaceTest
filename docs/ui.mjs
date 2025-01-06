@@ -44,6 +44,9 @@ export function initialize(args) {
   divAppName.style.display = "block";
   divAppName.style.gridArea = "appName";
   divAppName.style.backgroundColor = "#808080";
+  divAppName.style.height = "50px";
+  divAppName.style.fontSize = "24pt";
+  divAppName.style.overflow = "hidden";
   collapseViewsMenu();
 
   function expandViewsMenu() {
