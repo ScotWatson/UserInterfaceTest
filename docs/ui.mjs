@@ -28,10 +28,10 @@ export function initialize(args) {
   resize();
   const divHamburger = document.createElement("div");
   divWindow.appendChild(divHamburger);
-  divHamburger.style.display = "block";
+  divHamburger.style.display = "grid";
   divHamburger.style.gridArea = "hamburger";
   divHamburger.style.backgroundColor = "#808080";
-  const imgLogo = document.createElement("div");
+  const imgLogo = document.createElement("img");
   divHamburger.appendChild(imgLogo);
   imgLogo.src = args.logo;
   imgLogo.style.display = "block";
