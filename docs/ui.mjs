@@ -49,7 +49,7 @@ export function initialize(args) {
     divWindow.style.gridTemplateColumns = "1fr 6fr";
     divWindow.style.gridTemplateRows = "50px 1fr";
     divWindow.style.gridTemplateAreas = '"hamburger topBar" "views main"';
-    imgLogo.src = app.logo;
+    imgLogo.src = args.logo;
     divHamburger.style.gridTemplateColumns = "50px 1fr";
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo appName"';
