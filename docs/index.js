@@ -18,5 +18,16 @@ const loadingUI = import("./ui.mjs");
 Promise.all([ loadingPage, loadingUI ]).then(start);
 
 function start([ Page, UI ]) {
-  UI.initialize();
+  const windowObj = UI.initialize({
+    appName: "TestApp",
+  });
+  const homeView = windowObj.addView(UI.symFormView, {
+    title: "Home",
+  });
+  const button = homeView.addElement(UI.symButton, {
+    caption: "Submit",
+  });
+  button.addEventListener("click", () => {
+    window.alert("Clicked");
+  });
 }
