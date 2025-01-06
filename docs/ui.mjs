@@ -347,7 +347,7 @@ function createFormView(args) {
   const obj = {
     id: crypto.randomUUID(),
     addElement(type, args) {
-      const funcCreate = elementTypes.get(type);
+      const funcCreate = formElementTypes.get(type);
       const newElement = funcCreate(args);
       elements.push(newElement);
       return newElement.obj;
