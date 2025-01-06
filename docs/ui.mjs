@@ -43,6 +43,9 @@ export function initialize() {
   divMain.style.display = "grid";
   divMain.style.gridArea = "main";
   divMain.style.backgroundColor = "#0000FF";
+  divMain.style.gridTemplateColumns = "2fr 1fr";
+  divMain.style.gridTemplateRows = "1fr";
+  divMain.style.gridTemplateAreas = '"major minor"';
 
   const divMajorFrame = document.createElement("div");
   divMain.appendChild(divMajorFrame);
@@ -210,15 +213,14 @@ export function initialize() {
   });
 
   function openMinorFrame() {
-    divMain.style.gridTemplateColumns = "2fr 1fr";
-    divMain.style.gridTemplateRows = "1fr";
-    divMain.style.gridTemplateAreas = '"major minor"';
     divMinorFrame.style.display = "block";
   }
   function closeMinorFrame() {
-    divMain.style.gridTemplateColumns = "1fr";
+/*
+divMain.style.gridTemplateColumns = "1fr";
     divMain.style.gridTemplateRows = "1fr";
     divMain.style.gridTemplateAreas = '"major"';
+    */
     divMinorFrame.style.display = "none";
   }
   const obj = {
