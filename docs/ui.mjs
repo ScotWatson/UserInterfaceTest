@@ -204,7 +204,7 @@ export function initialize() {
   const btnOpen = document.createElement("button");
   divMajorContent.appendChild(btnOpen);
   btnOpen.innerHTML = "Open";
-  btnOpen.addEventListener(() => {
+  btnOpen.addEventListener("click", () => {
     openMinorFrame();
   });
 
@@ -212,11 +212,13 @@ export function initialize() {
     divMain.style.gridTemplateColumns = "2fr 1fr";
     divMain.style.gridTemplateRows = "1fr";
     divMain.style.gridTemplateAreas = '"major minor"';
+    divMinorFrame.style.display = "block";
   }
   function closeMinorFrame() {
     divMain.style.gridTemplateColumns = "1fr";
     divMain.style.gridTemplateRows = "1fr";
     divMain.style.gridTemplateAreas = '"major"';
+    divMinorFrame.style.display = "none";
   }
   const obj = {
     homeView: {},
