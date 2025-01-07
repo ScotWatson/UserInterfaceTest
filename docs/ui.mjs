@@ -219,12 +219,6 @@ function createView(args) {
   divTopBar.style.gridTemplateRows = "50px";
   divTopBar.style.gridTemplateAreas = '"breadcrumbs actions"';
 
-  const divMajorFrame = document.createElement("div");
-  div.appendChild(divMajorFrame);
-  divMajorFrame.style.display = "grid";
-  divMajorFrame.style.gridArea = "content";
-  divMajorFrame.style.backgroundColor = "#000080";
-
   const divBreadcrumbs = document.createElement("div");
   divTopBar.appendChild(divBreadcrumbs);
   divBreadcrumbs.style.display = "grid";
