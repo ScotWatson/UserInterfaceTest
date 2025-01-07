@@ -489,16 +489,17 @@ formElementTypes.set(symTextDisplay, createTextDisplay);
 formElementTypes.set(symButton, createButton);
 
 function createFormFrame(args) {
-  const divTop = document.createElement("div");
-  const elements = [];
+  const div = document.createElement("div");
+  const elements = new Map();
   const obj = {
     id: crypto.randomUUID(),
     addElement(args) {
       const { type } = args;
       const funcCreate = formElementTypes.get(type);
-      const { div: newElement, obj } = funcCreate(args);
-      elements.push(newElement);
-      return obj;
+      const { div: divElement, obj: objElement } = funcCreate(args);
+      elements.set(objElement, { div: divElement, obj: objElement });
+      div.appendChild(divElement);
+      return objElement;
     },
   };
   return {
