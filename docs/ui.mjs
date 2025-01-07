@@ -419,7 +419,6 @@ function createItemDetail() {
   };
 }
 
-const frameTypes = new Map();
 export const symFormFrame = Symbol();
 export const symTilesFrame = Symbol();
 export const symListFrame = Symbol();
