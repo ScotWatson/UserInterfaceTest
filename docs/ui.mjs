@@ -18,7 +18,7 @@ function initialize() {
   };
   window.addEventListener("resize", resize);
   resize();
-  shadowRoot.appendChild(divWindow);
+  bodyShadowRoot.appendChild(divWindow);
   const divShadowRoot = document.body.attachShadow({ mode: "closed" });
   return divShadowRoot;
 }
