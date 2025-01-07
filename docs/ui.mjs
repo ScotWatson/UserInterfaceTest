@@ -611,6 +611,17 @@ function createButton(args) {
     removeEventListener(eventName, handler) {
       btn.addEventListener(eventName, handler);
     },
+    click() {
+      return {
+        next() {
+          return new Promise((resolve, reject) => {
+            btn.addEventListener("click", (e) => {
+              resolve(e);
+            });
+          });
+        },
+      };
+    },
   };
   return {
     div,
