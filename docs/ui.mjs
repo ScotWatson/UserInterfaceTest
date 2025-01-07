@@ -278,7 +278,7 @@ function createView(args) {
 
   const obj = {
     topFrame: {},
-    addFrame(type, icon, title, args) {
+    addFrame({ type, icon, title, args }) {
 //      { type, icon, title, div, obj }
       const funcCreate = viewTypes.get(type);
       const { divFrame: div, objFrame: obj } = funcCreate(args);
@@ -288,7 +288,7 @@ function createView(args) {
     },
   };
   return {
-    div: divView,
+    div,
     obj,
   };
 }
