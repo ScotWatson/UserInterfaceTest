@@ -600,12 +600,14 @@ function createButton(args) {
   div.style.height = "50px";
   const btn = document.createElement("button");
   div.appendChild(btn);
-  btn.style.position = "absolute";
+  btn.style.position = "relative";
   btn.style.top = "5px";
   btn.style.left = "10%";
   btn.style.height = "40px";
   btn.style.width = "80%";
   btn.style.borderRadius = "20px";
+  btn.style.border = "0px";
+  btn.style.backgroundColor = "#C0C0C0";
   const obj = {
     id: crypto.randomUUID(),
     addEventListener(eventName, handler) {
