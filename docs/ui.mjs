@@ -478,6 +478,7 @@ function createFormFrame(args) {
   const obj = {
     id: crypto.randomUUID(),
     addElement(type, args) {
+      console.log(type, formElementTypes.entries());
       const funcCreate = formElementTypes.get(type);
       const newElement = funcCreate(args);
       elements.push(newElement);
