@@ -275,16 +275,6 @@ function createView(args) {
   imgEllipsis.addEventListener("click", () => {
     
   });
-  imgClose.addEventListener("click", () => {
-    closeItemDetail();
-  });
-
-  const btnOpen = document.createElement("button");
-  divMajorContent.appendChild(btnOpen);
-  btnOpen.innerHTML = "Open";
-  btnOpen.addEventListener("click", () => {
-    openItemDetail();
-  });
 
   const obj = {
     topFrame: {},
@@ -374,6 +364,10 @@ function createItemDetail() {
     divMain.style.gridTemplateAreas = '"major"';
     divItemDetail.style.display = "none";
   }
+
+  imgClose.addEventListener("click", () => {
+    closeItemDetail();
+  });
 
   const funcCreate = frameTypes.get(frameType);
   const { div: divMain, obj: objMain } = funcCreate(args);
