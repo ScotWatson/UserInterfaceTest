@@ -608,6 +608,9 @@ function createButton(args) {
   btn.style.borderRadius = "20px";
   btn.style.border = "0px";
   btn.style.backgroundColor = "#C0C0C0";
+  if (typeof caption === "string") {
+    btn.innerHTML = caption;
+  }
   const obj = {
     id: crypto.randomUUID(),
     addEventListener(eventName, handler) {
