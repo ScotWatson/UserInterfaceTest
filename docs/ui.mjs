@@ -183,7 +183,7 @@ function createView(args) {
 
   const imgActions = document.createElement("img");
   divView.appendChild(imgActions);
-  imgActions.src = "./icons/ellipsis.svg";
+  imgActions.src = "./icons/kebob-menu.svg";
   imgActions.style.display = "block";
   imgActions.style.gridArea = "actions";
   imgActions.style.backgroundColor = "#0000FF";
@@ -368,7 +368,7 @@ function createItemDetail() {
 
   const imgActions = document.createElement("img");
   divItemTopBar.appendChild(imgActions);
-  imgActions.src = "./icons/ellipsis.svg";
+  imgActions.src = "./icons/kebob.svg";
   imgActions.style.gridArea = "actions";
   imgActions.style.backgroundColor = "white";
   imgActions.style.boxSizing = "border-box";
