@@ -430,7 +430,7 @@ function createTilesFrame(args) {
   const divTop = document.createElement("div");
   const divScroll = document.createElement("div");
   const elements = [];
-  const { divItem: div, objItem: obj } = createItemDetail(args);
+  const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
@@ -445,7 +445,7 @@ function createTilesFrame(args) {
 function createListFrame(args) {
   const divTop = document.createElement("div");
   const elements = [];
-  const { divItem: div, objItem: obj } = createItemDetail(args);
+  const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
@@ -460,7 +460,7 @@ function createListFrame(args) {
 function createMapFrame(args) {
   const divTop = document.createElement("div");
   const canvas = document.createElement("canvas");
-  const { divItem: div, objItem: obj } = createItemDetail(args);
+  const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
