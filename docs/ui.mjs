@@ -99,7 +99,7 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateAreas = '"appLogo appName"';
     divAppName.style.display = "block";
     for (const view of views.values()) {
-      view.btnchildren[1].style.display = "block";
+      view.btn.children[1].style.display = "block";
     }
   }
   function collapseViewsMenu() {
@@ -111,7 +111,7 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateAreas = '"appLogo"';
     divAppName.style.display = "none";
     for (const view of views.values()) {
-      view.btnchildren[1].style.display = "none";
+      view.btn.children[1].style.display = "none";
     }
   }
 
