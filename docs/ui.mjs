@@ -555,10 +555,6 @@ function createMultiSelect(args) {
   div.style.display = "block";
   div.style.width = "100%";
   div.style.height = "50px";
-  const div = document.createElement("div");
-  div.style.display = "block";
-  div.style.width = "100%";
-  div.style.height = "50px";
   const obj = {
     id: crypto.randomUUID(),
   };
