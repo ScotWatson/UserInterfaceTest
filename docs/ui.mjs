@@ -428,7 +428,7 @@ frameTypes.set(symTilesFrame, createTilesFrame);
 frameTypes.set(symListFrame, createListFrame);
 frameTypes.set(symMapFrame, createMapFrame);
 
-function createTilesView(args) {
+function createTilesFrame(args) {
   const divTop = document.createElement("div");
   const divScroll = document.createElement("div");
   const elements = [];
@@ -443,7 +443,7 @@ function createTilesView(args) {
     obj,
   };
 }
-function createListView(args) {
+function createListFrame(args) {
   const divTop = document.createElement("div");
   const elements = [];
   const { divItem, objItem } = createItemDetail();
@@ -457,7 +457,7 @@ function createListView(args) {
     obj,
   };
 }
-function createMapView(args) {
+function createMapFrame(args) {
   const divTop = document.createElement("div");
   const canvas = document.createElement("canvas");
   const { divItem, objItem } = createItemDetail();
@@ -483,7 +483,7 @@ formElementTypes.set(symNumericEntry, createNumericEntry);
 formElementTypes.set(symTextDisplay, createTextDisplay);
 formElementTypes.set(symButton, createButton);
 
-function createFormView(args) {
+function createFormFrame(args) {
   const divTop = document.createElement("div");
   const elements = [];
   const obj = {
