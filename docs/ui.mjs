@@ -78,9 +78,9 @@ function createViewSelector(args) {
 
   const divViewButtonsContainer = document.createElement("div");
   div.appendChild(divViewButtonsContainer);
-  divViewButtons.style.display = "block";
-  divViewButtons.style.gridArea = "views";
-  divViewButtons.style.backgroundColor = "#00FF00";
+  divViewButtonsContainer.style.display = "block";
+  divViewButtonsContainer.style.gridArea = "views";
+  divViewButtonsContainer.style.backgroundColor = "#00FF00";
 
   const divViewButtons = document.createElement("div");
   divViewButtonsContainer.appendChild(divViewButtons);
