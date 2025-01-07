@@ -7,6 +7,7 @@ function initialize() {
   document.body.style.margin = "0px";
   document.body.style.border = "0px";
   document.body.style.padding = "0px";
+  document.body.style.boxSizing = "border-box";
   const bodyShadowRoot = document.body.attachShadow({ mode: "closed" });
   const divWindow = document.createElement("div");
   document.body.appendChild(divWindow);
