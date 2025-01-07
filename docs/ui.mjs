@@ -40,6 +40,10 @@ export function rootFrame(args) {
   return obj;
 }
 function createViewSelector(args) {
+  const div = document.createElement("div");
+  div.style.display = "block";
+  div.style.width = "100%";
+  div.style.height = "100%";
   if (!args) {
     args = {};
   }
@@ -50,7 +54,7 @@ function createViewSelector(args) {
     args.appName = "";
   }
   const divHamburger = document.createElement("div");
-  divWindow.appendChild(divHamburger);
+  div.appendChild(divHamburger);
   divHamburger.style.display = "grid";
   divHamburger.style.gridArea = "hamburger";
   divHamburger.style.backgroundColor = "#808080";
@@ -159,7 +163,10 @@ function createViewSelector(args) {
       divViewButtons.insertBefore(btnToMove, btn);
     }
   };
-  return obj;
+  return {
+    div,
+    obj,
+  };
 }
 
 const frameTypes = new Map();
