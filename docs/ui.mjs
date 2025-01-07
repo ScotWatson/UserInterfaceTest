@@ -178,7 +178,7 @@ function createView(args) {
   divView.style.gridTemplateAreas = '"topBar" "content"';
 
   const divTopBar = document.createElement("div");
-  divView.appendChild(divActions);
+  divView.appendChild(divTopBar);
   divTopBar.style.display = "grid";
   divTopBar.style.gridArea = "topBar";
   divTopBar.style.backgroundColor = "#FF0000";
