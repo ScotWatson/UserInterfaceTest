@@ -437,7 +437,6 @@ function createTilesFrame(args) {
   const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append("contents");
   const obj = {
-    id: crypto.randomUUID(),
     addElement({ icon, title }) {
     },
   };
@@ -452,8 +451,7 @@ function createListFrame(args) {
   const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append("contents");
   const obj = {
-    id: crypto.randomUUID(),
-    addElement() {
+    addItem() {
     },
   };
   return {
@@ -467,7 +465,6 @@ function createMapFrame(args) {
   const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append("contents");
   const obj = {
-    id: crypto.randomUUID(),
   };
   return {
     div: divItem,
@@ -492,7 +489,6 @@ function createFormFrame(args) {
   const div = document.createElement("div");
   const elements = new Map();
   const obj = {
-    id: crypto.randomUUID(),
     addElement(args) {
       const { type } = args;
       const funcCreate = formElementTypes.get(type);
@@ -528,19 +524,18 @@ function createTextEntry(args) {
   div.appendChild(divPrompt);
   divPrompt.style.display = "block";
   divPrompt.style.width = "100%";
-  divItemTitle.style.fontSize = "12pt";
-  divItemTitle.style.overflow = "hidden";
+  divPrompt.style.fontSize = "12pt";
+  divPrompt.style.overflow = "hidden";
   const input = document.createElement("input");
   div.appendChild(input);
   input.type = "text";
   input.style.display = "block";
   input.style.gridArea = "input";
   input.style.width = "100%";
-  divItemTitle.style.fontSize = "12pt";
+  input.style.fontSize = "12pt";
   input.style.border = "1px solid black";
   input.style.boxSizing = "border-box";
   const obj = {
-    id: crypto.randomUUID(),
     getValue() {
       return input.value;
     },
@@ -556,7 +551,6 @@ function createMultiSelect(args) {
   div.style.width = "100%";
   div.style.height = "50px";
   const obj = {
-    id: crypto.randomUUID(),
   };
   return {
     div,
@@ -565,11 +559,31 @@ function createMultiSelect(args) {
 }
 function createNumericEntry(args) {
   const div = document.createElement("div");
-  div.style.display = "block";
+  div.style.display = "grid";
   div.style.width = "100%";
   div.style.height = "50px";
+  div.style.gridTemplateColumns = "1fr";
+  div.style.gridTemplateRows = "1fr 2fr";
+  div.style.gridTemplateAreas = '"prompt" "input"';
+  const divPrompt = document.createElement("div");
+  div.appendChild(divPrompt);
+  divPrompt.style.display = "block";
+  divPrompt.style.gridArea = "prompt";
+  const input = document.createElement("input");
+  div.appendChild(input);
+  input.style.display = "block";
+  input.style.gridArea = "input";
+  input.style.margin = "0px";
+  input.style.border = "1px solid black";
+  input.style.padding = "0px";
   const obj = {
-    id: crypto.randomUUID(),
+    setPrompt(text) {
+      divPrompt.innerHTML = "";
+      divPrompt.append(text);
+    }
+    getValue() {
+      return input.value;
+    },
   };
   return {
     div,
@@ -586,7 +600,10 @@ function createTextDisplay(args) {
   divPrimary.style.width = "100%";
   divPrimary.style.height = "50px";
   const obj = {
-    id: crypto.randomUUID(),
+    setText(text) {
+      divPrimary.innerHTML = "";
+      divPrimary.append(text);
+    },
   };
   return {
     div,
@@ -612,13 +629,6 @@ function createButton(args) {
     btn.innerHTML = args.caption;
   }
   const obj = {
-    id: crypto.randomUUID(),
-    addEventListener(eventName, handler) {
-      btn.addEventListener(eventName, handler);
-    },
-    removeEventListener(eventName, handler) {
-      btn.addEventListener(eventName, handler);
-    },
     click() {
       return {
         next() {
