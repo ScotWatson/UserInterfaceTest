@@ -147,7 +147,7 @@ function createViewSelector(args) {
       if (!views.has(obj.id)) {
         throw new Error("id does not exist");
       }
-      const { icon, title, btn, div, obj } = views.get(obj.id);
+      const { icon, title, btn, div } = views.get(obj.id);
       btn.remove();
       div.remove();
       views.delete(id);
