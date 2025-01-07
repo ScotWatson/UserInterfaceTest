@@ -32,9 +32,16 @@ function start([ Page, UI ]) {
     type: UI.symButton,
     caption: "Submit",
   });
+  /*
   button.addEventListener("click", () => {
     window.alert("Clicked");
   });
+  */
+  (async () => {
+    for (await event of button.click) {
+      window.alert("Clicked");
+    }
+  })();
   const tilesView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "Tiles",
