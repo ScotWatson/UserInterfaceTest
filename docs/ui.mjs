@@ -133,9 +133,8 @@ function createViewSelector(args) {
       const btn = document.createElement("button");
       divViewButtons.appendChild(btn);
       btn.style.display = "grid";
-      btn.style.height = "50px";
       btn.style.gridTemplateColumns = "50px 1fr";
-      btn.style.gridTemplateRows = "1fr";
+      btn.style.gridTemplateRows = "50px";
       btn.style.gridTemplateAreas = '"icon title"';
       btn.style.border = "1px solid black";
       btn.style.borderRadius = "0px";
@@ -407,7 +406,7 @@ function createItemDetail(args) {
       closeItemDetail();
       divItemContent.innerHTML = "";
     },
-    mainFrame: objMain,
+    mainFrame: divMain,
     setItemCallback(newCallback) {
       itemCallback = newCallback;
     },
