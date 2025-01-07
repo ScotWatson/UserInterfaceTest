@@ -141,8 +141,7 @@ function createViewSelector(args) {
       btn.style.gridTemplateColumns = "50px 1fr";
       btn.style.gridTemplateRows = "50px";
       btn.style.gridTemplateAreas = '"icon title"';
-      btn.style.border = "1px solid black";
-      btn.style.borderRadius = "0px";
+      btn.style.border = "0px";
       btn.style.margin = "0px";
       btn.style.padding = "0px";
       btn.style.boxSizing = "border-box";
