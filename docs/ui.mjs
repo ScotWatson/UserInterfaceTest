@@ -292,7 +292,7 @@ function createView(args) {
     topFrame: {},
     addFrame({ type, icon, title, args }) {
 //      { type, icon, title, div, obj }
-      const funcCreate = viewTypes.get(type);
+      const funcCreate = frameTypes.get(type);
       const { divFrame: div, objFrame: obj } = funcCreate(args);
       divFrame.style.gridArea = "content";
       div.appendChild(divFrame);
