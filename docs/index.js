@@ -28,6 +28,21 @@ function start([ Page, UI ]) {
   const formFrame = formView.addFrame({
     type: UI.symFormFrame,
   });
+  const textEntry = formFrame.addElement({
+    type: UI.symTextEntry,
+  });
+  textEntry.setPrompt("Text Prompt");
+  const multiSelect = formFrame.addElement({
+    type: UI.symMultiSelect,
+  });
+  const numericEntry = formFrame.addElement({
+    type: UI.symNumericEntry,
+  });
+  numericEntry.setPrompt("Numeric Prompt");
+  const textDisplay = formFrame.addElement({
+    type: UI.symTextDisplay,
+  });
+  textDisplay.setText("Test text");
   const button = formFrame.addElement({
     type: UI.symButton,
     caption: "Submit",
@@ -39,7 +54,7 @@ function start([ Page, UI ]) {
   */
   (async () => {
     for (await event of button.click) {
-      window.alert("Clicked");
+      window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
     }
   })();
   const tilesView = windowObj.addView({
