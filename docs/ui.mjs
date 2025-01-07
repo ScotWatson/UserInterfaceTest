@@ -41,9 +41,10 @@ export function rootFrame(args) {
 }
 function createViewSelector(args) {
   const div = document.createElement("div");
-  div.style.display = "block";
+  div.style.display = "grid";
   div.style.width = "100%";
   div.style.height = "100%";
+  div.style.gridTemplateAreas = '"hamburger view" "views view"';
   if (!args) {
     args = {};
   }
@@ -88,9 +89,8 @@ function createViewSelector(args) {
   divViewButtons.style.backgroundColor = "#00FF00";
 
   function expandViewsMenu() {
-    divWindow.style.gridTemplateColumns = "1fr 6fr";
-    divWindow.style.gridTemplateRows = "50px 1fr";
-    divWindow.style.gridTemplateAreas = '"hamburger view" "views view"';
+    div.style.gridTemplateColumns = "1fr 6fr";
+    div.style.gridTemplateRows = "50px 1fr";
     imgLogo.src = args.logo;
     divHamburger.style.gridTemplateColumns = "50px 1fr";
     divHamburger.style.gridTemplateRows = "1fr";
@@ -98,9 +98,8 @@ function createViewSelector(args) {
     divAppName.style.display = "block";
   }
   function collapseViewsMenu() {
-    divWindow.style.gridTemplateColumns = "50px 1fr";
-    divWindow.style.gridTemplateRows = "50px 1fr";
-    divWindow.style.gridTemplateAreas = '"hamburger view" "views view"';
+    div.style.gridTemplateColumns = "50px 1fr";
+    div.style.gridTemplateRows = "50px 1fr";
     imgLogo.src = "./icons/hamburger-menu.svg";
     divHamburger.style.gridTemplateColumns = "50px";
     divHamburger.style.gridTemplateRows = "1fr";
