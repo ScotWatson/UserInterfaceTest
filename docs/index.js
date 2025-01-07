@@ -24,10 +24,11 @@ function start([ Page, UI ]) {
   const formView = windowObj.addView({
     type: UI.symFormView,
     args: {
+      icon: "./icons/home.svg",
       title: "Form",
     },
   });
-  const button = homeView.addElement({
+  const button = formView.addElement({
     type: UI.symButton,
     args: {
       caption: "Submit",
@@ -39,18 +40,21 @@ function start([ Page, UI ]) {
   const tilesView = windowObj.addView({
     type: UI.symTilesView,
     args: {
+      icon: "./icons/home.svg",
       title: "Tiles",
     },
   });
   const listView = windowObj.addView({
     type: UI.symListView,
     args: {
+      icon: "./icons/home.svg",
       title: "List",
     },
   });
   const mapView = windowObj.addView({
     type: UI.symMapView,
     args: {
+      icon: "./icons/home.svg",
       title: "Map",
     },
   });
