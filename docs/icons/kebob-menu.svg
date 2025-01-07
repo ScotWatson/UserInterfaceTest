@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- (c) 2025 Scot Watson  All Rights Reserved -->
+<svg viewBox="0 0 1 1" fill="#000000" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="0.5" cy="0.25" r="0.05"/>
+  <circle cx="0.5" cy="0.5" r="0.05"/>
+  <circle cx="0.5" cy="0.75" r="0.05"/>
+</svg>
