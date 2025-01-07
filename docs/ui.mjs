@@ -309,7 +309,7 @@ function createView(args) {
   };
 }
 
-function createItemDetail() {
+function createItemDetail(args) {
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.gridTemplateColumns = "1fr 1fr";
@@ -385,7 +385,7 @@ function createItemDetail() {
     closeItemDetail();
   });
 
-  const funcCreate = frameTypes.get(frameType);
+  const funcCreate = frameTypes.get(args.type);
   const { div: divMain, obj: objMain } = funcCreate(args);
   divMain.appendChild(divMain);
   divMain.style.gridArea = "main";
@@ -482,7 +482,6 @@ function createFormFrame(args) {
   const obj = {
     id: crypto.randomUUID(),
     addElement({type, args}) {
-      console.log(type, formElementTypes.entries());
       const funcCreate = formElementTypes.get(type);
       const newElement = funcCreate(args);
       elements.push(newElement);
