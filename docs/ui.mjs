@@ -96,6 +96,9 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo appName"';
     divAppName.style.display = "block";
+    for (const view of views) {
+      view.btnchildren[1].style.display = "block";
+    }
   }
   function collapseViewsMenu() {
     div.style.gridTemplateColumns = "50px 1fr";
@@ -105,6 +108,9 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo"';
     divAppName.style.display = "none";
+    for (const view of views) {
+      view.btnchildren[1].style.display = "none";
+    }
   }
 
   imgLogo.addEventListener("click", () => {
@@ -133,12 +139,17 @@ function createViewSelector(args) {
       imgView.style.gridArea = "icon";
       const divViewTitle = document.createElement("div");
       btn.appendChild(divViewTitle);
-      divViewTitle.style.display = "block";
+      if (divAppName.style.display === "none") {
+        divViewTitle.style.display = "block";
+      } else {
+        divViewTitle.style.display = "none";
+      }
       divViewTitle.style.gridArea = "title";
       const divViewTitleText = document.createElement("div");
       divViewTitle.appendChild(divViewTitleText);
       divViewTitleText.innerHTML = title;
       divViewTitleText.style.display = "block";
+      divViewTitleText.style.fontSize = "24pt";
       divViewTitleText.style.whiteSpace = "nowrap";
       divViewTitleText.style.overflow = "hidden";
       divViewTitleText.style.textOverflow = "ellipsis";
