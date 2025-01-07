@@ -144,6 +144,7 @@ function createViewSelector(args) {
       btn.style.border = "0px";
       btn.style.margin = "0px";
       btn.style.padding = "0px";
+      btn.style.width = "100%";
       btn.style.boxSizing = "border-box";
       const imgView = document.createElement("img");
       btn.appendChild(imgView);
