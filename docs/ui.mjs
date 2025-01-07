@@ -133,6 +133,10 @@ function createViewSelector(args) {
       btn.style.gridTemplateColumns = "50px 1fr";
       btn.style.gridTemplateRows = "1fr";
       btn.style.gridTemplateAreas = '"icon title"';
+      btn.style.border = "1px solid black";
+      btn.style.margin = "none";
+      btn.style.padding = "none";
+      btn.style.boxSizing = "border-box";
       const imgView = document.createElement("img");
       btn.appendChild(imgView);
       imgView.src = icon;
@@ -365,15 +369,15 @@ function createItemDetail() {
   openItemDetail();
 
   function openItemDetail() {
-    divMain.style.gridTemplateColumns = "2fr 1fr";
-    divMain.style.gridTemplateRows = "1fr";
-    divMain.style.gridTemplateAreas = '"major minor"';
+    div.style.gridTemplateColumns = "2fr 1fr";
+    div.style.gridTemplateRows = "1fr";
+    div.style.gridTemplateAreas = '"major minor"';
     divItemDetail.style.display = "block";
   }
   function closeItemDetail() {
-    divMain.style.gridTemplateColumns = "1fr";
-    divMain.style.gridTemplateRows = "1fr";
-    divMain.style.gridTemplateAreas = '"major"';
+    div.style.gridTemplateColumns = "1fr";
+    div.style.gridTemplateRows = "1fr";
+    div.style.gridTemplateAreas = '"major"';
     divItemDetail.style.display = "none";
   }
 
