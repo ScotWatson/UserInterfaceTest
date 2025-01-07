@@ -99,7 +99,9 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateAreas = '"appLogo appName"';
     divAppName.style.display = "block";
     for (const view of views.values()) {
-      view.btn.children[1].style.display = "block";
+      const divViewTitle = view.btn.children[1];
+      divViewTitle.style.display = "flex";
+      divViewTitle.style.alignItems = "center";
     }
   }
   function collapseViewsMenu() {
@@ -111,7 +113,8 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateAreas = '"appLogo"';
     divAppName.style.display = "none";
     for (const view of views.values()) {
-      view.btn.children[1].style.display = "none";
+      const divViewTitle = view.btn.children[1];
+      divViewTitle.style.display = "none";
     }
   }
 
@@ -147,7 +150,8 @@ function createViewSelector(args) {
       const divViewTitle = document.createElement("div");
       btn.appendChild(divViewTitle);
       if (divAppName.style.display === "none") {
-        divViewTitle.style.display = "block";
+        divViewTitle.style.display = "flex";
+        divViewTitle.style.alignItems = "center";
       } else {
         divViewTitle.style.display = "none";
       }
@@ -388,7 +392,7 @@ function createItemDetail(args) {
   });
 
   const divMain = document.createElement("div");
-  divMain.appendChild(divMain);
+  div.appendChild(divMain);
   divMain.style.display = "block";
   divMain.style.gridArea = "main";
 
