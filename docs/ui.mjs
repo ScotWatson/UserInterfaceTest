@@ -503,35 +503,35 @@ function createFormFrame(args) {
     },
   };
   return {
-    div: divTop,
+    div,
     obj,
   };
 }
 function createTextEntry(args) {
-  const divTop = document.createElement("div");
-  divTop.style.display = "grid";
-  divTop.style.width = "100%";
+  const div = document.createElement("div");
+  div.style.display = "grid";
+  div.style.width = "100%";
   if (args.icon) {
-    divTop.style.gridTemplateColumns = "50px 1fr";
-    divTop.style.gridTemplateRows = "1fr 1fr";
-    divTop.style.gridTemplateAreas = '"icon prompt" "icon input"';
+    div.style.gridTemplateColumns = "50px 1fr";
+    div.style.gridTemplateRows = "1fr 1fr";
+    div.style.gridTemplateAreas = '"icon prompt" "icon input"';
     const imgIcon = document.createElement("img");
-    divTop.appendChild(imgIcon);
+    div.appendChild(imgIcon);
     imgIcon.src = args.icon;
     imgIcon.style.display = "block";
   } else {
-    divTop.style.gridTemplateColumns = "1fr";
-    divTop.style.gridTemplateRows = "1fr";
-    divTop.style.gridTemplateAreas = '"prompt" "input"';
+    div.style.gridTemplateColumns = "1fr";
+    div.style.gridTemplateRows = "1fr";
+    div.style.gridTemplateAreas = '"prompt" "input"';
   }
   const divPrompt = document.createElement("div");
-  divTop.appendChild(divPrompt);
+  div.appendChild(divPrompt);
   divPrompt.style.display = "block";
   divPrompt.style.width = "100%";
   divItemTitle.style.fontSize = "12pt";
   divItemTitle.style.overflow = "hidden";
   const input = document.createElement("input");
-  divTop.appendChild(input);
+  div.appendChild(input);
   input.type = "text";
   input.style.display = "block";
   input.style.gridArea = "input";
@@ -546,15 +546,15 @@ function createTextEntry(args) {
     },
   };
   return {
-    div: divTop,
+    div,
     obj,
   };
 }
 function createMultiSelect(args) {
-  const divTop = document.createElement("div");
-  divTop.style.display = "block";
-  divTop.style.width = "100%";
-  divTop.style.height = "50px";
+  const div = document.createElement("div");
+  div.style.display = "block";
+  div.style.width = "100%";
+  div.style.height = "50px";
   const div = document.createElement("div");
   div.style.display = "block";
   div.style.width = "100%";
@@ -563,28 +563,28 @@ function createMultiSelect(args) {
     id: crypto.randomUUID(),
   };
   return {
-    div: divTop,
+    div,
     obj,
   };
 }
 function createNumericEntry(args) {
-  const divTop = document.createElement("div");
-  divTop.style.display = "block";
-  divTop.style.width = "100%";
-  divTop.style.height = "50px";
+  const div = document.createElement("div");
+  div.style.display = "block";
+  div.style.width = "100%";
+  div.style.height = "50px";
   const obj = {
     id: crypto.randomUUID(),
   };
   return {
-    div: divTop,
+    div,
     obj,
   };
 }
 function createTextDisplay(args) {
-  const divTop = document.createElement("div");
-  divTop.style.display = "block";
-  divTop.style.width = "100%";
-  divTop.style.height = "50px";
+  const div = document.createElement("div");
+  div.style.display = "block";
+  div.style.width = "100%";
+  div.style.height = "50px";
   const divPrimary = document.createElement("div");
   divPrimary.style.display = "block";
   divPrimary.style.width = "100%";
@@ -593,17 +593,17 @@ function createTextDisplay(args) {
     id: crypto.randomUUID(),
   };
   return {
-    div: divTop,
+    div,
     obj,
   };
 }
 function createButton(args) {
-  const divTop = document.createElement("div");
-  divTop.style.display = "block";
-  divTop.style.width = "100%";
-  divTop.style.height = "50px";
+  const div = document.createElement("div");
+  div.style.display = "block";
+  div.style.width = "100%";
+  div.style.height = "50px";
   const btn = document.createElement("button");
-  divTop.appendChild(btn);
+  div.appendChild(btn);
   btn.style.width = "80%";
   btn.style.height = "40px";
   btn.style.borderRadius = "20px";
@@ -617,7 +617,7 @@ function createButton(args) {
     },
   };
   return {
-    div: divTop,
+    div,
     obj,
   };
 }
