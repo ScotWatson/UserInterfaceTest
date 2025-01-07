@@ -77,7 +77,7 @@ function createViewSelector(args) {
   collapseViewsMenu();
 
   const divViewButtonsContainer = document.createElement("div");
-  div.appendChild(divViews);
+  div.appendChild(divViewButtonsContainer);
   divViewButtons.style.display = "block";
   divViewButtons.style.gridArea = "views";
   divViewButtons.style.backgroundColor = "#00FF00";
