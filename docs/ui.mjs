@@ -80,12 +80,16 @@ function createViewSelector(args) {
   divViewButtonsContainer.style.display = "block";
   divViewButtonsContainer.style.gridArea = "views";
   divViewButtonsContainer.style.backgroundColor = "#00FF00";
+  divViewButtonsContainer.style.border = "1px solid black";
+  divViewButtonsContainer.style.boxSizing = "border-box";
 
   const divViewButtons = document.createElement("div");
   divViewButtonsContainer.appendChild(divViewButtons);
   divViewButtons.style.display = "block";
   divViewButtons.style.width = "100%";
   divViewButtons.style.backgroundColor = "#00FF00";
+  divViewButtons.style.border = "1px solid black";
+  divViewButtons.style.boxSizing = "border-box";
 
   const views = new Map();
   collapseViewsMenu();
@@ -163,23 +167,21 @@ function createViewSelector(args) {
       divViewTitleText.style.whiteSpace = "nowrap";
       divViewTitleText.style.overflow = "hidden";
       divViewTitleText.style.textOverflow = "ellipsis";
-      views.set(obj.id, { icon, title, btn, div, obj });
+      views.set(obj, { icon, title, btn, div, obj });
       return obj;
     },
     deleteView(obj) {
-      if (!views.has(obj.id)) {
-        throw new Error("id does not exist");
+      if (!views.has(obj)) {
+        throw new Error("This is not a view of this container.");
       }
-      const { icon, title, btn, div } = views.get(obj.id);
+      const { icon, title, btn, div } = views.get(obj);
       btn.remove();
       div.remove();
       views.delete(id);
     },
     moveViewBefore(objToMove, obj) {
-      const idToMove = objToMove.id;
-      const id = obj.id;
-      const btnToMove = views.get(idToMove);
-      const btn = views.get(id);
+      const btnToMove = objToMove.btn;
+      const btn = obj.btn;
       divViewButtons.insertBefore(btnToMove, btn);
     }
   };
