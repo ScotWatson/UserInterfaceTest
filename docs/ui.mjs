@@ -170,37 +170,30 @@ function createViewSelector(args) {
 
 const frameTypes = new Map();
 function createView(args) {
-  const divView = document.createElement("div");
-  divView.style.display = "grid";
-  divView.style.backgroundColor = "#00FF00";
-  divView.style.gridTemplateColumns = "1fr";
-  divView.style.gridTemplateRows = "50px 1fr";
-  divView.style.gridTemplateAreas = '"topBar" "content"';
+  const div = document.createElement("div");
+  div.style.display = "grid";
+  div.style.backgroundColor = "#00FF00";
+  div.style.gridTemplateColumns = "1fr";
+  div.style.gridTemplateRows = "50px 1fr";
+  div.style.gridTemplateAreas = '"topBar" "content"';
 
   const divTopBar = document.createElement("div");
-  divView.appendChild(divTopBar);
+  div.appendChild(divTopBar);
   divTopBar.style.display = "grid";
   divTopBar.style.gridArea = "topBar";
   divTopBar.style.backgroundColor = "#FF0000";
-  divView.style.gridTemplateColumns = "1fr 50px";
-  divView.style.gridTemplateRows = "50px";
-  divView.style.gridTemplateAreas = '"breadcrumbs" "actions"';
-
-  const imgActions = document.createElement("img");
-  divView.appendChild(imgActions);
-  imgActions.src = "./icons/kebob-menu.svg";
-  imgActions.style.display = "block";
-  imgActions.style.gridArea = "actions";
-  imgActions.style.backgroundColor = "#0000FF";
+  divTopBar.style.gridTemplateColumns = "1fr 50px";
+  divTopBar.style.gridTemplateRows = "50px";
+  divTopBar.style.gridTemplateAreas = '"breadcrumbs" "actions"';
 
   const divMajorFrame = document.createElement("div");
-  divMain.appendChild(divMajorFrame);
+  div.appendChild(divMajorFrame);
   divMajorFrame.style.display = "grid";
-  divMajorFrame.style.gridArea = "major";
+  divMajorFrame.style.gridArea = "content";
   divMajorFrame.style.backgroundColor = "#000080";
 
   const divBreadcrumbs = document.createElement("div");
-  divActions.appendChild(divBreadcrumbs);
+  divTopBar.appendChild(divBreadcrumbs);
   divBreadcrumbs.style.display = "grid";
   divBreadcrumbs.style.gridArea = "breadcrumbs";
   divBreadcrumbs.style.gridTemplateRows = "1fr";
@@ -214,6 +207,13 @@ function createView(args) {
   // Multiple Levels
   divBreadcrumbs.style.gridTemplateColumns = "50px 50px 1fr 1fr";
   divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
+
+  const imgActions = document.createElement("img");
+  divTopBar.appendChild(imgActions);
+  imgActions.src = "./icons/kebob-menu.svg";
+  imgActions.style.display = "block";
+  imgActions.style.gridArea = "actions";
+  imgActions.style.backgroundColor = "#0000FF";
 
   const imgHome = document.createElement("img");
   divBreadcrumbs.appendChild(imgHome);
@@ -291,32 +291,10 @@ function createView(args) {
     addFrame(type, icon, title, args) {
 //      { type, icon, title, div, obj }
       const funcCreate = viewTypes.get(type);
-      const { div, obj } = funcCreate(args);
-      div.style.gridArea = "main";
-      divView.appendChild(div);
-      const divView = document.createElement("div");
-      divView.style.display = "grid";
-      divView.style.height = "50px";
-      divView.style.gridTemplateColumns = "50px 1fr";
-      divView.style.gridTemplateRows = "1fr";
-      divView.style.gridTemplateAreas = '"icon title"';
-      const imgView = document.createElement("img");
-      divView.appendChild(imgView);
-      imgView.src = icon;
-      imgView.style.display = "block";
-      const divViewTitle = document.createElement("div");
-      divView.appendChild(divViewTitle);
-      divViewTitle.style.display = "block";
-      divViewTitle.style.height = "50px";
-      divViewTitle.style.gridArea = "title";
-      const divViewTitleText = document.createElement("div");
-      divViewTitle.appendChild(divViewTitleText);
-      divViewTitleText.innerHTML = title;
-      divViewTitleText.style.display = "block";
-      divViewTitleText.style.whiteSpace = "nowrap";
-      divViewTitleText.style.overflow = "hidden";
-      divViewTitleText.style.textOverflow = "ellipsis";
-      return obj;
+      const { divFrame: div, objFrame: obj } = funcCreate(args);
+      divFrame.style.gridArea = "content";
+      div.appendChild(divFrame);
+      return objFrame;
     },
   };
   return {
