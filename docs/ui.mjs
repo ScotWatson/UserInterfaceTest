@@ -166,49 +166,52 @@ function createViewSelector(args) {
 const frameTypes = new Map();
 function createView(args) {
   const divView = document.createElement("div");
-  divView.style.display = "block";
-  divView.style.gridArea = "views";
+  divView.style.display = "grid";
   divView.style.backgroundColor = "#00FF00";
+  divView.style.gridTemplateColumns = "1fr";
+  divView.style.gridTemplateRows = "50px 1fr";
+  divView.style.gridTemplateAreas = '"topBar" "content"';
 
   const divTopBar = document.createElement("div");
   divView.appendChild(divActions);
-  divTopBar.style.display = "block";
+  divTopBar.style.display = "grid";
   divTopBar.style.gridArea = "topBar";
   divTopBar.style.backgroundColor = "#FF0000";
+  divView.style.gridTemplateColumns = "1fr 50px";
+  divView.style.gridTemplateRows = "50px";
+  divView.style.gridTemplateAreas = '"breadcrumbs" "actions"';
 
-  const divMain = document.createElement("div");
-  divView.appendChild(divMain);
-  divMain.style.display = "grid";
-  divMain.style.gridArea = "main";
-  divMain.style.backgroundColor = "#0000FF";
+  const imgActions = document.createElement("img");
+  divView.appendChild(imgActions);
+  imgActions.src = "./icons/ellipsis.svg";
+  imgActions.style.display = "block";
+  imgActions.style.gridArea = "actions";
+  imgActions.style.backgroundColor = "#0000FF";
 
   const divMajorFrame = document.createElement("div");
   divMain.appendChild(divMajorFrame);
   divMajorFrame.style.display = "grid";
   divMajorFrame.style.gridArea = "major";
   divMajorFrame.style.backgroundColor = "#000080";
-  divMajorFrame.style.gridTemplateColumns = "1fr";
-  divMajorFrame.style.gridTemplateRows = "50px 1fr";
-  divMajorFrame.style.gridTemplateAreas = '"breadcrumbs" "content"';
 
-  const divMajorTitle = document.createElement("div");
-  divActions.appendChild(divMajorTitle);
-  divMajorTitle.style.display = "grid";
-  divMajorTitle.style.gridArea = "breadcrumbs";
-  divMajorTitle.style.gridTemplateRows = "1fr";
-  divMajorTitle.style.backgroundColor = "#0000C0";
+  const divBreadcrumbs = document.createElement("div");
+  divActions.appendChild(divBreadcrumbs);
+  divBreadcrumbs.style.display = "grid";
+  divBreadcrumbs.style.gridArea = "breadcrumbs";
+  divBreadcrumbs.style.gridTemplateRows = "1fr";
+  divBreadcrumbs.style.backgroundColor = "#0000C0";
   // Home Only
-  divMajorTitle.style.gridTemplateColumns = "50px 1fr";
-  divMajorTitle.style.gridTemplateAreas = '"home ultimate"';
+  divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
+  divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
   // One level
-  divMajorTitle.style.gridTemplateColumns = "50px 1fr 1fr";
-  divMajorTitle.style.gridTemplateAreas = '"home penultimate ultimate"';
+  divBreadcrumbs.style.gridTemplateColumns = "50px 1fr 1fr";
+  divBreadcrumbs.style.gridTemplateAreas = '"home penultimate ultimate"';
   // Multiple Levels
-  divMajorTitle.style.gridTemplateColumns = "50px 50px 1fr 1fr";
-  divMajorTitle.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
+  divBreadcrumbs.style.gridTemplateColumns = "50px 50px 1fr 1fr";
+  divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
 
   const imgHome = document.createElement("img");
-  divMajorTitle.appendChild(imgHome);
+  divBreadcrumbs.appendChild(imgHome);
   imgHome.src = "./icons/home.svg";
   imgHome.style.display = "block";
   imgHome.style.gridArea = "home";
@@ -216,7 +219,7 @@ function createView(args) {
   imgHome.style.height = "50px";
 
   const imgEllipsis = document.createElement("img");
-  divMajorTitle.appendChild(imgEllipsis);
+  divBreadcrumbs.appendChild(imgEllipsis);
   imgEllipsis.src = "./icons/ellipsis.svg";
   imgEllipsis.style.display = "block";
   imgEllipsis.style.gridArea = "ellipsis";
@@ -226,7 +229,7 @@ function createView(args) {
   imgEllipsis.style.height = "50px";
 
   const divPenultimate = document.createElement("div");
-  divMajorTitle.appendChild(divPenultimate);
+  divBreadcrumbs.appendChild(divPenultimate);
   divPenultimate.style.display = "flex";
   divPenultimate.style.alignItems = "center";
   divPenultimate.style.gridArea = "penultimate";
@@ -244,7 +247,7 @@ function createView(args) {
   divPenultimateText.style.textOverflow = "ellipsis";
 
   const divUltimate = document.createElement("div");
-  divMajorTitle.appendChild(divUltimate);
+  divBreadcrumbs.appendChild(divUltimate);
   divUltimate.style.display = "flex";
   divUltimate.style.alignItems = "center";
   divUltimate.style.gridArea = "ultimate";
@@ -260,73 +263,6 @@ function createView(args) {
   divUltimateText.style.whiteSpace = "nowrap";
   divUltimateText.style.overflow = "hidden";
   divUltimateText.style.textOverflow = "ellipsis";
-
-  const divMajorContent = document.createElement("div");
-  divMajorFrame.appendChild(divMajorContent);
-  divMajorContent.style.display = "block";
-  divMajorContent.style.gridArea = "content";
-  divMajorContent.style.backgroundColor = "white";
-  divMajorContent.style.borderTop = "1px solid black";
-  divMajorContent.style.boxSizing = "border-box";
-
-  const divItemDetail = document.createElement("div");
-  divMain.appendChild(divItemDetail);
-  divItemDetail.style.display = "grid";
-  divItemDetail.style.gridArea = "minor";
-  divItemDetail.style.gridTemplateColumns = "1fr";
-  divItemDetail.style.gridTemplateRows = "50px 1fr";
-  divItemDetail.style.gridTemplateAreas = '"title" "content"';
-  divItemDetail.style.backgroundColor = "#800000";
-  divItemDetail.style.borderLeft = "1px solid black";
-
-  const divItemTopBar = document.createElement("div");
-  divItemDetail.appendChild(divItemTopBar);
-  divItemTopBar.style.display = "grid";
-  divItemTopBar.style.gridArea = "title";
-  divItemTopBar.style.gridTemplateColumns = "50px 1fr 50px";
-  divItemTopBar.style.gridTemplateRows = "1fr";
-  divItemTopBar.style.gridTemplateAreas = '"expand title close"';
-  divItemTopBar.style.backgroundColor = "#000040";
-
-  const divExpand = document.createElement("div");
-  divItemTopBar.appendChild(divExpand);
-  divExpand.style.gridArea = "expand";
-  divExpand.style.backgroundColor = "white";
-  divExpand.style.height = "50px";
-  divExpand.style.fontSize = "24pt";
-  divExpand.style.overflow = "hidden";
-  divExpand.style.boxSizing = "border-box";
-
-  const divItemTitle = document.createElement("div");
-  divMinorTitle.appendChild(divItemTitle);
-  divItemTitle.style.gridArea = "title";
-  divItemTitle.style.backgroundColor = "white";
-  divItemTitle.style.height = "50px";
-  divItemTitle.style.fontSize = "24pt";
-  divItemTitle.style.overflow = "hidden";
-  divItemTitle.style.borderLeft = "1px solid black";
-  divItemTitle.style.boxSizing = "border-box";
-
-  const imgClose = document.createElement("img");
-  divMinorTitle.appendChild(imgClose);
-  imgClose.src = "./icons/close.svg";
-  imgClose.style.gridArea = "close";
-  imgClose.style.backgroundColor = "white";
-  imgClose.style.height = "50px";
-  imgClose.style.fontSize = "24pt";
-  imgClose.style.overflow = "hidden";
-/*  divClose.style.borderLeft: 1px solid black; */
-  imgClose.style.boxSizing = "border-box";
-
-  const divItemContent = document.createElement("div");
-  divItemDetail.appendChild(divItemContent);
-  divItemContent.style.display = "block";
-  divItemContent.style.gridArea = "content";
-  divItemContent.style.backgroundColor = "white";
-  divItemContent.style.borderTop = "1px solid black";
-  divItemContent.style.boxSizing = "border-box";
-
-  openItemDetail();
 
   imgHome.addEventListener("click", () => {
     
@@ -345,24 +281,14 @@ function createView(args) {
     openItemDetail();
   });
 
-  function openItemDetail() {
-    divMain.style.gridTemplateColumns = "2fr 1fr";
-    divMain.style.gridTemplateRows = "1fr";
-    divMain.style.gridTemplateAreas = '"major minor"';
-    divItemDetail.style.display = "block";
-  }
-  function closeItemDetail() {
-    divMain.style.gridTemplateColumns = "1fr";
-    divMain.style.gridTemplateRows = "1fr";
-    divMain.style.gridTemplateAreas = '"major"';
-    divItemDetail.style.display = "none";
-  }
   const obj = {
-    addView(type, icon, title, args) {
-      { type, icon, title, div, obj }
+    topFrame: {},
+    addFrame(type, icon, title, args) {
+//      { type, icon, title, div, obj }
       const funcCreate = viewTypes.get(type);
       const { div, obj } = funcCreate(args);
-      divMajorContent.appendChild(div);
+      div.style.gridArea = "main";
+      divView.appendChild(div);
       const divView = document.createElement("div");
       divView.style.display = "grid";
       divView.style.height = "50px";
@@ -394,19 +320,121 @@ function createView(args) {
   };
 }
 
-export const symFormView = Symbol();
-export const symTilesView = Symbol();
-export const symListView = Symbol();
-export const symMapView = Symbol();
-viewTypes.set(symFormView, createFormView);
-viewTypes.set(symTilesView, createTilesView);
-viewTypes.set(symListView, createListView);
-viewTypes.set(symMapView, createMapView);
+function createItemDetail() {
+  const div = document.createElement("div");
+  div.style.display = "grid";
+  div.style.gridTemplateColumns = "1fr 1fr";
+  div.style.gridTemplateRows = "1fr";
+  div.style.gridTemplateAreas = '"main item"';
+
+  const divItemDetail = document.createElement("div");
+  div.appendChild(divItemDetail);
+  divItemDetail.style.display = "grid";
+  divItemDetail.style.gridArea = "item";
+  divItemDetail.style.gridTemplateColumns = "1fr";
+  divItemDetail.style.gridTemplateRows = "50px 1fr";
+  divItemDetail.style.gridTemplateAreas = '"topBar" "content"';
+  divItemDetail.style.backgroundColor = "#800000";
+  divItemDetail.style.borderLeft = "1px solid black";
+
+  const divItemTopBar = document.createElement("div");
+  divItemDetail.appendChild(divItemTopBar);
+  divItemTopBar.style.display = "grid";
+  divItemTopBar.style.gridArea = "topBar";
+  divItemTopBar.style.gridTemplateColumns = "50px 1fr 50px";
+  divItemTopBar.style.gridTemplateRows = "50px";
+  divItemTopBar.style.gridTemplateAreas = '"close title actions"';
+  divItemTopBar.style.backgroundColor = "#000040";
+
+  const imgClose = document.createElement("img");
+  divItemTopBar.appendChild(imgClose);
+  imgClose.src = "./icons/close.svg";
+  imgClose.style.display = "block";
+  imgClose.style.gridArea = "close";
+  imgClose.style.backgroundColor = "white";
+  imgClose.style.fontSize = "24pt";
+  imgClose.style.overflow = "hidden";
+/*  divClose.style.borderLeft: 1px solid black; */
+  imgClose.style.boxSizing = "border-box";
+
+  const divItemTitle = document.createElement("div");
+  divItemTopBar.appendChild(divItemTitle);
+  divItemTitle.style.gridArea = "title";
+  divItemTitle.style.backgroundColor = "white";
+  divItemTitle.style.fontSize = "24pt";
+  divItemTitle.style.overflow = "hidden";
+  divItemTitle.style.borderLeft = "1px solid black";
+  divItemTitle.style.boxSizing = "border-box";
+
+  const imgActions = document.createElement("img");
+  divItemTopBar.appendChild(imgActions);
+  imgActions.src = "./icons/ellipsis.svg";
+  imgActions.style.gridArea = "actions";
+  imgActions.style.backgroundColor = "white";
+  imgActions.style.boxSizing = "border-box";
+
+  const { divItemContent: div, objItem: obj } = createFormFrame();
+  const divItemContent = document.createElement("div");
+  divItemDetail.appendChild(divItemContent);
+  divItemContent.style.gridArea = "content";
+
+  openItemDetail();
+
+  function openItemDetail() {
+    divMain.style.gridTemplateColumns = "2fr 1fr";
+    divMain.style.gridTemplateRows = "1fr";
+    divMain.style.gridTemplateAreas = '"major minor"';
+    divItemDetail.style.display = "block";
+  }
+  function closeItemDetail() {
+    divMain.style.gridTemplateColumns = "1fr";
+    divMain.style.gridTemplateRows = "1fr";
+    divMain.style.gridTemplateAreas = '"major"';
+    divItemDetail.style.display = "none";
+  }
+
+  const funcCreate = frameTypes.get(frameType);
+  const { divMain: div, objMain: obj } = funcCreate(args);
+  divMain.appendChild(divMain);
+  divMain.style.gridArea = "main";
+
+  let itemCallback = null;
+  const obj = {
+    openItemDetail() {
+      objItem.clear();
+      itemCallback(objItem);
+      openItemDetail();
+    },
+    closeItemDetail() {
+      closeItemDetail();
+      divItemContent.innerHTML = "":
+    },
+    mainFrame: objMain,
+    setItemCallback(newCallback) {
+      itemCallback = newCallback;
+    },
+  };
+  return {
+    div,
+    obj,
+  };
+}
+
+const frameTypes = new Map();
+export const symFormFrame = Symbol();
+export const symTilesFrame = Symbol();
+export const symListFrame = Symbol();
+export const symMapFrame = Symbol();
+frameTypes.set(symFormFrame, createFormFrame);
+frameTypes.set(symTilesFrame, createTilesFrame);
+frameTypes.set(symListFrame, createListFrame);
+frameTypes.set(symMapFrame, createMapFrame);
 
 function createTilesView(args) {
   const divTop = document.createElement("div");
   const divScroll = document.createElement("div");
   const elements = [];
+  const { divItem, objItem } = createItemDetail();
   const obj = {
     id: crypto.randomUUID(),
     addElement(icon, title) {
@@ -420,6 +448,7 @@ function createTilesView(args) {
 function createListView(args) {
   const divTop = document.createElement("div");
   const elements = [];
+  const { divItem, objItem } = createItemDetail();
   const obj = {
     id: crypto.randomUUID(),
     addElement(type, args) {
@@ -433,6 +462,7 @@ function createListView(args) {
 function createMapView(args) {
   const divTop = document.createElement("div");
   const canvas = document.createElement("canvas");
+  const { divItem, objItem } = createItemDetail();
   const obj = {
     id: crypto.randomUUID(),
   };
