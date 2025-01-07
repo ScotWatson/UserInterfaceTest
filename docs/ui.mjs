@@ -406,7 +406,7 @@ function createItemDetail() {
     },
     closeItemDetail() {
       closeItemDetail();
-      divItemContent.innerHTML = "":
+      divItemContent.innerHTML = "";
     },
     mainFrame: objMain,
     setItemCallback(newCallback) {
