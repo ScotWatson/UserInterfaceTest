@@ -81,7 +81,7 @@ function createViewSelector(args) {
   const divViewButtons = document.createElement("div");
   divViewButtonsContainer.appendChild(divViewButtons);
   divViewButtons.style.display = "block";
-  divViewButtons.style.width = "100%"";
+  divViewButtons.style.width = "100%";
   divViewButtons.style.backgroundColor = "#00FF00";
 
   function expandViewsMenu() {
@@ -152,8 +152,12 @@ function createViewSelector(args) {
       div.remove();
       views.delete(id);
     },
-    moveView(objToMove, obj) {
-      .insertBefore();
+    moveViewBefore(objToMove, obj) {
+      const idToMove = objToMove.id;
+      const id = obj.id;
+      const btnToMove = views.get(idToMove);
+      const btn = views.get(id);
+      divViewButtons.insertBefore(btnToMove, btn);
     }
   };
   return obj;
@@ -265,27 +269,27 @@ function createView(args) {
   divMajorContent.style.borderTop = "1px solid black";
   divMajorContent.style.boxSizing = "border-box";
 
-  const divMinorFrame = document.createElement("div");
-  divMain.appendChild(divMinorFrame);
-  divMinorFrame.style.display = "grid";
-  divMinorFrame.style.gridArea = "minor";
-  divMinorFrame.style.gridTemplateColumns = "1fr";
-  divMinorFrame.style.gridTemplateRows = "50px 1fr";
-  divMinorFrame.style.gridTemplateAreas = '"title" "content"';
-  divMinorFrame.style.backgroundColor = "#800000";
-  divMinorFrame.style.borderLeft = "1px solid black";
+  const divItemDetail = document.createElement("div");
+  divMain.appendChild(divItemDetail);
+  divItemDetail.style.display = "grid";
+  divItemDetail.style.gridArea = "minor";
+  divItemDetail.style.gridTemplateColumns = "1fr";
+  divItemDetail.style.gridTemplateRows = "50px 1fr";
+  divItemDetail.style.gridTemplateAreas = '"title" "content"';
+  divItemDetail.style.backgroundColor = "#800000";
+  divItemDetail.style.borderLeft = "1px solid black";
 
-  const divMinorTitle = document.createElement("div");
-  divMinorFrame.appendChild(divMinorTitle);
-  divMinorTitle.style.display = "grid";
-  divMinorTitle.style.gridArea = "title";
-  divMinorTitle.style.gridTemplateColumns = "50px 1fr 50px";
-  divMinorTitle.style.gridTemplateRows = "1fr";
-  divMinorTitle.style.gridTemplateAreas = '"expand title close"';
-  divMinorTitle.style.backgroundColor = "#000040";
+  const divItemTopBar = document.createElement("div");
+  divItemDetail.appendChild(divItemTopBar);
+  divItemTopBar.style.display = "grid";
+  divItemTopBar.style.gridArea = "title";
+  divItemTopBar.style.gridTemplateColumns = "50px 1fr 50px";
+  divItemTopBar.style.gridTemplateRows = "1fr";
+  divItemTopBar.style.gridTemplateAreas = '"expand title close"';
+  divItemTopBar.style.backgroundColor = "#000040";
 
   const divExpand = document.createElement("div");
-  divMinorTitle.appendChild(divExpand);
+  divItemTopBar.appendChild(divExpand);
   divExpand.style.gridArea = "expand";
   divExpand.style.backgroundColor = "white";
   divExpand.style.height = "50px";
@@ -314,15 +318,15 @@ function createView(args) {
 /*  divClose.style.borderLeft: 1px solid black; */
   imgClose.style.boxSizing = "border-box";
 
-  const divMinorContent = document.createElement("div");
-  divMinorFrame.appendChild(divMinorContent);
-  divMinorContent.style.display = "block";
-  divMinorContent.style.gridArea = "content";
-  divMinorContent.style.backgroundColor = "white";
-  divMinorContent.style.borderTop = "1px solid black";
-  divMinorContent.style.boxSizing = "border-box";
+  const divItemContent = document.createElement("div");
+  divItemDetail.appendChild(divItemContent);
+  divItemContent.style.display = "block";
+  divItemContent.style.gridArea = "content";
+  divItemContent.style.backgroundColor = "white";
+  divItemContent.style.borderTop = "1px solid black";
+  divItemContent.style.boxSizing = "border-box";
 
-  openMinorFrame();
+  openItemDetail();
 
   imgHome.addEventListener("click", () => {
     
@@ -331,27 +335,27 @@ function createView(args) {
     
   });
   imgClose.addEventListener("click", () => {
-    closeMinorFrame();
+    closeItemDetail();
   });
 
   const btnOpen = document.createElement("button");
   divMajorContent.appendChild(btnOpen);
   btnOpen.innerHTML = "Open";
   btnOpen.addEventListener("click", () => {
-    openMinorFrame();
+    openItemDetail();
   });
 
-  function openMinorFrame() {
+  function openItemDetail() {
     divMain.style.gridTemplateColumns = "2fr 1fr";
     divMain.style.gridTemplateRows = "1fr";
     divMain.style.gridTemplateAreas = '"major minor"';
-    divMinorFrame.style.display = "block";
+    divItemDetail.style.display = "block";
   }
-  function closeMinorFrame() {
+  function closeItemDetail() {
     divMain.style.gridTemplateColumns = "1fr";
     divMain.style.gridTemplateRows = "1fr";
     divMain.style.gridTemplateAreas = '"major"';
-    divMinorFrame.style.display = "none";
+    divItemDetail.style.display = "none";
   }
   const obj = {
     addView(type, icon, title, args) {
@@ -384,7 +388,10 @@ function createView(args) {
       return obj;
     },
   };
-  return obj;
+  return {
+    div: divView,
+    obj,
+  };
 }
 
 export const symFormView = Symbol();
