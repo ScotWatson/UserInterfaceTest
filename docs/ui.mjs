@@ -134,7 +134,7 @@ function createViewSelector(args) {
   const obj = {
     addView(args) {
       const { icon, title } = args;
-      const { div, obj } = createView(args);
+      const { div: divView, obj: objView } = createView(args);
       const btn = document.createElement("button");
       divViewButtons.appendChild(btn);
       btn.style.display = "grid";
@@ -167,8 +167,17 @@ function createViewSelector(args) {
       divViewTitleText.style.whiteSpace = "nowrap";
       divViewTitleText.style.overflow = "hidden";
       divViewTitleText.style.textOverflow = "ellipsis";
-      views.set(obj, { icon, title, btn, div, obj });
-      return obj;
+      views.set(objView, { icon, title, btn, div: divView, obj: objView });
+      div.appendChild(divView);
+      divView.style.display = "none";
+      divView.style.gridArea = "view";
+      btn.addEventListener("click", () => {
+        for (const view of views.values) {
+          view.div.style.display = "none";
+        }
+        divView.style.display = "grid";
+      });
+      return objView;
     },
     deleteView(obj) {
       if (!views.has(obj)) {
