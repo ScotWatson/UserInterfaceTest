@@ -88,6 +88,8 @@ function createViewSelector(args) {
   divViewButtons.style.width = "100%";
   divViewButtons.style.backgroundColor = "#00FF00";
 
+  const views = new Map();
+
   function expandViewsMenu() {
     div.style.gridTemplateColumns = "1fr 6fr";
     div.style.gridTemplateRows = "50px 1fr";
@@ -96,7 +98,7 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo appName"';
     divAppName.style.display = "block";
-    for (const view of views) {
+    for (const view of views.values()) {
       view.btnchildren[1].style.display = "block";
     }
   }
@@ -108,7 +110,7 @@ function createViewSelector(args) {
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo"';
     divAppName.style.display = "none";
-    for (const view of views) {
+    for (const view of views.values()) {
       view.btnchildren[1].style.display = "none";
     }
   }
@@ -121,7 +123,6 @@ function createViewSelector(args) {
     }
   });
 
-  const views = new Map();
   const obj = {
     addView({ icon, title, args }) {
       const { div, obj } = createView(args);
