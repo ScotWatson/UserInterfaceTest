@@ -127,12 +127,12 @@ function createViewSelector(args) {
       btn.style.gridTemplateRows = "1fr";
       btn.style.gridTemplateAreas = '"icon title"';
       const imgView = document.createElement("img");
-      divView.appendChild(imgView);
+      btn.appendChild(imgView);
       imgView.src = icon;
       imgView.style.display = "block";
       imgView.style.gridArea = "icon";
       const divViewTitle = document.createElement("div");
-      divView.appendChild(divViewTitle);
+      btn.appendChild(divViewTitle);
       divViewTitle.style.display = "block";
       divViewTitle.style.gridArea = "title";
       const divViewTitleText = document.createElement("div");
