@@ -22,6 +22,8 @@ function start([ Page, UI ]) {
     appName: "TestApp",
   });
   const formView = windowObj.addView({
+    icon: "./icons/home.svg",
+    title: "Form",
     type: UI.symFormView,
     args: {
       icon: "./icons/home.svg",
@@ -38,6 +40,8 @@ function start([ Page, UI ]) {
     window.alert("Clicked");
   });
   const tilesView = windowObj.addView({
+    icon: "./icons/home.svg",
+    title: "Tiles",
     type: UI.symTilesView,
     args: {
       icon: "./icons/home.svg",
@@ -45,6 +49,8 @@ function start([ Page, UI ]) {
     },
   });
   const listView = windowObj.addView({
+    icon: "./icons/home.svg",
+    title: "List",
     type: UI.symListView,
     args: {
       icon: "./icons/home.svg",
@@ -52,6 +58,8 @@ function start([ Page, UI ]) {
     },
   });
   const mapView = windowObj.addView({
+    icon: "./icons/home.svg",
+    title: "Map",
     type: UI.symMapView,
     args: {
       icon: "./icons/home.svg",
