@@ -373,7 +373,7 @@ function createItemDetail() {
   imgActions.style.backgroundColor = "white";
   imgActions.style.boxSizing = "border-box";
 
-  const { divItemContent: div, objItem: obj } = createFormFrame();
+  const { div: divItemContent, obj: objItem } = createFormFrame();
   const divItemContent = document.createElement("div");
   divItemDetail.appendChild(divItemContent);
   divItemContent.style.gridArea = "content";
@@ -394,7 +394,7 @@ function createItemDetail() {
   }
 
   const funcCreate = frameTypes.get(frameType);
-  const { divMain: div, objMain: obj } = funcCreate(args);
+  const { div: divMain, obj: objMain } = funcCreate(args);
   divMain.appendChild(divMain);
   divMain.style.gridArea = "main";
 
