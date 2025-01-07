@@ -81,7 +81,7 @@ function createViewSelector(args) {
   divViewButtonsContainer.style.display = "block";
   divViewButtonsContainer.style.gridArea = "views";
   divViewButtonsContainer.style.backgroundColor = "#00FF00";
-  divViewButtonsContainer.style.border = "1px solid black";
+  divViewButtonsContainer.style.border = "0px";
   divViewButtonsContainer.style.boxSizing = "border-box";
 
   const divViewButtons = document.createElement("div");
@@ -89,7 +89,7 @@ function createViewSelector(args) {
   divViewButtons.style.display = "block";
   divViewButtons.style.width = "100%";
   divViewButtons.style.backgroundColor = "#00FF00";
-  divViewButtons.style.border = "1px solid black";
+  divViewButtons.style.border = "0px";
   divViewButtons.style.boxSizing = "border-box";
 
   const views = new Map();
@@ -153,10 +153,10 @@ function createViewSelector(args) {
       const divViewTitle = document.createElement("div");
       btn.appendChild(divViewTitle);
       if (divAppName.style.display === "none") {
+        divViewTitle.style.display = "none";
+      } else {
         divViewTitle.style.display = "flex";
         divViewTitle.style.alignItems = "center";
-      } else {
-        divViewTitle.style.display = "none";
       }
       divViewTitle.style.gridArea = "title";
       const divViewTitleText = document.createElement("div");
@@ -172,7 +172,7 @@ function createViewSelector(args) {
       divView.style.display = "none";
       divView.style.gridArea = "view";
       btn.addEventListener("click", () => {
-        for (const view of views.values) {
+        for (const view of views.values()) {
           view.div.style.display = "none";
         }
         divView.style.display = "grid";
