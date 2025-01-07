@@ -3,20 +3,11 @@
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-const viewTypes = new Map();
-export function initialize(args) {
-  if (!args) {
-    args = {};
-  }
-  if (!args.logo) {
-    args.logo = "./icons/hamburger-menu.svg";
-  }
-  if (!args.appName) {
-    args.appName = "";
-  }
+function initialize() {
   document.body.style.margin = "0px";
   document.body.style.border = "0px";
   document.body.style.padding = "0px";
+  const bodyShadowRoot = document.body.attachShadow({ mode: "closed" });
   const divWindow = document.createElement("div");
   document.body.appendChild(divWindow);
   divWindow.style.display = "grid";
@@ -27,6 +18,38 @@ export function initialize(args) {
   };
   window.addEventListener("resize", resize);
   resize();
+  shadowRoot.appendChild(divWindow);
+  const divShadowRoot = document.body.attachShadow({ mode: "closed" });
+  return divShadowRoot;
+}
+export function rootViewSelector(args) {
+  const root = initialize();
+  const { div, obj } = createViewSelector(args);
+  root.appendChild(div);
+  return obj;
+}
+export function rootView(args) {
+  const root = initialize();
+  const { div, obj } = createView(args);
+  root.appendChild(div);
+  return obj;
+}
+export function rootFrame(args) {
+  const root = initialize();
+  const { div, obj } = createFrame(args);
+  root.appendChild(div);
+  return obj;
+}
+function createViewSelector(args) {
+  if (!args) {
+    args = {};
+  }
+  if (!args.logo) {
+    args.logo = "./icons/hamburger-menu.svg";
+  }
+  if (!args.appName) {
+    args.appName = "";
+  }
   const divHamburger = document.createElement("div");
   divWindow.appendChild(divHamburger);
   divHamburger.style.display = "grid";
@@ -49,10 +72,22 @@ export function initialize(args) {
   divAppName.style.overflow = "hidden";
   collapseViewsMenu();
 
+  const divViewButtonsContainer = document.createElement("div");
+  divWindow.appendChild(divViews);
+  divViewButtons.style.display = "block";
+  divViewButtons.style.gridArea = "views";
+  divViewButtons.style.backgroundColor = "#00FF00";
+
+  const divViewButtons = document.createElement("div");
+  divViewButtonsContainer.appendChild(divViewButtons);
+  divViewButtons.style.display = "block";
+  divViewButtons.style.width = "100%"";
+  divViewButtons.style.backgroundColor = "#00FF00";
+
   function expandViewsMenu() {
     divWindow.style.gridTemplateColumns = "1fr 6fr";
     divWindow.style.gridTemplateRows = "50px 1fr";
-    divWindow.style.gridTemplateAreas = '"hamburger topBar" "views main"';
+    divWindow.style.gridTemplateAreas = '"hamburger view" "views view"';
     imgLogo.src = args.logo;
     divHamburger.style.gridTemplateColumns = "50px 1fr";
     divHamburger.style.gridTemplateRows = "1fr";
@@ -62,7 +97,7 @@ export function initialize(args) {
   function collapseViewsMenu() {
     divWindow.style.gridTemplateColumns = "50px 1fr";
     divWindow.style.gridTemplateRows = "50px 1fr";
-    divWindow.style.gridTemplateAreas = '"hamburger topBar" "views main"';
+    divWindow.style.gridTemplateAreas = '"hamburger view" "views view"';
     imgLogo.src = "./icons/hamburger-menu.svg";
     divHamburger.style.gridTemplateColumns = "50px";
     divHamburger.style.gridTemplateRows = "1fr";
@@ -78,20 +113,67 @@ export function initialize(args) {
     }
   });
 
-  const divActions = document.createElement("div");
-  divWindow.appendChild(divActions);
-  divActions.style.display = "block";
-  divActions.style.gridArea = "topBar";
-  divActions.style.backgroundColor = "#FF0000";
+  const views = new Map();
+  const obj = {
+    addView({ icon, title, args }) {
+      const { div, obj } = createView(args);
+      const btn = document.createElement("button");
+      divViewButtons.appendChild(btn);
+      btn.style.display = "grid";
+      btn.style.height = "50px";
+      btn.style.gridTemplateColumns = "50px 1fr";
+      btn.style.gridTemplateRows = "1fr";
+      btn.style.gridTemplateAreas = '"icon title"';
+      const imgView = document.createElement("img");
+      divView.appendChild(imgView);
+      imgView.src = icon;
+      imgView.style.display = "block";
+      imgView.style.gridArea = "icon";
+      const divViewTitle = document.createElement("div");
+      divView.appendChild(divViewTitle);
+      divViewTitle.style.display = "block";
+      divViewTitle.style.gridArea = "title";
+      const divViewTitleText = document.createElement("div");
+      divViewTitle.appendChild(divViewTitleText);
+      divViewTitleText.innerHTML = title;
+      divViewTitleText.style.display = "block";
+      divViewTitleText.style.whiteSpace = "nowrap";
+      divViewTitleText.style.overflow = "hidden";
+      divViewTitleText.style.textOverflow = "ellipsis";
+      views.set(obj.id, { icon, title, btn, div, obj });
+      return obj;
+    },
+    deleteView(obj) {
+      if (!views.has(obj.id)) {
+        throw new Error("id does not exist");
+      }
+      const { icon, title, btn, div, obj } = views.get(obj.id);
+      btn.remove();
+      div.remove();
+      views.delete(id);
+    },
+    moveView(objToMove, obj) {
+      .insertBefore();
+    }
+  };
+  return obj;
+}
 
-  const divViews = document.createElement("div");
-  divWindow.appendChild(divViews);
-  divViews.style.display = "block";
-  divViews.style.gridArea = "views";
-  divViews.style.backgroundColor = "#00FF00";
+const frameTypes = new Map();
+function createView(args) {
+  const divView = document.createElement("div");
+  divView.style.display = "block";
+  divView.style.gridArea = "views";
+  divView.style.backgroundColor = "#00FF00";
+
+  const divTopBar = document.createElement("div");
+  divView.appendChild(divActions);
+  divTopBar.style.display = "block";
+  divTopBar.style.gridArea = "topBar";
+  divTopBar.style.backgroundColor = "#FF0000";
 
   const divMain = document.createElement("div");
-  divWindow.appendChild(divMain);
+  divView.appendChild(divMain);
   divMain.style.display = "grid";
   divMain.style.gridArea = "main";
   divMain.style.backgroundColor = "#0000FF";
@@ -272,11 +354,33 @@ export function initialize(args) {
     divMinorFrame.style.display = "none";
   }
   const obj = {
-    homeView: {},
-    addView(type, args) {
+    addView(type, icon, title, args) {
+      { type, icon, title, div, obj }
       const funcCreate = viewTypes.get(type);
       const { div, obj } = funcCreate(args);
       divMajorContent.appendChild(div);
+      const divView = document.createElement("div");
+      divView.style.display = "grid";
+      divView.style.height = "50px";
+      divView.style.gridTemplateColumns = "50px 1fr";
+      divView.style.gridTemplateRows = "1fr";
+      divView.style.gridTemplateAreas = '"icon title"';
+      const imgView = document.createElement("img");
+      divView.appendChild(imgView);
+      imgView.src = icon;
+      imgView.style.display = "block";
+      const divViewTitle = document.createElement("div");
+      divView.appendChild(divViewTitle);
+      divViewTitle.style.display = "block";
+      divViewTitle.style.height = "50px";
+      divViewTitle.style.gridArea = "title";
+      const divViewTitleText = document.createElement("div");
+      divViewTitle.appendChild(divViewTitleText);
+      divViewTitleText.innerHTML = title;
+      divViewTitleText.style.display = "block";
+      divViewTitleText.style.whiteSpace = "nowrap";
+      divViewTitleText.style.overflow = "hidden";
+      divViewTitleText.style.textOverflow = "ellipsis";
       return obj;
     },
   };
