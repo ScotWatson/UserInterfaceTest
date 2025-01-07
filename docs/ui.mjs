@@ -124,7 +124,8 @@ function createViewSelector(args) {
   });
 
   const obj = {
-    addView({ icon, title, args }) {
+    addView(args) {
+      const { icon, title } = args;
       const { div, obj } = createView(args);
       const btn = document.createElement("button");
       divViewButtons.appendChild(btn);
@@ -134,8 +135,9 @@ function createViewSelector(args) {
       btn.style.gridTemplateRows = "1fr";
       btn.style.gridTemplateAreas = '"icon title"';
       btn.style.border = "1px solid black";
-      btn.style.margin = "none";
-      btn.style.padding = "none";
+      btn.style.borderRadius = "0px";
+      btn.style.margin = "0px";
+      btn.style.padding = "0px";
       btn.style.boxSizing = "border-box";
       const imgView = document.createElement("img");
       btn.appendChild(imgView);
@@ -294,8 +296,8 @@ function createView(args) {
 
   const obj = {
     topFrame: {},
-    addFrame({ type, icon, title, args }) {
-//      { type, icon, title, div, obj }
+    addFrame(args) {
+      const { type, icon, title } = args;
       const funcCreate = frameTypes.get(type);
       const { div: divFrame, obj: objFrame } = funcCreate(args);
       divFrame.style.gridArea = "content";
@@ -444,7 +446,7 @@ function createListFrame(args) {
   objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
-    addElement(type, args) {
+    addElement() {
     },
   };
   return {
@@ -484,7 +486,8 @@ function createFormFrame(args) {
   const elements = [];
   const obj = {
     id: crypto.randomUUID(),
-    addElement({type, args}) {
+    addElement(args) {
+      const { type } = args;
       const funcCreate = formElementTypes.get(type);
       const newElement = funcCreate(args);
       elements.push(newElement);
