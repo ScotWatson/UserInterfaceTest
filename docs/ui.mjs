@@ -385,9 +385,9 @@ function createItemDetail(args) {
     closeItemDetail();
   });
 
-  const funcCreate = frameTypes.get(args.type);
-  const { div: divMain, obj: objMain } = funcCreate(args);
+  const divMain = document.createElement("div");
   divMain.appendChild(divMain);
+  divMain.style.display = "block";
   divMain.style.gridArea = "main";
 
   let itemCallback = null;
@@ -426,13 +426,14 @@ function createTilesFrame(args) {
   const divScroll = document.createElement("div");
   const elements = [];
   const { divItem, objItem } = createItemDetail(args);
+  objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
     addElement(icon, title) {
     },
   };
   return {
-    div,
+    div: divItem,
     obj,
   };
 }
@@ -440,13 +441,14 @@ function createListFrame(args) {
   const divTop = document.createElement("div");
   const elements = [];
   const { divItem, objItem } = createItemDetail(args);
+  objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
     addElement(type, args) {
     },
   };
   return {
-    div,
+    div: divItem,
     obj,
   };
 }
@@ -454,11 +456,12 @@ function createMapFrame(args) {
   const divTop = document.createElement("div");
   const canvas = document.createElement("canvas");
   const { divItem, objItem } = createItemDetail(args);
+  objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
   };
   return {
-    div,
+    div: divItem,
     obj,
   };
 }
