@@ -388,13 +388,11 @@ function createItemDetail(args) {
   function openItemDetail() {
     div.style.gridTemplateColumns = "2fr 1fr";
     div.style.gridTemplateRows = "1fr";
-    div.style.gridTemplateAreas = '"major minor"';
-    divItemDetail.style.display = "block";
+    divItemDetail.style.display = "grid";
   }
   function closeItemDetail() {
     div.style.gridTemplateColumns = "1fr";
     div.style.gridTemplateRows = "1fr";
-    div.style.gridTemplateAreas = '"major"';
     divItemDetail.style.display = "none";
   }
 
