@@ -19,8 +19,7 @@ function initialize() {
   window.addEventListener("resize", resize);
   resize();
   bodyShadowRoot.appendChild(divWindow);
-  const divShadowRoot = document.body.attachShadow({ mode: "closed" });
-  return divShadowRoot;
+  return divWindow;
 }
 export function rootViewSelector(args) {
   const root = initialize();
