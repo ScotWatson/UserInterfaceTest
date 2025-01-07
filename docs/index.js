@@ -21,13 +21,22 @@ function start([ Page, UI ]) {
   const windowObj = UI.rootViewSelector({
     appName: "TestApp",
   });
-  const homeView = windowObj.addView(UI.symFormView, {
-    title: "Home",
+  const formView = windowObj.addView(UI.symFormView, {
+    title: "Form",
   });
   const button = homeView.addElement(UI.symButton, {
     caption: "Submit",
   });
   button.addEventListener("click", () => {
     window.alert("Clicked");
+  });
+  const tilesView = windowObj.addView(UI.symTilesView, {
+    title: "Tiles",
+  });
+  const listView = windowObj.addView(UI.symListView, {
+    title: "List",
+  });
+  const mapView = windowObj.addView(UI.symMapView, {
+    title: "Map",
   });
 }
