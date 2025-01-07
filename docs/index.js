@@ -18,7 +18,7 @@ const loadingUI = import("./ui.mjs");
 Promise.all([ loadingPage, loadingUI ]).then(start);
 
 function start([ Page, UI ]) {
-  const windowObj = UI.initialize({
+  const windowObj = UI.rootViewSelector({
     appName: "TestApp",
   });
   const homeView = windowObj.addView(UI.symFormView, {
