@@ -374,7 +374,6 @@ function createItemDetail() {
   imgActions.style.boxSizing = "border-box";
 
   const { div: divItemContent, obj: objItem } = createFormFrame();
-  const divItemContent = document.createElement("div");
   divItemDetail.appendChild(divItemContent);
   divItemContent.style.gridArea = "content";
 
