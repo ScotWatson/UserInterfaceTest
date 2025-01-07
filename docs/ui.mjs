@@ -431,14 +431,14 @@ frameTypes.set(symListFrame, createListFrame);
 frameTypes.set(symMapFrame, createMapFrame);
 
 function createTilesFrame(args) {
-  const divTop = document.createElement("div");
+  const div = document.createElement("div");
   const divScroll = document.createElement("div");
   const elements = [];
   const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append("contents");
   const obj = {
     id: crypto.randomUUID(),
-    addElement(icon, title) {
+    addElement({ icon, title }) {
     },
   };
   return {
@@ -496,9 +496,9 @@ function createFormFrame(args) {
     addElement(args) {
       const { type } = args;
       const funcCreate = formElementTypes.get(type);
-      const newElement = funcCreate(args);
+      const { div: newElement, obj } = funcCreate(args);
       elements.push(newElement);
-      return newElement.obj;
+      return obj;
     },
   };
   return {
