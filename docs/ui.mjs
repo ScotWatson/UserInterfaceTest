@@ -74,7 +74,6 @@ function createViewSelector(args) {
   divAppName.style.height = "50px";
   divAppName.style.fontSize = "24pt";
   divAppName.style.overflow = "hidden";
-  collapseViewsMenu();
 
   const divViewButtonsContainer = document.createElement("div");
   div.appendChild(divViewButtonsContainer);
@@ -89,6 +88,7 @@ function createViewSelector(args) {
   divViewButtons.style.backgroundColor = "#00FF00";
 
   const views = new Map();
+  collapseViewsMenu();
 
   function expandViewsMenu() {
     div.style.gridTemplateColumns = "1fr 6fr";
