@@ -580,7 +580,7 @@ function createNumericEntry(args) {
     setPrompt(text) {
       divPrompt.innerHTML = "";
       divPrompt.append(text);
-    }
+    },
     getValue() {
       return input.value;
     },
