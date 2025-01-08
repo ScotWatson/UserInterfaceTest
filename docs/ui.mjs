@@ -635,7 +635,7 @@ function createButton(args) {
   const obj = {
     click() {
       return {
-        iter[Symbol.asyncIterator] = click;
+        [Symbol.asyncIterator]: click,
         next() {
           return new Promise((resolve, reject) => {
             btn.addEventListener("click", (e) => {
