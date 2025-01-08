@@ -53,7 +53,7 @@ function start([ Page, UI ]) {
   });
   */
   (async () => {
-    for (await event of button.click()) {
+    for await (const event of button.click()) {
       window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
     }
   })();
