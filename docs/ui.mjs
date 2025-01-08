@@ -536,6 +536,10 @@ function createTextEntry(args) {
   input.style.border = "1px solid black";
   input.style.boxSizing = "border-box";
   const obj = {
+    setPrompt(text) {
+      divPrompt.innerHTML = "";
+      divPrompt.append(text);
+    },
     getValue() {
       return input.value;
     },
