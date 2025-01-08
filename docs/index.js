@@ -42,7 +42,7 @@ function start([ Page, UI ]) {
   const textDisplay = formFrame.addElement({
     type: UI.symTextDisplay,
   });
-  textDisplay.setText("Test text");
+  textDisplay.setText("Test text".repeat(100));
   const button = formFrame.addElement({
     type: UI.symButton,
     caption: "Submit",
