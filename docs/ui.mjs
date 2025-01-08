@@ -630,7 +630,8 @@ function createButton(args) {
   }
   const obj = {
     click() {
-      return {
+      const iter = {
+        [Symbol.asyncIterator]: iter,
         next() {
           return new Promise((resolve, reject) => {
             btn.addEventListener("click", (e) => {
@@ -639,6 +640,7 @@ function createButton(args) {
           });
         },
       };
+      return iter;
     },
   };
   return {
