@@ -632,19 +632,20 @@ function createButton(args) {
   if (typeof args.caption === "string") {
     btn.innerHTML = args.caption;
   }
-  const obj = {
-    click() {
-      return {
-        [Symbol.asyncIterator]: click,
-        next() {
-          return new Promise((resolve, reject) => {
-            btn.addEventListener("click", (e) => {
-              resolve(e);
-            });
+  function click() {
+    return {
+      [Symbol.asyncIterator]: click,
+      next() {
+        return new Promise((resolve, reject) => {
+          btn.addEventListener("click", (e) => {
+            resolve(e);
           });
-        },
-      };
-    },
+        });
+      },
+    };
+  }
+  const obj = {
+    click,
   };
   return {
     div,
