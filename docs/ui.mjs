@@ -600,8 +600,10 @@ function createTextDisplay(args) {
   div.style.width = "100%";
   div.style.height = "50px";
   const divPrimary = document.createElement("div");
+  div.appendChild(divPrimary);
   divPrimary.style.display = "block";
   divPrimary.style.width = "100%";
+  divPrimary.style.height = "50px";
   divPrimary.style.height = "50px";
   const obj = {
     setText(text) {
