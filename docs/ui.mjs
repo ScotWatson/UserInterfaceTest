@@ -573,17 +573,47 @@ function createNumericEntry(args) {
   div.appendChild(divPrompt);
   divPrompt.style.display = "block";
   divPrompt.style.gridArea = "prompt";
-  const input = document.createElement("input");
-  div.appendChild(input);
-  input.style.display = "block";
-  input.style.gridArea = "input";
-  input.style.margin = "0px";
-  input.style.border = "1px solid black";
-  input.style.padding = "0px";
+  const divInput = document.createElement("div");
+  div.appendChild(divInput);
+  divInput.style.display = "grid";
+  divInput.style.gridArea = "input";
+  div.style.gridTemplateColumns = "1fr 50px";
+  div.style.gridTemplateRows = "1fr";
+  div.style.gridTemplateAreas = '"range" "number"';
+  const inputRange = document.createElement("input");
+  divInput.appendChild(inputRange);
+  inputRange.type = "range";
+  inputRange.style.display = "block";
+  inputRange.style.gridArea = "range";
+  inputRange.style.margin = "0px";
+  inputRange.style.border = "0px";
+  inputRange.style.padding = "0px";
+  const inputNumber = document.createElement("input");
+  divInput.appendChild(inputNumber);
+  inputNumber.type = "number";
+  inputNumber.style.display = "block";
+  inputNumber.style.gridArea = "number";
+  inputNumber.style.margin = "0px";
+  inputNumber.style.border = "0px";
+  inputNumber.style.padding = "0px";
+  const sync = (value) => {
+    inputRange.value = value;
+    inputNumber.value = value;
+  };
+  inputRange.addEventListener("change", () => { sync(inputRange.value); });
+  inputNumber.addEventListener("change", () => { sync(inputNumber.value); });
   const obj = {
     setPrompt(text) {
       divPrompt.innerHTML = "";
       divPrompt.append(text);
+    },
+    setLimits(args) {
+      inputNumber.min = args.min;
+      inputNumber.max = args.max;
+      inputNumber.step = args.interval;
+      inputRange.min = args.min;
+      inputRange.max = args.max;
+      inputRange.step = args.interval;
     },
     getValue() {
       return input.value;
