@@ -577,9 +577,9 @@ function createNumericEntry(args) {
   div.appendChild(divInput);
   divInput.style.display = "grid";
   divInput.style.gridArea = "input";
-  div.style.gridTemplateColumns = "1fr 50px";
-  div.style.gridTemplateRows = "1fr";
-  div.style.gridTemplateAreas = '"range number"';
+  divInput.style.gridTemplateColumns = "1fr 50px";
+  divInput.style.gridTemplateRows = "1fr";
+  divInput.style.gridTemplateAreas = '"range number"';
   const inputRange = document.createElement("input");
   divInput.appendChild(inputRange);
   inputRange.type = "range";
