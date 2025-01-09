@@ -39,6 +39,11 @@ function start([ Page, UI ]) {
     type: UI.symNumericEntry,
   });
   numericEntry.setPrompt("Numeric Prompt");
+  numericEntry.setLimuts({
+    min: 0,
+    max: 10,
+    interval: 1,
+  });
   const textDisplay = formFrame.addElement({
     type: UI.symTextDisplay,
   });
