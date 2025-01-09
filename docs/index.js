@@ -39,7 +39,7 @@ function start([ Page, UI ]) {
     type: UI.symNumericEntry,
   });
   numericEntry.setPrompt("Numeric Prompt");
-  numericEntry.setLimuts({
+  numericEntry.setLimits({
     min: 0,
     max: 10,
     interval: 1,
