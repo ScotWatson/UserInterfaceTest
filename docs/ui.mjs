@@ -598,13 +598,13 @@ function createTextDisplay(args) {
   const div = document.createElement("div");
   div.style.display = "block";
   div.style.width = "100%";
-  div.style.height = "50px";
+  div.style.minHeight = "50px";
   const divPrimary = document.createElement("div");
   div.appendChild(divPrimary);
   divPrimary.style.display = "block";
   divPrimary.style.width = "100%";
-  divPrimary.style.height = "50px";
-  divPrimary.style.height = "50px";
+  divPrimary.style.minHeight = "50px";
+  divPrimary.style.fontSize = "20pt";
   const obj = {
     setText(text) {
       divPrimary.innerHTML = "";
