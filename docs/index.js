@@ -33,8 +33,35 @@ function start([ Page, UI ]) {
   });
   textEntry.setPrompt("Text Prompt");
   const multiSelect = formFrame.addElement({
-    type: UI.symMultiSelect,
+    type: UI.symTestDisplay,
   });
+  multiSelect.setPrompt("Multi-select");
+  (async () => {
+    for await (const event of multiSelect.clicked()) {
+      formView.addFrame({
+        title: "Multi-select",
+        type: UI.symSelectFormFrame,
+        args: {
+          minOptions: 0,
+          maxOptions: 2,
+          options: [
+            {
+              type: symTextDisplay,
+              args: {},
+            },
+            {
+              type: symTextEntry,
+              args: {},
+            },
+            {
+              type: symNumericEntry,
+              args: {},
+            },
+          ],
+        },
+      });
+    }
+  })();
   const numericEntry = formFrame.addElement({
     type: UI.symNumericEntry,
   });
