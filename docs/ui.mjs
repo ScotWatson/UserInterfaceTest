@@ -554,12 +554,57 @@ function createTextEntry(args) {
     obj,
   };
 }
+function createSubForm(args) {
+  const elements = [];
+  const div = document.createElement("div");
+  const divContent = document.createElement("div");
+  div.appendChild(divContent);
+  for (const option of args.options) {
+    const divOption = document.createElement("div");
+    div.appendChild(divOption);
+    divOption.style.display = "grid";
+    divOption.style.width = "100%";
+    divOption.style.height = "50px";
+    divOption.style.gridTemplateColumns = "1fr";
+    divOption.style.gridTemplateRows = "1fr";
+    divOption.style.gridTemplateAreas = '"select element"';
+    const imgSelect = document.createElement("img");
+    div.appendChild(imgSelect);
+    imgSelect.style.display = "block";
+    imgSelect.style.width = "100%";
+    imgSelect.style.height = "50px";
+    imgSelect.style.gridArea = "select";
+    const funcCreate = formElementTypes.get(option.type);
+    const { div: divElement, obj: objElement } = funcCreate(args);
+    elements.set(objElement, { div: divElement, obj: objElement });
+    div.appendChild(divElement);
+    divElement.style.gridArea = "element";
+  }
+}
 function createMultiSelect(args) {
   const div = document.createElement("div");
   div.style.display = "block";
   div.style.width = "100%";
   div.style.height = "50px";
+  function click() {
+    return {
+      [Symbol.asyncIterator]: click,
+      next() {
+        return new Promise((resolve, reject) => {
+          div.addEventListener("click", (e) => {
+            resolve(e);
+          });
+        });
+      },
+    };
+  }
+  args.min
+  args.max
+  args.options = [ { type, init } ];
   const obj = {
+    setCaption(text) {
+      div.innerHTML = text;
+    },
   };
   return {
     div,
