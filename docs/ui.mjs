@@ -225,15 +225,6 @@ function createView(args) {
   divBreadcrumbs.style.gridArea = "breadcrumbs";
   divBreadcrumbs.style.gridTemplateRows = "1fr";
   divBreadcrumbs.style.backgroundColor = "#0000C0";
-  // Home Only
-  divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
-  divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
-  // One level
-  divBreadcrumbs.style.gridTemplateColumns = "50px 1fr 1fr";
-  divBreadcrumbs.style.gridTemplateAreas = '"home penultimate ultimate"';
-  // Multiple Levels
-  divBreadcrumbs.style.gridTemplateColumns = "50px 50px 1fr 1fr";
-  divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
 
   const imgActions = document.createElement("img");
   divTopBar.appendChild(imgActions);
@@ -295,25 +286,98 @@ function createView(args) {
   divUltimateText.style.whiteSpace = "nowrap";
   divUltimateText.style.overflow = "hidden";
   divUltimateText.style.textOverflow = "ellipsis";
-
   imgHome.addEventListener("click", () => {
     
   });
   imgEllipsis.addEventListener("click", () => {
     
   });
-
+  divPenultimate.addEventListener("click", () => {
+    frames.pop();
+    updateBreadcrumbs();
+  });
+  const frames = [];
+  function updateBreadcrumbs() {
+    switch (frames.length) {
+      case 0: {
+        // Empty
+        divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
+        divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
+        divPenultimate.style.display = "none";
+        divPenultimate.innerHTML = "";
+        divUltimate.style.display = "block";
+        divUltimate.innerHTML = "";
+      }
+        break;
+      case 1: {
+        // Home Only
+        divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
+        divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
+        divPenultimate.style.display = "none";
+        divPenultimate.innerHTML = "";
+        divUltimate.style.display = "block";
+        divUltimate.innerHTML = "";
+        divUltimate.append(frames[frames.length - 1].title);
+      }
+        break;
+      case 2: {
+        // One level
+        divBreadcrumbs.style.gridTemplateColumns = "50px 1fr 1fr";
+        divBreadcrumbs.style.gridTemplateAreas = '"home penultimate ultimate"';
+        divPenultimate.style.display = "block";
+        divPenultimate.innerHTML = "";
+        divPenultimate.append(frames[frames.length - 2].title);
+        divUltimate.style.display = "block";
+        divUltimate.innerHTML = "";
+        divUltimate.append(frames[frames.length - 1].title);
+      }
+        break;
+      default: {
+        // Multiple Levels
+        divBreadcrumbs.style.gridTemplateColumns = "50px 50px 1fr 1fr";
+        divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
+        divPenultimate.style.display = "block";
+        divPenultimate.innerHTML = "";
+        divPenultimate.append(frames[frames.length - 2].title);
+        divUltimate.style.display = "block";
+        divUltimate.innerHTML = "";
+        divUltimate.append(frames[frames.length - 1].title);
+      }
+    };
+    for (const frame of frames) {
+      frame.div.style.display = "none";
+    }
+    frames[frames.length - 1].div.style.display = frames[frames.length - 1].display;
+  }
   const obj = {
-    topFrame: {},
     addFrame(args) {
-      const { type, icon, title } = args;
+      const { type, title } = args;
       const funcCreate = frameTypes.get(type);
       const { div: divFrame, obj: objFrame } = funcCreate(args);
+      frames.push({
+        title,
+        div: divFrame,
+        display: divFrame.style.display,
+      });
+      divFrame.style.display = "none";
       divFrame.style.gridArea = "content";
       div.appendChild(divFrame);
+      updateBreadcrumbs();
       return objFrame;
     },
+    back() {
+      if (frames.length === 1) {
+        throw new Error("No more frames to remove.");
+      }
+      frames.pop();
+      updateBreadcrumbs();
+    },
   };
+  obj.topFrame = obj.addFrame({
+    type: topType,
+    title: topTitle,
+  });
+  updateBreadcrumbs();
   return {
     div,
     obj,
