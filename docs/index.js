@@ -24,10 +24,10 @@ function start([ Page, UI ]) {
   const formView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "Form",
+    topType: UI.symFormFrame,
+    topTitle: "Form",
   });
-  const formFrame = formView.addFrame({
-    type: UI.symFormFrame,
-  });
+  const formFrame = formView.topFrame;
   const textEntry = formFrame.addElement({
     type: UI.symTextEntry,
   });
