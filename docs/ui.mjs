@@ -422,10 +422,12 @@ function createItemDetail(args) {
 }
 
 export const symFormFrame = Symbol();
+export const symSelectFormFrame = Symbol();
 export const symTilesFrame = Symbol();
 export const symListFrame = Symbol();
 export const symMapFrame = Symbol();
 frameTypes.set(symFormFrame, createFormFrame);
+frameTypes.set(symSelectFormFrame, createSelectFormFrame);
 frameTypes.set(symTilesFrame, createTilesFrame);
 frameTypes.set(symListFrame, createListFrame);
 frameTypes.set(symMapFrame, createMapFrame);
@@ -473,14 +475,12 @@ function createMapFrame(args) {
 }
 
 export const symTextEntry = Symbol();
-export const symMultiSelect = Symbol();
 export const symNumericEntry = Symbol();
 export const symTextDisplay = Symbol();
 export const symButton = Symbol();
 
 const formElementTypes = new Map();
 formElementTypes.set(symTextEntry, createTextEntry);
-formElementTypes.set(symMultiSelect, createMultiSelect);
 formElementTypes.set(symNumericEntry, createNumericEntry);
 formElementTypes.set(symTextDisplay, createTextDisplay);
 formElementTypes.set(symButton, createButton);
@@ -554,57 +554,179 @@ function createTextEntry(args) {
     obj,
   };
 }
-function createSubForm(args) {
-  const elements = [];
-  const div = document.createElement("div");
-  const divContent = document.createElement("div");
-  div.appendChild(divContent);
-  for (const option of args.options) {
-    const divOption = document.createElement("div");
-    div.appendChild(divOption);
-    divOption.style.display = "grid";
-    divOption.style.width = "100%";
-    divOption.style.height = "50px";
-    divOption.style.gridTemplateColumns = "1fr";
-    divOption.style.gridTemplateRows = "1fr";
-    divOption.style.gridTemplateAreas = '"select element"';
-    const imgSelect = document.createElement("img");
-    div.appendChild(imgSelect);
-    imgSelect.style.display = "block";
-    imgSelect.style.width = "100%";
-    imgSelect.style.height = "50px";
-    imgSelect.style.gridArea = "select";
-    const funcCreate = formElementTypes.get(option.type);
-    const { div: divElement, obj: objElement } = funcCreate(args);
-    elements.set(objElement, { div: divElement, obj: objElement });
-    div.appendChild(divElement);
-    divElement.style.gridArea = "element";
+function createSelectFormFrame(args) {
+  const { minOptions, maxOptions, options } = args;
+  const optionLines = [];
+  if ((minOptions < 0) || (minOptions > options.length)) {
+    throw new Error("Invalid minOptions value: " + minOptions + ", must be between 0 & " + options.length);
   }
-}
-function createMultiSelect(args) {
+  if ((maxOptions < minOptions) || (maxOptions > options.length)) {
+    throw new Error("Invalid maxOptions value: " + maxOptions + ", must be between " + minOptions + " & " + options.length);
+  }
+  let displayType = "";
+  if (maxOptions === 1) {
+    displayType = "radio";
+  }
+  if (minOptions === options.length) {
+    displayType = "allSelected";
+  }
   const div = document.createElement("div");
-  div.style.display = "block";
-  div.style.width = "100%";
-  div.style.height = "50px";
-  function click() {
-    return {
-      [Symbol.asyncIterator]: click,
-      next() {
-        return new Promise((resolve, reject) => {
-          div.addEventListener("click", (e) => {
-            resolve(e);
-          });
+  switch (displayType) {
+    case "radio": {
+      const divContent = document.createElement("div");
+      div.appendChild(divContent);
+      for (const option of args.options) {
+        const divOption = document.createElement("div");
+        div.appendChild(divOption);
+        divOption.style.display = "grid";
+        divOption.style.width = "100%";
+        divOption.style.height = "50px";
+        divOption.style.gridTemplateColumns = "50px 1fr";
+        divOption.style.gridTemplateRows = "1fr";
+        divOption.style.gridTemplateAreas = '"select element"';
+        const imgSelect = document.createElement("img");
+        div.appendChild(imgSelect);
+        imgSelect.src = "./icons/unselected.svg";
+        imgSelect.style.display = "block";
+        imgSelect.style.gridArea = "select";
+        const funcCreate = formElementTypes.get(option.type);
+        const { div: divElement, obj: objElement } = funcCreate(args);
+        divElement.style.gridArea = "element";
+        divOption.appendChild(divElement);
+        const objOption = {
+          element: objElement,
+          select() {
+            for (const { div: divElement, obj: objElement } of elements) {
+              divElement.children[0].src = "./icons/unselected.svg";
+            }
+            imgSelect.src = "./icons/radio-selected.svg"
+          },
+          unselect() {
+            throw new Error("Radio buttons cannot be unselected.");
+          },
+          isSelected() {
+            return !(imgSelect.src === "./icons/unselected.svg");
+          }
+        }
+        optionLines.set(objOption, { div: divOption, obj: objOption });
+        divContent.appendChild(divOption);
+        imgSelect.addEventListener("click", objOption.select);
+    }
+      break;
+    case "allSelected": {
+      const divContent = document.createElement("div");
+      div.appendChild(divContent);
+      for (const option of options) {
+        const divOption = document.createElement("div");
+        div.appendChild(divOption);
+        divOption.style.display = "grid";
+        divOption.style.width = "100%";
+        divOption.style.height = "50px";
+        divOption.style.gridTemplateColumns = "50px 1fr";
+        divOption.style.gridTemplateRows = "1fr";
+        divOption.style.gridTemplateAreas = '"select element"';
+        const funcCreate = formElementTypes.get(option.type);
+        const { div: divElement, obj: objElement } = funcCreate(args);
+        const objOption = {
+          element: objElement,
+          select() {},
+          unselect() {
+            throw new Error("Unable to unselect; all items must be selected.");
+          },
+          isSelected() {
+            return true;
+          },
+        }
+        optionLines.set(objOption, { div: divOption, obj: objOption });
+        divContent.appendChild(divOption);
+        imgSelect.addEventListener("click", () => {
+          if (objOption.isSelected()) {
+            objOption.unselect();
+          } else {
+            objOption.select();
+          }
         });
-      },
-    };
-  }
-  args.min
-  args.max
-  args.options = [ { type, init } ];
-  const obj = {
-    setCaption(text) {
-      div.innerHTML = text;
-    },
+      }
+    }
+    default: {
+      div.style.display = "grid";
+      div.style.gridTemplateRows = "1fr";
+      div.style.gridTemplateColumns = "50px 1fr";
+      div.style.gridTemplateAreas = '"header" "scroll"';
+      const divHeader = document.createElement("div");
+      div.appendChild(divHeader);
+      divHeader.style.display = "grid";
+      divHeader.style.gridArea = "header";
+      divHeader.style.gridTemplateRows = "1fr 1fr";
+      divHeader.style.gridTemplateColumns = "1fr";
+      divHeader.style.gridTemplateAreas = '"required current"';
+      const divRequired = document.createElement("div");
+      div.appendChild(divRequired);
+      divRequired.style.display = "block";
+      divRequired.style.gridArea = "required";
+      divRequired.innerHTML = minOptions + " to " + maxOptions + " of " + options.length;
+      const divCurrent = document.createElement("div");
+      div.appendChild(divCurrent);
+      divCurrent.style.display = "block";
+      divCurrent.style.gridArea = "required";
+      divCurrent.innerHTML = 0 + " of " + options.length;
+      function refreshCurrent() {
+        let numSelected = 0;
+        for (const { obj: objOption } of optionLines) {
+          if (objOption.isSelected()) {
+            ++numSelected;
+          }
+        }
+        divCurrent.innerHTML = numSelected + " of " + options.length;
+        divCurrent.style.color = ((numSelected >= minOptions) && (numSelected <= maxOptions)) ? "black" : "red";
+      }
+      const divScroll = document.createElement("div");
+      div.appendChild(divScroll);
+      const divContent = document.createElement("div");
+      divScroll.appendChild(divContent);
+      for (const option of options) {
+        const divOption = document.createElement("div");
+        div.appendChild(divOption);
+        divOption.style.display = "grid";
+        divOption.style.width = "100%";
+        divOption.style.height = "50px";
+        divOption.style.gridTemplateColumns = "50px 1fr";
+        divOption.style.gridTemplateRows = "1fr";
+        divOption.style.gridTemplateAreas = '"select element"';
+        const imgSelect = document.createElement("img");
+        div.appendChild(imgSelect);
+        imgSelect.src = "./icons/unselected.svg";
+        imgSelect.style.display = "block";
+        imgSelect.style.gridArea = "select";
+        const funcCreate = formElementTypes.get(option.type);
+        const { div: divElement, obj: objElement } = funcCreate(args);
+        const objOption = {
+          element: objElement,
+          select() {
+            imgSelect.src = "./icons/multi-selected.svg";
+          },
+          unselect() {
+            imgSelect.src = "./icons/unselected.svg";
+          },
+          isSelected() {
+            return !(imgSelect.src === "./icons/unselected.svg");
+          },
+        }
+        optionLines.set(objOption, { div: divOption, obj: objOption });
+        divContent.appendChild(divOption);
+        imgSelect.addEventListener("click", () => {
+          if (objOption.isSelected()) {
+            objOption.unselect();
+          } else {
+            objOption.select();
+          }
+        });
+      }
+      let lines = optionLines.values();
+      for (let i = 0; i < minOptions; ++i) {
+        lines[i].select();
+      }
+    }
   };
   return {
     div,
@@ -690,6 +812,11 @@ function createTextDisplay(args) {
       divPrimary.innerHTML = "";
       divPrimary.append(text);
     },
+    clicked: factoryAsyncIterableIterator((resolve, reject) => {
+      btn.addEventListener("click", (e) => {
+        resolve(e);
+      });
+    }),
   };
   return {
     div,
@@ -714,23 +841,26 @@ function createButton(args) {
   if (typeof args.caption === "string") {
     btn.innerHTML = args.caption;
   }
-  function click() {
-    return {
-      [Symbol.asyncIterator]: click,
-      next() {
-        return new Promise((resolve, reject) => {
-          btn.addEventListener("click", (e) => {
-            resolve(e);
-          });
-        });
-      },
-    };
-  }
   const obj = {
-    click,
+    clicked: factoryAsyncIterableIterator((resolve, reject) => {
+      btn.addEventListener("click", (e) => {
+        resolve(e);
+      });
+    }),
   };
   return {
     div,
     obj,
+  };
+}
+function factoryAsyncIterableIterator(init) {
+  return function createAsyncIterableIterator() {
+    return {
+      [Symbol.asyncIterator]: createAsyncIterableIterator,
+      next() {
+        return new Promise(init);
+        });
+      },
+    };
   };
 }
