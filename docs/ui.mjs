@@ -487,6 +487,11 @@ formElementTypes.set(symButton, createButton);
 
 function createFormFrame(args) {
   const div = document.createElement("div");
+  div.style.display = "block";
+  const divContent = document.createElement("div");
+  div.appendChild(divContent);
+  divContent.style.display = "flex";
+  divContent.style.flexDirection = "column";
   const elements = new Map();
   const obj = {
     addElement(args) {
