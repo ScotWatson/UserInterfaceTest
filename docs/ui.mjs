@@ -352,9 +352,9 @@ function createView(args) {
   }
   const obj = {
     addFrame(args) {
-      const { type, title } = args;
+      const { type, title, args: frameArgs } = args;
       const funcCreate = frameTypes.get(type);
-      const { div: divFrame, obj: objFrame } = funcCreate(args);
+      const { div: divFrame, obj: objFrame } = funcCreate(frameArgs);
       frames.push({
         title,
         div: divFrame,
