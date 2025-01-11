@@ -38,7 +38,7 @@ function start([ Page, UI ]) {
   multiSelect.setText("Multi-select");
   (async () => {
     for await (const event of multiSelect.clicked()) {
-      formView.addFrame({
+      const selection = formView.addFrame({
         title: "Multi-select",
         type: UI.symSelectFormFrame,
         args: {
@@ -60,6 +60,9 @@ function start([ Page, UI ]) {
           ],
         },
       });
+      selection.options[0].setText("Option #1");
+      selection.options[1].setPrompt("Option #2: Enter some text");
+      selection.options[2].setPrompt("Option #3: Enter a number");
     }
   })();
   const numericEntry = formFrame.addElement({
