@@ -621,7 +621,7 @@ function createTextEntry(args) {
 }
 function createSelectFormFrame(args) {
   const { minOptions, maxOptions, options } = args;
-  const optionLines = [];
+  const optionLines = new Map();
   if ((minOptions < 0) || (minOptions > options.length)) {
     throw new Error("Invalid minOptions value: " + minOptions + ", must be between 0 & " + options.length);
   }
