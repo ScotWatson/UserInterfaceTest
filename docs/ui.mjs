@@ -795,7 +795,7 @@ function createSelectFormFrame(args) {
     }
   };
   const obj = {
-    lines,
+    lines: optionLines.values(),
   };
   return {
     div,
