@@ -92,21 +92,21 @@ function start([ Page, UI ]) {
   const tilesView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "Tiles",
-    topType: UI.symTilesView,
+    topType: UI.symTilesFrame,
     topTitle: "Tiles",
   });
   const tilesFrame = tilesView.topFrame;
   const listView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "List",
-    topType: UI.symListView,
+    topType: UI.symListFrame,
     topTitle: "List",
   });
   const listFrame = tilesView.topFrame;
   const mapView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "Map",
-    topType: UI.symMapView,
+    topType: UI.symMapFrame,
     topTitle: "Map",
   });
   const mapFrame = mapView.topFrame;
