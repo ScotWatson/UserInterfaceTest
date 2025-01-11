@@ -900,8 +900,8 @@ function createTextDisplay(args) {
       divPrimary.innerHTML = "";
       divPrimary.append(text);
     },
-    clicked: factoryAsyncIterableIterator((yield, final) => {
-      div.addEventListener("click", yield);
+    clicked: factoryAsyncIterableIterator((generate, final) => {
+      div.addEventListener("click", generate);
     }),
   };
   return {
@@ -928,8 +928,8 @@ function createButton(args) {
     btn.innerHTML = args.caption;
   }
   const obj = {
-    clicked: factoryAsyncIterableIterator((yield, final) => {
-      btn.addEventListener("click", yield);
+    clicked: factoryAsyncIterableIterator((generate, final) => {
+      btn.addEventListener("click", generate);
     }),
   };
   return {
@@ -943,7 +943,7 @@ function factoryAsyncIterableIterator(init) {
       [Symbol.asyncIterator]: createAsyncIterableIterator,
       next() {
         return new Promise((resolve, reject) => {
-          function yield(value) {
+          function generate(value) {
             resolve({
               value,
               done: false,
@@ -956,7 +956,7 @@ function factoryAsyncIterableIterator(init) {
             });
           }
           try {
-            const value = init(yield, final, reject);
+            const value = init(generate, final, reject);
           } catch (e) {
             reject(e);
           }
