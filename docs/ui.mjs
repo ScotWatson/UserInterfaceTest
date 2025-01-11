@@ -744,11 +744,13 @@ function createSelectFormFrame(args) {
       divHeader.appendChild(divRequired);
       divRequired.style.display = "block";
       divRequired.style.gridArea = "required";
+      divRequired.style.fontSize = "24pt";
       divRequired.innerHTML = minOptions + " to " + maxOptions + " of " + options.length;
       const divCurrent = document.createElement("div");
       divHeader.appendChild(divCurrent);
       divCurrent.style.display = "block";
       divCurrent.style.gridArea = "current";
+      divCurrent.style.fontSize = "24pt";
       divCurrent.innerHTML = 0 + " of " + options.length;
       function refreshCurrent() {
         let numSelected = 0;
@@ -789,9 +791,11 @@ function createSelectFormFrame(args) {
           element: objElement,
           select() {
             imgSelect.src = urlIconMultiSelected.toString();
+            refreshCurrent();
           },
           unselect() {
             imgSelect.src = urlIconUnselected.toString();
+            refreshCurrent();
           },
           isSelected() {
             return !(imgSelect.src === urlIconUnselected.toString());
