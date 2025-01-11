@@ -924,8 +924,7 @@ function factoryAsyncIterableIterator(init) {
       [Symbol.asyncIterator]: createAsyncIterableIterator,
       next() {
         return new Promise(init);
-        });
-      },
+      }
     };
   };
 }
