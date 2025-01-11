@@ -697,6 +697,8 @@ function createSelectFormFrame(args) {
         divOption.style.gridTemplateAreas = '"select element"';
         const funcCreate = formElementTypes.get(option.type);
         const { div: divElement, obj: objElement } = funcCreate(args);
+        divElement.style.gridArea = "element";
+        divOption.appendChild(divElement);
         const objOption = {
           element: objElement,
           select() {},
@@ -773,6 +775,8 @@ function createSelectFormFrame(args) {
         imgSelect.style.gridArea = "select";
         const funcCreate = formElementTypes.get(option.type);
         const { div: divElement, obj: objElement } = funcCreate(args);
+        divElement.style.gridArea = "element";
+        divOption.appendChild(divElement);
         const objOption = {
           element: objElement,
           select() {
