@@ -631,6 +631,7 @@ function createTextEntry(args) {
 function createSelectFormFrame(args) {
   const { minOptions, maxOptions, options } = args;
   const optionLines = new Map();
+  const optionsArray = [];
   if ((minOptions < 0) || (minOptions > options.length)) {
     throw new Error("Invalid minOptions value: " + minOptions + ", must be between 0 & " + options.length);
   }
@@ -683,6 +684,7 @@ function createSelectFormFrame(args) {
           }
         }
         optionLines.set(objOption, { div: divOption, obj: objOption });
+        optionsArray.push(objOption);
         divContent.appendChild(divOption);
         imgSelect.addEventListener("click", objOption.select);
       }
@@ -715,6 +717,7 @@ function createSelectFormFrame(args) {
           },
         }
         optionLines.set(objOption, { div: divOption, obj: objOption });
+        optionsArray.push(objOption);
         divContent.appendChild(divOption);
       }
     }
@@ -788,6 +791,7 @@ function createSelectFormFrame(args) {
           },
         }
         optionLines.set(objOption, { div: divOption, obj: objOption });
+        optionsArray.push(objOption);
         divContent.appendChild(divOption);
         imgSelect.addEventListener("click", () => {
           if (objOption.isSelected()) {
@@ -797,14 +801,13 @@ function createSelectFormFrame(args) {
           }
         });
       }
-      let lines = optionLines.values();
       for (let i = 0; i < minOptions; ++i) {
-        lines[i].select();
+        optionsArray[i].select();
       }
     }
   };
   const obj = {
-    lines: optionLines.values(),
+    options: optionsArray,
   };
   return {
     div,
