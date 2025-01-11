@@ -879,7 +879,7 @@ function createTextDisplay(args) {
       divPrimary.append(text);
     },
     clicked: factoryAsyncIterableIterator((resolve, reject) => {
-      btn.addEventListener("click", (e) => {
+      div.addEventListener("click", (e) => {
         resolve(e);
       });
     }),
