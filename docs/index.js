@@ -33,7 +33,7 @@ function start([ Page, UI ]) {
   });
   textEntry.setPrompt("Text Prompt");
   const multiSelect = formFrame.addElement({
-    type: UI.symTestDisplay,
+    type: UI.symTextDisplay,
   });
   multiSelect.setPrompt("Multi-select");
   (async () => {
