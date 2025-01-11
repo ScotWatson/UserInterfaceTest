@@ -203,6 +203,7 @@ function createViewSelector(args) {
 
 const frameTypes = new Map();
 function createView(args) {
+  const { type, title, topType, topTitle } = args;
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.backgroundColor = "#00FF00";
