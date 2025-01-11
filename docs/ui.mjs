@@ -900,10 +900,8 @@ function createTextDisplay(args) {
       divPrimary.innerHTML = "";
       divPrimary.append(text);
     },
-    clicked: factoryAsyncIterableIterator((resolve, reject) => {
-      div.addEventListener("click", (e) => {
-        resolve(e);
-      });
+    clicked: factoryAsyncIterableIterator((yield, final) => {
+      div.addEventListener("click", yield);
     }),
   };
   return {
@@ -930,10 +928,8 @@ function createButton(args) {
     btn.innerHTML = args.caption;
   }
   const obj = {
-    clicked: factoryAsyncIterableIterator((resolve, reject) => {
-      btn.addEventListener("click", (e) => {
-        resolve(e);
-      });
+    clicked: factoryAsyncIterableIterator((yield, final) => {
+      btn.addEventListener("click", yield);
     }),
   };
   return {
@@ -946,7 +942,29 @@ function factoryAsyncIterableIterator(init) {
     return {
       [Symbol.asyncIterator]: createAsyncIterableIterator,
       next() {
-        return new Promise(init);
+        return new Promise((resolve, reject) => {
+          function yield(value) {
+            resolve({
+              value,
+              done: false,
+            });
+          }
+          function final(value) {
+            resolve({
+              value,
+              done: false,
+            });
+          }
+          try {
+            const value = init(yield, final);
+            resolve({
+              value,
+              done: true,
+            });
+          } catch (e) {
+            reject(e);
+          }
+        });
       }
     };
   };
