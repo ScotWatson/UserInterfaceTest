@@ -292,17 +292,24 @@ function createView(args) {
   divUltimateText.style.whiteSpace = "nowrap";
   divUltimateText.style.overflow = "hidden";
   divUltimateText.style.textOverflow = "ellipsis";
+  const frames = [];
+  function removeLastFrame() {
+    const removedFrame = frames.pop();
+    removedFrame.div.remove();
+  }
   imgHome.addEventListener("click", () => {
-    
+    while (frames.length > 1) {
+      removeLastFrame();
+    }
+    updateBreadcrumbs();
   });
   imgEllipsis.addEventListener("click", () => {
     
   });
   divPenultimate.addEventListener("click", () => {
-    frames.pop();
+    removeLastFrame();
     updateBreadcrumbs();
   });
-  const frames = [];
   function updateBreadcrumbs() {
     switch (frames.length) {
       case 0: {
@@ -379,7 +386,7 @@ function createView(args) {
       if (frames.length === 1) {
         throw new Error("No more frames to remove.");
       }
-      frames.pop();
+      removeLastFrame();
       updateBreadcrumbs();
     },
   };
