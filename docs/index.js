@@ -35,7 +35,7 @@ function start([ Page, UI ]) {
   const multiSelect = formFrame.addElement({
     type: UI.symTextDisplay,
   });
-  multiSelect.setPrompt("Multi-select");
+  multiSelect.setText("Multi-select");
   (async () => {
     for await (const event of multiSelect.clicked()) {
       formView.addFrame({
