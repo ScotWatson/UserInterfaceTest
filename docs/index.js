@@ -60,9 +60,9 @@ function start([ Page, UI ]) {
           ],
         },
       });
-      selection.options[0].setText("Option #1");
-      selection.options[1].setPrompt("Option #2: Enter some text");
-      selection.options[2].setPrompt("Option #3: Enter a number");
+      selection.options[0].element.setText("Option #1");
+      selection.options[1].element.setPrompt("Option #2: Enter some text");
+      selection.options[2].element.setPrompt("Option #3: Enter a number");
     }
   })();
   const numericEntry = formFrame.addElement({
