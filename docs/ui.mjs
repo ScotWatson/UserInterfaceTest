@@ -304,6 +304,7 @@ function createView(args) {
         // Empty
         divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
+        imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
         divPenultimate.innerHTML = "";
         divUltimate.style.display = "block";
@@ -314,6 +315,7 @@ function createView(args) {
         // Home Only
         divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
+        imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
         divPenultimate.innerHTML = "";
         divUltimate.style.display = "block";
@@ -325,6 +327,7 @@ function createView(args) {
         // One level
         divBreadcrumbs.style.gridTemplateColumns = "50px 1fr 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home penultimate ultimate"';
+        imgEllipsis.style.display = "none";
         divPenultimate.style.display = "block";
         divPenultimate.innerHTML = "";
         divPenultimate.append(frames[frames.length - 2].title);
@@ -337,6 +340,7 @@ function createView(args) {
         // Multiple Levels
         divBreadcrumbs.style.gridTemplateColumns = "50px 50px 1fr 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
+        imgEllipsis.style.display = "block";
         divPenultimate.style.display = "block";
         divPenultimate.innerHTML = "";
         divPenultimate.append(frames[frames.length - 2].title);
