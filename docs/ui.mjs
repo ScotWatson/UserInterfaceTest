@@ -754,7 +754,7 @@ function createSelectFormFrame(args) {
       divCurrent.innerHTML = 0 + " of " + options.length;
       function refreshCurrent() {
         let numSelected = 0;
-        for (const { obj: objOption } of optionsArray) {
+        for (const objOption of optionsArray) {
           if (objOption.isSelected()) {
             ++numSelected;
           }
