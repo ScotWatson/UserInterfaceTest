@@ -727,8 +727,8 @@ function createSelectFormFrame(args) {
       div.appendChild(divHeader);
       divHeader.style.display = "grid";
       divHeader.style.gridArea = "header";
-      divHeader.style.gridTemplateRows = "1fr 1fr";
-      divHeader.style.gridTemplateColumns = "1fr";
+      divHeader.style.gridTemplateRows = "1fr";
+      divHeader.style.gridTemplateColumns = "1fr 1fr";
       divHeader.style.gridTemplateAreas = '"required current"';
       const divRequired = document.createElement("div");
       div.appendChild(divRequired);
@@ -738,7 +738,7 @@ function createSelectFormFrame(args) {
       const divCurrent = document.createElement("div");
       div.appendChild(divCurrent);
       divCurrent.style.display = "block";
-      divCurrent.style.gridArea = "required";
+      divCurrent.style.gridArea = "current";
       divCurrent.innerHTML = 0 + " of " + options.length;
       function refreshCurrent() {
         let numSelected = 0;
