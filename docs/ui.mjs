@@ -956,11 +956,7 @@ function factoryAsyncIterableIterator(init) {
             });
           }
           try {
-            const value = init(yield, final);
-            resolve({
-              value,
-              done: true,
-            });
+            const value = init(yield, final, reject);
           } catch (e) {
             reject(e);
           }
