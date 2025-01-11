@@ -794,6 +794,9 @@ function createSelectFormFrame(args) {
       }
     }
   };
+  const obj = {
+    lines,
+  };
   return {
     div,
     obj,
