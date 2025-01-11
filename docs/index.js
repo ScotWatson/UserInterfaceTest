@@ -85,32 +85,29 @@ function start([ Page, UI ]) {
   });
   */
   (async () => {
-    for await (const event of button.click()) {
+    for await (const event of button.clicked()) {
       window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
     }
   })();
   const tilesView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "Tiles",
-    type: UI.symTilesView,
+    topType: UI.symTilesView,
+    topTitle: "Tiles",
   });
-  const tilesFrame = tilesView.addFrame({
-    type: UI.symTilesFrame,
-  });
+  const tilesFrame = tilesView.topFrame;
   const listView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "List",
-    type: UI.symListView,
+    topType: UI.symListView,
+    topTitle: "List",
   });
-  const listFrame = tilesView.addFrame({
-    type: UI.symListFrame,
-  });
+  const listFrame = tilesView.topFrame;
   const mapView = windowObj.addView({
     icon: "./icons/home.svg",
     title: "Map",
-    type: UI.symMapView,
+    topType: UI.symMapView,
+    topTitle: "Map",
   });
-  const mapFrame = mapView.addFrame({
-    type: UI.symMapFrame,
-  });
+  const mapFrame = mapView.topFrame;
 }
