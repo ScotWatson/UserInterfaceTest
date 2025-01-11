@@ -654,7 +654,7 @@ function createSelectFormFrame(args) {
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
-        div.appendChild(imgSelect);
+        divOption.appendChild(imgSelect);
         imgSelect.src = "./icons/unselected.svg";
         imgSelect.style.display = "block";
         imgSelect.style.gridArea = "select";
@@ -720,8 +720,8 @@ function createSelectFormFrame(args) {
     }
     default: {
       div.style.display = "grid";
-      div.style.gridTemplateRows = "1fr";
-      div.style.gridTemplateColumns = "50px 1fr";
+      div.style.gridTemplateRows = "50px 1fr";
+      div.style.gridTemplateColumns = "1fr";
       div.style.gridTemplateAreas = '"header" "scroll"';
       const divHeader = document.createElement("div");
       div.appendChild(divHeader);
@@ -753,7 +753,7 @@ function createSelectFormFrame(args) {
       const divScroll = document.createElement("div");
       div.appendChild(divScroll);
       divScroll.style.display = "block";
-      divScroll.style.gridArea = "content";
+      divScroll.style.gridArea = "scroll";
       const divContent = document.createElement("div");
       divContent.style.display = "block";
       divScroll.appendChild(divContent);
@@ -767,7 +767,7 @@ function createSelectFormFrame(args) {
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
-        div.appendChild(imgSelect);
+        divOption.appendChild(imgSelect);
         imgSelect.src = "./icons/unselected.svg";
         imgSelect.style.display = "block";
         imgSelect.style.gridArea = "select";
