@@ -46,15 +46,15 @@ function start([ Page, UI ]) {
           maxOptions: 2,
           options: [
             {
-              type: symTextDisplay,
+              type: UI.symTextDisplay,
               args: {},
             },
             {
-              type: symTextEntry,
+              type: UI.symTextEntry,
               args: {},
             },
             {
-              type: symNumericEntry,
+              type: UI.symNumericEntry,
               args: {},
             },
           ],
