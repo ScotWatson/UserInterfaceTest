@@ -675,6 +675,7 @@ function createSelectFormFrame(args) {
         optionLines.set(objOption, { div: divOption, obj: objOption });
         divContent.appendChild(divOption);
         imgSelect.addEventListener("click", objOption.select);
+      }
     }
       break;
     case "allSelected": {
