@@ -3,6 +3,11 @@
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+const urlSelf = new URL(self.location);
+const urlIconUnselected = new URL("./icons/unselected.svg", urlSelf);
+const urlIconRadioSelected = new URL("./icons/radio-selected.svg", urlSelf);
+const urlIconMultiSelected = new URL("./icons/multi-selected.svg", urlSelf);
+
 function initialize() {
   document.body.style.margin = "0px";
   document.body.style.border = "0px";
@@ -666,15 +671,15 @@ function createSelectFormFrame(args) {
           element: objElement,
           select() {
             for (const { div: divElement, obj: objElement } of elements) {
-              divElement.children[0].src = "./icons/unselected.svg";
+              divElement.children[0].src = urlIconUnselected.toString();
             }
-            imgSelect.src = "./icons/radio-selected.svg"
+            imgSelect.src = urlIconRadioSelected.toString();
           },
           unselect() {
             throw new Error("Radio buttons cannot be unselected.");
           },
           isSelected() {
-            return !(imgSelect.src === "./icons/unselected.svg");
+            return !(imgSelect.src === urlIconUnselected.toString());
           }
         }
         optionLines.set(objOption, { div: divOption, obj: objOption });
@@ -711,13 +716,6 @@ function createSelectFormFrame(args) {
         }
         optionLines.set(objOption, { div: divOption, obj: objOption });
         divContent.appendChild(divOption);
-        imgSelect.addEventListener("click", () => {
-          if (objOption.isSelected()) {
-            objOption.unselect();
-          } else {
-            objOption.select();
-          }
-        });
       }
     }
     default: {
@@ -770,7 +768,7 @@ function createSelectFormFrame(args) {
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
         divOption.appendChild(imgSelect);
-        imgSelect.src = "./icons/unselected.svg";
+        imgSelect.src = urlIconUnselected.toString();
         imgSelect.style.display = "block";
         imgSelect.style.gridArea = "select";
         const funcCreate = formElementTypes.get(option.type);
@@ -780,13 +778,13 @@ function createSelectFormFrame(args) {
         const objOption = {
           element: objElement,
           select() {
-            imgSelect.src = "./icons/multi-selected.svg";
+            imgSelect.src = urlIconMultiSelected.toString();
           },
           unselect() {
-            imgSelect.src = "./icons/unselected.svg";
+            imgSelect.src = urlIconUnselected.toString();
           },
           isSelected() {
-            return !(imgSelect.src === "./icons/unselected.svg");
+            return !(imgSelect.src === urlIconUnselected.toString());
           },
         }
         optionLines.set(objOption, { div: divOption, obj: objOption });
