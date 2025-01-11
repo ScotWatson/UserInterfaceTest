@@ -731,12 +731,12 @@ function createSelectFormFrame(args) {
       divHeader.style.gridTemplateColumns = "1fr 1fr";
       divHeader.style.gridTemplateAreas = '"required current"';
       const divRequired = document.createElement("div");
-      div.appendChild(divRequired);
+      divHeader.appendChild(divRequired);
       divRequired.style.display = "block";
       divRequired.style.gridArea = "required";
       divRequired.innerHTML = minOptions + " to " + maxOptions + " of " + options.length;
       const divCurrent = document.createElement("div");
-      div.appendChild(divCurrent);
+      divHeader.appendChild(divCurrent);
       divCurrent.style.display = "block";
       divCurrent.style.gridArea = "current";
       divCurrent.innerHTML = 0 + " of " + options.length;
@@ -752,11 +752,14 @@ function createSelectFormFrame(args) {
       }
       const divScroll = document.createElement("div");
       div.appendChild(divScroll);
+      divScroll.style.display = "block";
+      divScroll.style.gridArea = "content";
       const divContent = document.createElement("div");
+      divContent.style.display = "block";
       divScroll.appendChild(divContent);
       for (const option of options) {
         const divOption = document.createElement("div");
-        div.appendChild(divOption);
+        divContent.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
         divOption.style.height = "50px";
