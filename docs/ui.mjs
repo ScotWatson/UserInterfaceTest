@@ -545,9 +545,47 @@ function createListFrame(args) {
 }
 function createMapFrame(args) {
   const divTop = document.createElement("div");
-  const canvas = document.createElement("canvas");
+  const canvas = document.createElement("canvas", {
+    alpha: false,
+    colorSpace: "srgb",
+    desynchronized: true,
+    willReadFrequently: false,
+  });
   const { div: divItem, obj: objItem } = createItemDetail(args);
-  objItem.mainFrame.append("contents");
+  objItem.mainFrame.append(canvas);
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  const ctx = canvas.getContext("2d");
+
+  (async () => {
+    const image = new Image();
+    const response = await fetch(new URL("./map-of-the-world-2241469.png", urlSelf));
+    image.src = URL.createObjectURL(await response.blob());
+    await image.decode();
+    return await window.createImageBitmap();
+  })();
+  let viewport = null;
+  function createNewViewport() {
+    const VPcanvas = new OffscreenCanvas(canvas.width, canvas.height);
+    const obj = {
+      ctx: VPcanvas.getContext("2d"),
+      accept() {
+        
+      },
+    }
+    const transform = ctx.getTransform().invertSelf();
+    const pointUL = (new DOMPoint(0, 0)).matrixTransform(transform);
+    const pointUR = (new DOMPoint(width, 0)).matrixTransform(transform);
+    const pointLL = (new DOMPoint(0, height)).matrixTransform(transform);
+    const pointLR = (new DOMPoint(width, height)).matrixTransform(transform);
+    return obj;
+  }
+  function render() {
+    
+  }
+  
+  
+  ctx.putImage();
   const obj = {
   };
   return {
@@ -941,6 +979,12 @@ function createButton(args) {
     div,
     obj,
   };
+}
+function createVerticalCenteredText() {
+  
+}
+function createVerticalScrollable() {
+  
 }
 function factoryAsyncIterableIterator(init) {
   return function createAsyncIterableIterator() {
