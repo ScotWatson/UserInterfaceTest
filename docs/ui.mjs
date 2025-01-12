@@ -165,6 +165,7 @@ function createViewSelector(args) {
         divViewTitle.style.alignItems = "center";
       }
       divViewTitle.style.gridArea = "title";
+      divViewTitle.style.height = "100%";
       const divViewTitleText = document.createElement("div");
       divViewTitle.appendChild(divViewTitleText);
       divViewTitleText.innerHTML = title;
