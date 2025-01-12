@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- (c) 2025 Scot Watson  All Rights Reserved -->
+<svg stroke="#000000" viewBox="0 0 1 1" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="0.25" cy="0.25" r="0.05" stroke-width="0" fill="#000000"/>
+  <path d="M 0.4 0.25 h 0.35" stroke-width="0.1" stroke-linecap="round" fill="transparent"/>
+  <circle cx="0.25" cy="0.50" r="0.05" stroke-width="0" fill="#000000"/>
+  <path d="M 0.4 0.50 h 0.35" stroke-width="0.1" stroke-linecap="round" fill="transparent"/>
+  <circle cx="0.25" cy="0.75" r="0.05" stroke-width="0" fill="#000000"/>
+  <path d="M 0.4 0.75 h 0.35" stroke-width="0.1" stroke-linecap="round" fill="transparent"/>
+</svg>
