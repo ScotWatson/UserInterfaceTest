@@ -22,7 +22,7 @@ function start([ Page, UI ]) {
     appName: "TestApp",
   });
   const formView = windowObj.addView({
-    icon: "./icons/home.svg",
+    icon: "./icons/form.svg",
     title: "Form",
     topType: UI.symFormFrame,
     topTitle: "Form",
@@ -82,32 +82,27 @@ function start([ Page, UI ]) {
     type: UI.symButton,
     caption: "Submit",
   });
-  /*
-  button.addEventListener("click", () => {
-    window.alert("Clicked");
-  });
-  */
   (async () => {
     for await (const event of button.clicked()) {
       window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
     }
   })();
   const tilesView = windowObj.addView({
-    icon: "./icons/home.svg",
+    icon: "./icons/bento.svg",
     title: "Tiles",
     topType: UI.symTilesFrame,
     topTitle: "Tiles",
   });
   const tilesFrame = tilesView.topFrame;
   const listView = windowObj.addView({
-    icon: "./icons/home.svg",
+    icon: "./icons/list.svg",
     title: "List",
     topType: UI.symListFrame,
     topTitle: "List",
   });
   const listFrame = tilesView.topFrame;
   const mapView = windowObj.addView({
-    icon: "./icons/home.svg",
+    icon: "./icons/map.svg",
     title: "Map",
     topType: UI.symMapFrame,
     topTitle: "Map",
