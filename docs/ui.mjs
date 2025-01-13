@@ -566,12 +566,14 @@ function createMapFrame(args) {
   canvas.style.height = "100%";
   const canvasResize = new ResizeObserver((entries) => {
     for (const entry of entries) {
-      const canvasRect = canvas.getBoundingClientRect();
-      canvas.width = canvasRect.width;
-      canvas.height = canvasRect.height;
+      const canvasRect = entry.contentRect;
+      canvas.style.width = canvasRect.width + "px";
+      canvas.style.height = canvasRect.height + "px";
+      canvas.width = canvasRect.width * window.devicePixelRatio;
+      canvas.height = canvasRect.height * window.devicePixelRatio;
     }
   });
-  canvasResize.observe(canvas);
+  canvasResize.observe(div);
   const ctx = canvas.getContext("2d");
   const pointers = new Map();
   canvas.addEventListener("pointerdown", (evt) => {
