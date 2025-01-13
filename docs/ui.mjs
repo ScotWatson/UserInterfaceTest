@@ -544,50 +544,148 @@ function createListFrame(args) {
   };
 }
 function createMapFrame(args) {
-  const divTop = document.createElement("div");
+  const obj = {};
+  let changeViewport;
+  obj.viewportChanged = new EventGenerator((generate, final, reject) => {
+    changeViewport = generate;
+  });
   const canvas = document.createElement("canvas", {
     alpha: false,
     colorSpace: "srgb",
     desynchronized: true,
     willReadFrequently: false,
   });
+  obj.clicked = new EventGenerator((generate, final, reject) => {
+    canvas.addEventListener("click", generate);
+  });
   const { div: divItem, obj: objItem } = createItemDetail(args);
-  objItem.mainFrame.append(canvas);
+  const div = objItem.mainFrame;
+  div.append(canvas);
   canvas.style.width = "100%";
   canvas.style.height = "100%";
   const ctx = canvas.getContext("2d");
-
-  (async () => {
-    const image = new Image();
-    const response = await fetch(new URL("./map-of-the-world-2241469.png", urlSelf));
-    image.src = URL.createObjectURL(await response.blob());
-    await image.decode();
-    return await window.createImageBitmap();
-  })();
+  const pointers = new Map();
+  canvas.addEventListener("pointerdown", (evt) => {
+    pointers.set(evt.pointerId, new DOMPoint(evt.offsetX, evt.offsetY));
+    update();
+    evt.preventDefault();
+  });
+  canvas.addEventListener("pointermove", (evt) => {
+    const thisPointer = pointers.get(evt.pointerId);
+    thisPointer.x = evt.offsetX;
+    thisPointer.y = evt.offsetY;
+    update();
+    evt.preventDefault();
+  });
+  canvas.addEventListener("pointerup", (evt) => {
+    pointers.delete(evt.pointerId);
+    update();
+    evt.preventDefault();
+  });
+  let movement = null;
+  let baseTransform = null;
   let viewport = null;
+  function update() {
+    const pointerArray = Array.from(pointers.values());
+    switch (pointerArray.length) {
+      case 0: {
+        // end pan
+        if (movement === null) {
+          break;
+        }
+        baseTransform = ctx.getTransform();
+        createNewViewport();
+        movement = null;
+      }
+        break;
+      case 1: {
+        // panning, end zooming
+        if ((movement === null) || (movement.type !== "pan")) {
+          baseTransform = ctx.getTransform();
+          movement = {
+            type: "pan",
+            startPoint: new DOMPoint(pointerArray[0]),
+          };
+        } else {
+          const endPoint = pointerArray[0];
+          const workingTransform = baseTransform;
+          workingTransform.translate(endPoint.x - movement.startPoint.x, endPoint.y - movement.startPoint.y);
+          ctx.setTransform(workingTransform);
+          render();
+        }
+      }
+        break;
+      case 2: {
+        // panning & zooming
+        if ((movement === null) || (movement.type !== "panZoom")) {
+          baseTransform = ctx.getTransform();
+          movement = {
+            type: "pan",
+            startPoint: midpoint(pointerArray[0], pointerArray[1]),
+            startLength: distance(pointerArray[0], pointerArray[1]),
+          };
+        } else {
+          const endPoint = midpoint(pointerArray[0], pointerArray[1]);
+          const endLength = distance(pointerArray[0], pointerArray[1]);
+          const scale = endLength / startLength;
+          const workingTransform = baseTransform;
+          workingTransform.translateSelf(-movement.startPoint.x, -movement.startPoint.y);
+          workingTransform.scaleSelf(scale);
+          workingTransform.translateSelf(endPoint.x, endPoint.y);
+          ctx.setTransform(workingTransform);
+          render();
+        }
+      }
+        break;
+      default: {
+        // too many points, end panning & zooming
+        baseTransform = ctx.getTransform();
+        movement = null;
+        render();
+      }
+        break;
+    }
+  }
+  function midpoint(point1, point2) {
+    return new DOMPoint((point2.x + point1.x) / 2, (point2.y + point1.y) / 2);
+  }
+  function distance(point1, point2) {
+    return Math.sqrt((point2.x - point1.x)**2 + (point2.y - point1.y)**2);
+  }
   function createNewViewport() {
     const VPcanvas = new OffscreenCanvas(canvas.width, canvas.height);
-    const obj = {
+    const VPcanvasCtx = VPcanvas.getContext("2d");
+    VPcanvasCtx.drawImage(canvas, 0, 0);
+    VPcanvasCtx.setTransform(ctx.getTransform());
+    const thisViewport = {
       ctx: VPcanvas.getContext("2d"),
       accept() {
-        
+        viewport = obj;
       },
     }
+    const obj = {
+      viewport: thisViewport,
+    };
+    changeViewport(obj);
+  }
+  function getBounds(ctx) {
     const transform = ctx.getTransform().invertSelf();
-    const pointUL = (new DOMPoint(0, 0)).matrixTransform(transform);
-    const pointUR = (new DOMPoint(width, 0)).matrixTransform(transform);
-    const pointLL = (new DOMPoint(0, height)).matrixTransform(transform);
-    const pointLR = (new DOMPoint(width, height)).matrixTransform(transform);
-    return obj;
+    return {
+      pointUL: (new DOMPoint(0, 0)).matrixTransform(transform),
+      pointUR: (new DOMPoint(ctx.canvas.width, 0)).matrixTransform(transform),
+      pointLL: (new DOMPoint(0, ctx.canvas.height)).matrixTransform(transform),
+      pointLR: (new DOMPoint(ctx.canvas.width, ctx.canvas.height)).matrixTransform(transform),
+    };
   }
   function render() {
-    
+    const currentTransform = viewport.ctx.getTransform();
+    const workingTransform = ctx.getTransform();
+    ctx.save();
+    ctx.setTransform(workingTransform.multiply(currentTransform.invert()));
+    ctx.drawImage(viewport.ctx.canvas, 0, 0);
+    ctx.restore();
   }
-  
-  
-  ctx.putImage();
-  const obj = {
-  };
+  createNewViewport();
   return {
     div: divItem,
     obj,
@@ -943,7 +1041,7 @@ function createTextDisplay(args) {
       divPrimary.innerHTML = "";
       divPrimary.append(text);
     },
-    clicked: factoryAsyncIterableIterator((generate, final) => {
+    clicked: new EventGenerator((generate, final, reject) => {
       div.addEventListener("click", generate);
     }),
   };
@@ -971,7 +1069,7 @@ function createButton(args) {
     btn.innerHTML = args.caption;
   }
   const obj = {
-    clicked: factoryAsyncIterableIterator((generate, final) => {
+    clicked: new EventGenerator((generate, final, reject) => {
       btn.addEventListener("click", generate);
     }),
   };
@@ -986,31 +1084,81 @@ function createVerticalCenteredText() {
 function createVerticalScrollable() {
   
 }
-function factoryAsyncIterableIterator(init) {
-  return function createAsyncIterableIterator() {
+// Implements the iterable interface
+class EventGenerator {
+  #next;
+  constructor(init) {
+    let _resolve = null;
+    let _reject = null;
+    const next = () => {
+      this.#next = new Promise((resolve, reject) => {
+        _resolve = resolve;
+        _reject = reject;
+      });
+    }
+    function generate(value) {
+      _resolve({
+        value,
+        done: false,
+      });
+      next();
+    }
+    function final(value) {
+      _resolve({
+        value,
+        done: false,
+      });
+      next();
+    }
+    function reject(reason) {
+      _reject(reason);
+      next();
+    }
+    init(generate, final, reject);
+  }
+  [Symbol.asyncIterator]() {
     return {
-      [Symbol.asyncIterator]: createAsyncIterableIterator,
-      next() {
+      next: () => {
         return new Promise((resolve, reject) => {
-          function generate(value) {
-            resolve({
-              value,
-              done: false,
-            });
-          }
-          function final(value) {
-            resolve({
-              value,
-              done: false,
-            });
-          }
-          try {
-            const value = init(generate, final, reject);
-          } catch (e) {
-            reject(e);
-          }
+          this.#next.then(resolve, reject);
         });
-      }
+      },
     };
-  };
+  }
 }
+return function createAsyncIterableIterator() {
+  let _resolve = null;
+  let _reject = null;
+  function generate(value) {
+    _resolve({
+      value,
+      done: false,
+    });
+  }
+  function final(value) {
+    _resolve({
+      value,
+      done: false,
+    });
+  }
+  function reject(reason) {
+    _reject(reason);
+  }
+  init(generate, final, reject);
+  let _next = null;
+  return {
+    [Symbol.asyncIterator]() {
+      const newIter = createAsyncIterableIterator((generate, final, reject) => {
+        _next.then(generate);
+        _next.catch(reject);
+      });
+    },
+    next() {
+      _next = new Promise((resolve, reject) => {
+        _resolve = resolve;
+        _reject = reject;
+      });
+      return _next;
+    },
+  };
+};
