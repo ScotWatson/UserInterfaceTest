@@ -1115,6 +1115,7 @@ class EventGenerator {
       next();
     }
     init(generate, final, reject);
+    next();
   }
   [Symbol.asyncIterator]() {
     return {
