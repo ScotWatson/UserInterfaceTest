@@ -572,6 +572,7 @@ function createMapFrame(args) {
       canvas.style.height = canvasRect.height + "px";
       canvas.width = canvasRect.width * window.devicePixelRatio;
       canvas.height = canvasRect.height * window.devicePixelRatio;
+      createNewViewport();
     }
   });
   canvasResize.observe(div);
@@ -603,6 +604,9 @@ function createMapFrame(args) {
     ctx: VPcanvas.getContext("2d"),
     accept() {
     },
+  };
+  obj.getViewport = () => {
+    return viewport;
   };
   function update() {
     const pointerArray = Array.from(pointers.values());
