@@ -628,7 +628,7 @@ function createMapFrame(args) {
         } else {
           const endPoint = pointerArray[0];
           const workingTransform = baseTransform;
-          workingTransform.translate(endPoint.x - movement.startPoint.x, endPoint.y - movement.startPoint.y);
+          workingTransform.translateSelf(endPoint.x - movement.startPoint.x, endPoint.y - movement.startPoint.y);
           ctx.setTransform(workingTransform);
           render();
         }
