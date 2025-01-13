@@ -108,4 +108,17 @@ function start([ Page, UI ]) {
     topTitle: "Map",
   });
   const mapFrame = mapView.topFrame;
+  async staticImage(imageUrl) {
+    const image = new Image();
+    const response = await fetch(imageUrl);
+    image.src = URL.createObjectURL(await response.blob());
+    await image.decode();
+    const imageCanvas = new OfflineCanvas(image.naturalWidth, image.naturalHeight);
+    imageCanvasCtx = imageCanvas.getContext("2d");
+    imageCanvasCtx.drawImage(image, 0, 0);
+    for await (const event of mapFrame.viewportChanged) {
+      event.viewport.ctx.drawImage(image, 0, 0);
+    }
+  }
+  staticImage(new URL("./map-of-the-world-2241469.png", urlSelf));
 }
