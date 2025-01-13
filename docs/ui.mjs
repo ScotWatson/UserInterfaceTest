@@ -587,7 +587,12 @@ function createMapFrame(args) {
   });
   let movement = null;
   let baseTransform = null;
-  let viewport = null;
+  const VPcanvas = new OffscreenCanvas(canvas.width, canvas.height);
+  let viewport = {
+    ctx: VPcanvas.getContext("2d"),
+    accept() {
+    },
+  };
   function update() {
     const pointerArray = Array.from(pointers.values());
     switch (pointerArray.length) {
@@ -663,7 +668,7 @@ function createMapFrame(args) {
     const thisViewport = {
       ctx: VPcanvas.getContext("2d"),
       accept() {
-        viewport = obj;
+        viewport = thisViewport;
       },
     }
     const obj = {
