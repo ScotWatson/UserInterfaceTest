@@ -1126,7 +1126,7 @@ class EventGenerator {
     };
   }
 }
-return function createAsyncIterableIterator() {
+function createAsyncIterableIterator() {
   let _resolve = null;
   let _reject = null;
   function generate(value) {
