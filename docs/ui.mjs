@@ -623,7 +623,7 @@ function createMapFrame(args) {
           baseTransform = ctx.getTransform();
           movement = {
             type: "pan",
-            startPoint: new DOMPoint(pointerArray[0]),
+            startPoint: DOMPoint.fromPoint(pointerArray[0]),
           };
         } else {
           const endPoint = pointerArray[0];
