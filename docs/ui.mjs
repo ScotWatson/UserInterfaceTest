@@ -571,6 +571,7 @@ function createMapFrame(args) {
       canvas.height = canvasRect.height;
     }
   });
+  canvasResize.observe(canvas);
   const ctx = canvas.getContext("2d");
   const pointers = new Map();
   canvas.addEventListener("pointerdown", (evt) => {
