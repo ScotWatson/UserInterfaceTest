@@ -13,6 +13,7 @@ function initialize() {
   document.body.style.border = "0px";
   document.body.style.padding = "0px";
   document.body.style.boxSizing = "border-box";
+  document.body.style.touchAction = "none";
   const bodyShadowRoot = document.body.attachShadow({ mode: "closed" });
   const divWindow = document.createElement("div");
   document.body.appendChild(divWindow);
@@ -572,9 +573,11 @@ function createMapFrame(args) {
   });
   canvas.addEventListener("pointermove", (evt) => {
     const thisPointer = pointers.get(evt.pointerId);
-    thisPointer.x = evt.offsetX;
-    thisPointer.y = evt.offsetY;
-    update();
+    if (thisPointer) {
+      thisPointer.x = evt.offsetX;
+      thisPointer.y = evt.offsetY;
+      update();
+    }
     evt.preventDefault();
   });
   canvas.addEventListener("pointerup", (evt) => {
@@ -1084,7 +1087,7 @@ function createVerticalCenteredText() {
 function createVerticalScrollable() {
   
 }
-// Implements the iterable interface
+// Implements the async iterable interface
 class EventGenerator {
   #next;
   constructor(init) {
