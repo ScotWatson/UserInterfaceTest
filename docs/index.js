@@ -17,6 +17,8 @@ const loadingUI = import("./ui.mjs");
 
 Promise.all([ loadingPage, loadingUI ]).then(start);
 
+const urlSelf = new URL(self.location);
+
 function start([ Page, UI ]) {
   const windowObj = UI.rootViewSelector({
     appName: "TestApp",
