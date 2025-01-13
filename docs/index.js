@@ -115,7 +115,7 @@ function start([ Page, UI ]) {
     const response = await fetch(imageUrl);
     image.src = URL.createObjectURL(await response.blob());
     await image.decode();
-    const imageCanvas = new OfflineCanvas(image.naturalWidth, image.naturalHeight);
+    const imageCanvas = new OffscreenCanvas(image.naturalWidth, image.naturalHeight);
     imageCanvasCtx = imageCanvas.getContext("2d");
     imageCanvasCtx.drawImage(image, 0, 0);
     for await (const event of mapFrame.viewportChanged) {
