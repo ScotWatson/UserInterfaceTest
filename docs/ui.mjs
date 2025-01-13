@@ -562,6 +562,7 @@ function createMapFrame(args) {
   const { div: divItem, obj: objItem } = createItemDetail(args);
   const div = objItem.mainFrame;
   div.appendChild(canvas);
+  canvas.style.display = "block";
   canvas.style.width = "100%";
   canvas.style.height = "100%";
   const canvasResize = new ResizeObserver((entries) => {
