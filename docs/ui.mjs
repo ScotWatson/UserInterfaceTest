@@ -566,7 +566,7 @@ function createMapFrame(args) {
   canvas.style.height = "100%";
   const canvasResize = new ResizeObserver((entries) => {
     for (const entry of entries) {
-      const canvasRect = entry.contentRect;
+      const canvasRect = canvas.getClientBoundingRect();
       canvas.width = canvasRect.width;
       canvas.height = canvasRect.height;
     }
