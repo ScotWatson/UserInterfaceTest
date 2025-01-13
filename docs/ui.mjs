@@ -700,6 +700,7 @@ function createMapFrame(args) {
     const currentTransform = viewport.ctx.getTransform();
     const workingTransform = ctx.getTransform();
     ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.setTransform(workingTransform.multiply(currentTransform.inverse()));
     ctx.drawImage(viewport.ctx.canvas, 0, 0);
     ctx.restore();
