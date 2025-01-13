@@ -689,6 +689,7 @@ function createMapFrame(args) {
       ctx: VPcanvas.getContext("2d"),
       accept() {
         viewport = thisViewport;
+        render();
       },
     }
     const obj = {
@@ -715,6 +716,11 @@ function createMapFrame(args) {
     ctx.restore();
   }
   createNewViewport();
+  obj.setTransform = (transform) => {
+    ctx.setTransform(transform);
+    render();
+    createNewViewport();
+  }
   return {
     div: divItem,
     obj,
