@@ -37,7 +37,7 @@ function start([ Page, UI ]) {
   });
   multiSelect.setText("Multi-select");
   (async () => {
-    for await (const event of multiSelect.clicked()) {
+    for await (const event of multiSelect.clicked) {
       const selection = formView.addFrame({
         title: "Multi-select",
         type: UI.symSelectFormFrame,
@@ -83,7 +83,7 @@ function start([ Page, UI ]) {
     caption: "Submit",
   });
   (async () => {
-    for await (const event of button.clicked()) {
+    for await (const event of button.clicked) {
       window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
     }
   })();
