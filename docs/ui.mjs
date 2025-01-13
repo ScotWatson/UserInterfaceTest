@@ -565,9 +565,14 @@ function createMapFrame(args) {
   canvas.style.display = "block";
   canvas.style.width = "100%";
   canvas.style.height = "100%";
+  canvas.width = 1;
+  canvas.height = 1;
   const canvasResize = new ResizeObserver((entries) => {
     for (const entry of entries) {
       const canvasRect = entry.contentRect;
+      if ((canvasRect.width === 0) || (canvasRect.height === 0)) {
+        return;
+      }
       canvas.style.width = canvasRect.width + "px";
       canvas.style.height = canvasRect.height + "px";
       canvas.width = canvasRect.width * window.devicePixelRatio;
