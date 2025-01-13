@@ -561,9 +561,12 @@ function createMapFrame(args) {
   });
   const { div: divItem, obj: objItem } = createItemDetail(args);
   const div = objItem.mainFrame;
-  div.append(canvas);
+  div.appendChild(canvas);
   canvas.style.width = "100%";
   canvas.style.height = "100%";
+  const canvasRect = canvas.getBoundingClientRect();
+  canvas.width = canvasRect.width;
+  canvas.height = canvasRect.height;
   const ctx = canvas.getContext("2d");
   const pointers = new Map();
   canvas.addEventListener("pointerdown", (evt) => {
