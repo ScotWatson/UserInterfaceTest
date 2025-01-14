@@ -613,6 +613,9 @@ function createMapFrame(args) {
   obj.getViewport = () => {
     return viewport;
   };
+  function cloneDOMMatrix2D(matrix) {
+    return new DOMMatrix([ matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f ]);
+  }
   function update() {
     const pointerArray = Array.from(pointers.values());
     switch (pointerArray.length) {
@@ -636,7 +639,7 @@ function createMapFrame(args) {
           };
         } else {
           const endPoint = pointerArray[0];
-          const workingTransform = baseTransform;
+          const workingTransform = cloneDOMMatrix2D(baseTransform);
           workingTransform.translateSelf(endPoint.x - movement.startPoint.x, endPoint.y - movement.startPoint.y);
           ctx.setTransform(workingTransform);
           render();
@@ -656,7 +659,7 @@ function createMapFrame(args) {
           const endPoint = midpoint(pointerArray[0], pointerArray[1]);
           const endLength = distance(pointerArray[0], pointerArray[1]);
           const scale = endLength / startLength;
-          const workingTransform = baseTransform;
+          const workingTransform = cloneDOMMatrix2D(baseTransform);
           workingTransform.translateSelf(-movement.startPoint.x, -movement.startPoint.y);
           workingTransform.scaleSelf(scale);
           workingTransform.translateSelf(endPoint.x, endPoint.y);
@@ -710,6 +713,7 @@ function createMapFrame(args) {
     const currentTransform = viewport.ctx.getTransform();
     const workingTransform = ctx.getTransform();
     ctx.save();
+    ctx.resetTransform();
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.setTransform(workingTransform.multiply(currentTransform.inverse()));
     ctx.drawImage(viewport.ctx.canvas, 0, 0);
