@@ -617,7 +617,7 @@ function createMapFrame(args) {
   obj.getViewport = () => {
     return viewport;
   };
-  function cloneDOMMatrix2D(matrix) {
+  function cloneDOMMatrix2d(matrix) {
     return new DOMMatrix([ matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f ]);
   }
   function createTranslationMatrix2d({ tx, ty }) {
