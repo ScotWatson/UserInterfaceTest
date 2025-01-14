@@ -616,6 +616,15 @@ function createMapFrame(args) {
   function cloneDOMMatrix2D(matrix) {
     return new DOMMatrix([ matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f ]);
   }
+  function createTranslationMatrix2d({ tx, ty }) {
+    return (new DOMMatrix()).translateSelf(tx, ty);
+  }
+  function createScalingMatrix2d({ scaleX, scaleY }) {
+    return (new DOMMatrix()).scaleSelf(scaleX, scaleY);
+  }
+  function createRotationMatrix2d(rotX, rotY) {
+    return (new DOMMatrix()).rotateSelf(rotX, rotY);
+  }
   function update() {
     const pointerArray = Array.from(pointers.values());
     switch (pointerArray.length) {
@@ -639,9 +648,12 @@ function createMapFrame(args) {
           };
         } else {
           const endPoint = pointerArray[0];
-          const workingTransform = cloneDOMMatrix2D(baseTransform);
-          workingTransform.translateSelf(endPoint.x - movement.startPoint.x, endPoint.y - movement.startPoint.y);
-          ctx.setTransform(workingTransform);
+          const translation = createTranslationMatrix2d({
+            tx: endPoint.x - movement.startPoint.x,
+            ty: endPoint.y - movement.startPoint.y,
+          });
+          // Matricies must be multiplied in reverse order of application
+          ctx.setTransform(translation.multiply(baseTransform));
           render();
         }
       }
@@ -651,19 +663,28 @@ function createMapFrame(args) {
         if ((movement === null) || (movement.type !== "panZoom")) {
           baseTransform = ctx.getTransform();
           movement = {
-            type: "pan",
+            type: "panZoom",
             startPoint: midpoint(pointerArray[0], pointerArray[1]),
             startLength: distance(pointerArray[0], pointerArray[1]),
           };
         } else {
           const endPoint = midpoint(pointerArray[0], pointerArray[1]);
           const endLength = distance(pointerArray[0], pointerArray[1]);
-          const scale = endLength / startLength;
-          const workingTransform = cloneDOMMatrix2D(baseTransform);
-          workingTransform.translateSelf(-movement.startPoint.x, -movement.startPoint.y);
-          workingTransform.scaleSelf(scale);
-          workingTransform.translateSelf(endPoint.x, endPoint.y);
-          ctx.setTransform(workingTransform);
+          const scale = endLength / movement.startLength;
+          const translateStartToOrigin = createTranslationMatrix2d({
+            tx: -movement.startPoint.x,
+            ty: -movement.startPoint.y,
+          });
+          const scaling = createScalingMatrix2d({
+            scaleX: scale,
+            scaleY: scale,
+          });
+          const translateOriginToEnd = createTranslationMatrix2d({
+            tx: endPoint.x,
+            ty: endPoint.y,
+          });
+          // Matricies must be multiplied in reverse order of application
+          ctx.setTransform(translateOriginToEnd.multiply(scaling).multiply(translateStartToOrigin).multiply(baseTransform));
           render();
         }
       }
