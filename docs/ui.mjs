@@ -562,6 +562,7 @@ function createMapFrame(args) {
   const { div: divItem, obj: objItem } = createItemDetail(args);
   const div = objItem.mainFrame;
   div.appendChild(canvas);
+  div.style.overflow = "hidden";
   canvas.style.display = "block";
   canvas.style.width = "100%";
   canvas.style.height = "100%";
@@ -711,7 +712,7 @@ function createMapFrame(args) {
     VPcanvasCtx.drawImage(canvas, 0, 0);
     VPcanvasCtx.setTransform(ctx.getTransform());
     const thisViewport = {
-      ctx: VPcanvas.getContext("2d"),
+      ctx: VPcanvasCtx,
       accept() {
         viewport = thisViewport;
         render();
