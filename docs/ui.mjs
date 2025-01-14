@@ -582,7 +582,7 @@ function createMapFrame(args) {
       canvas.width = canvasRect.width * window.devicePixelRatio;
       canvas.height = canvasRect.height * window.devicePixelRatio;
       const newCenter = new DOMPoint(canvas.width / 2, canvas.height / 2);
-      const translate = createTranslationMatrix({
+      const translate = createTranslationMatrix2d({
         tx: newCenter.x - oldCenter.x,
         ty: newCenter.y - oldCenter.y,
       });
