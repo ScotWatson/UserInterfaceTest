@@ -575,12 +575,18 @@ function createMapFrame(args) {
       if ((canvasRect.width === 0) || (canvasRect.height === 0)) {
         return;
       }
-      const workingTransform = cloneDOMMatrix2d(ctx.getTransform());
+      const workingTransform = ctx.getTransform();
       canvas.style.width = canvasRect.width + "px";
       canvas.style.height = canvasRect.height + "px";
+      const oldCenter = new DOMPoint(canvas.width / 2, canvas.height / 2);
       canvas.width = canvasRect.width * window.devicePixelRatio;
       canvas.height = canvasRect.height * window.devicePixelRatio;
-      ctx.setTransform(workingTransform);
+      const newCenter = new DOMPoint(canvas.width / 2, canvas.height / 2);
+      const translate = createTranslationMatrix({
+        tx: newCenter.x - oldCenter.x,
+        ty: newCenter.y - oldCenter.y,
+      }
+      ctx.setTransform(translate.multiply(workingTransform));
       createNewViewport();
     }
   });
