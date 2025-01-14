@@ -585,7 +585,7 @@ function createMapFrame(args) {
       const translate = createTranslationMatrix({
         tx: newCenter.x - oldCenter.x,
         ty: newCenter.y - oldCenter.y,
-      }
+      });
       ctx.setTransform(translate.multiply(workingTransform));
       createNewViewport();
     }
