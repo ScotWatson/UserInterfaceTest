@@ -565,6 +565,7 @@ function createMapFrame(args) {
   canvas.style.display = "block";
   canvas.style.width = "100%";
   canvas.style.height = "100%";
+  canvas.style.touchAction = "none";
   canvas.width = 1;
   canvas.height = 1;
   const canvasResize = new ResizeObserver((entries) => {
