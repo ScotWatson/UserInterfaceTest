@@ -557,7 +557,11 @@ function createMapFrame(args) {
     willReadFrequently: false,
   });
   obj.clicked = new EventGenerator((generate, final, reject) => {
-    canvas.addEventListener("click", generate);
+    canvas.addEventListener("click", (evt) => {
+      generate({
+        point: new DOMPoint(evt.offsetX * window.devicePixelRatio, evt.offsetY * window.devicePixelRatio),
+      });
+    });
   });
   const { div: divItem, obj: objItem } = createItemDetail(args);
   const div = objItem.mainFrame;
