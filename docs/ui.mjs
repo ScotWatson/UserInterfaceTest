@@ -560,7 +560,7 @@ function createMapFrame(args) {
     canvas.addEventListener("click", (evt) => {
       const viewportPoint = new DOMPoint(evt.offsetX * window.devicePixelRatio, evt.offsetY * window.devicePixelRatio);
       generate({
-        point: viewportPoint.matrixTransform(viewport.getTransform().inverse()),
+        point: viewportPoint.matrixTransform(ctx.getTransform().inverse()),
       });
     });
   });
