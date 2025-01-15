@@ -417,7 +417,7 @@ function createItemDetail(args) {
   divItemDetail.style.gridTemplateColumns = "1fr";
   divItemDetail.style.gridTemplateRows = "50px 1fr";
   divItemDetail.style.gridTemplateAreas = '"topBar" "content"';
-  divItemDetail.style.backgroundColor = "#800000";
+  divItemDetail.style.backgroundColor = "white";
   divItemDetail.style.borderLeft = "1px solid black";
 
   const divItemTopBar = document.createElement("div");
@@ -427,7 +427,7 @@ function createItemDetail(args) {
   divItemTopBar.style.gridTemplateColumns = "50px 1fr 50px";
   divItemTopBar.style.gridTemplateRows = "50px";
   divItemTopBar.style.gridTemplateAreas = '"close title actions"';
-  divItemTopBar.style.backgroundColor = "#000040";
+  divItemTopBar.style.backgroundColor = "white";
 
   const imgClose = document.createElement("img");
   divItemTopBar.appendChild(imgClose);
@@ -456,7 +456,7 @@ function createItemDetail(args) {
   imgActions.style.backgroundColor = "white";
   imgActions.style.boxSizing = "border-box";
 
-  const { div: divItemContent, obj: objItem } = createFormFrame();
+  const { div: divItemContent, obj: objItemContent } = createFormFrame();
   divItemDetail.appendChild(divItemContent);
   divItemContent.style.gridArea = "content";
 
@@ -485,13 +485,13 @@ function createItemDetail(args) {
   let itemCallback = null;
   const obj = {
     openItemDetail() {
-      objItem.clear();
-      itemCallback(objItem);
+      objItemContent.clear();
+      itemCallback(objItemContent, objItem);
       openItemDetail();
     },
     closeItemDetail() {
       closeItemDetail();
-      divItemContent.innerHTML = "";
+      objItemContent.clear();
     },
     mainFrame: divMain,
     setItemCallback(newCallback) {
@@ -516,13 +516,34 @@ frameTypes.set(symListFrame, createListFrame);
 frameTypes.set(symMapFrame, createMapFrame);
 
 function createTilesFrame(args) {
-  const div = document.createElement("div");
-  const divScroll = document.createElement("div");
+  const { div: div, obj: objScroll } = createVerticalScrollable();
+  const divScroll = objScroll.content;
+  divScroll.style.display = "flex";
+  divScroll.style.flexDirection = "row";
+  divScroll.style.flexWrap = "wrap";
+  divScroll.style.justifyContent = "space-around";
+  divScroll.style.alignItems = "center";
+  divScroll.style.alignContent = "space-around";
+  divScroll.style.backgroundColor = "grey";
+  divScroll.style.boxSizing = "border-box";
   const elements = [];
   const { div: divItem, obj: objItem } = createItemDetail(args);
-  objItem.mainFrame.append("contents");
+  objItem.mainFrame.append(div);
   const obj = {
-    addElement({ icon, title }) {
+    addItem({ icon, title }) {
+      const divNewTile = document.createElement("div");
+      divScroll.appendChild(divNewTile);
+      divNewTile.style.display = "block";
+      divNewTile.style.width = "96px"; // ~1 in
+      divNewTile.style.aspectRatio = "1";
+      divNewTile.style.border = "1px solid black";
+      divNewTile.appendChild(document.createTextNode(title));
+      divNewTile.addEventListener("click", (evt) => {
+        objItem.openItemPanel();
+      });
+    },
+    clearAllTiles() {
+      divScroll.innerHTML = "";
     },
   };
   return {
@@ -797,6 +818,10 @@ function createFormFrame(args) {
       elements.set(objElement, { div: divElement, obj: objElement });
       div.appendChild(divElement);
       return objElement;
+    },
+    clear() {
+      divContent.textContent = "";
+      elements.clear();
     },
   };
   return {
@@ -1160,7 +1185,24 @@ function createVerticalCenteredText() {
   
 }
 function createVerticalScrollable() {
-  
+  const div = document.createElement("div");
+  div.style.display = "block";
+  div.style.backgroundColor = "white";
+  div.style.overflowX = "hidden";
+  div.style.overflowY = "scroll";
+  div.style.boxSizing = "border-box";
+  div.style.border = "1px solid black";
+  const divScroll = document.createElement("div");
+  div.appendChild(divScroll);
+  divScroll.style.left = "5%";
+  divScroll.style.width = "90%";
+  const obj = {
+    content: divScroll,
+  };
+  return {
+    div,
+    obj,
+  };
 }
 // Implements the async iterable interface
 class EventGenerator {
@@ -1205,39 +1247,3 @@ class EventGenerator {
     };
   }
 }
-function createAsyncIterableIterator() {
-  let _resolve = null;
-  let _reject = null;
-  function generate(value) {
-    _resolve({
-      value,
-      done: false,
-    });
-  }
-  function final(value) {
-    _resolve({
-      value,
-      done: false,
-    });
-  }
-  function reject(reason) {
-    _reject(reason);
-  }
-  init(generate, final, reject);
-  let _next = null;
-  return {
-    [Symbol.asyncIterator]() {
-      const newIter = createAsyncIterableIterator((generate, final, reject) => {
-        _next.then(generate);
-        _next.catch(reject);
-      });
-    },
-    next() {
-      _next = new Promise((resolve, reject) => {
-        _resolve = resolve;
-        _reject = reject;
-      });
-      return _next;
-    },
-  };
-};
