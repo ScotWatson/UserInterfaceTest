@@ -594,15 +594,15 @@ function createMapFrame(args) {
   const ctx = canvas.getContext("2d");
   const pointers = new Map();
   canvas.addEventListener("pointerdown", (evt) => {
-    pointers.set(evt.pointerId, new DOMPoint(evt.offsetX, evt.offsetY));
+    pointers.set(evt.pointerId, new DOMPoint(evt.offsetX * window.devicePixelRatio, evt.offsetY * window.devicePixelRatio));
     update();
     evt.preventDefault();
   });
   canvas.addEventListener("pointermove", (evt) => {
     const thisPointer = pointers.get(evt.pointerId);
     if (thisPointer) {
-      thisPointer.x = evt.offsetX;
-      thisPointer.y = evt.offsetY;
+      thisPointer.x = evt.offsetX * window.devicePixelRatio;
+      thisPointer.y = evt.offsetY * window.devicePixelRatio;
       update();
     }
     evt.preventDefault();
@@ -749,7 +749,9 @@ function createMapFrame(args) {
     ctx.setTransform(workingTransform.multiply(currentTransform.inverse()));
     ctx.drawImage(viewport.ctx.canvas, 0, 0);
     ctx.restore();
+    requestAnimationFrame(render);
   }
+  requestAnimationFrame(render);
   createNewViewport();
   obj.setTransform = (transform) => {
     ctx.setTransform(transform);
