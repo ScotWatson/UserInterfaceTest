@@ -530,17 +530,24 @@ function createTilesFrame(args) {
   const { div: divItem, obj: objItem } = createItemDetail(args);
   objItem.mainFrame.append(div);
   const obj = {
-    addItem({ icon, title }) {
+    addItem({ icon, title, item }) {
       const divNewTile = document.createElement("div");
       divScroll.appendChild(divNewTile);
+      const imgIcon = document.createElement("div");
+      divNewTile.appendChild(imgIcon);
+      imgIcon.src = icon;
+      const divTitle = document.createElement("div");
+      divNewTile.appendChild(divTitle);
+      divTitle.append(title);
       divNewTile.style.display = "block";
       divNewTile.style.width = "96px"; // ~1 in
       divNewTile.style.aspectRatio = "1";
       divNewTile.style.border = "1px solid black";
-      divNewTile.appendChild(document.createTextNode(title));
       divNewTile.addEventListener("click", (evt) => {
-        objItem.openItemPanel();
+        objItem.openItemPanel(item);
       });
+      return {
+      };
     },
     clearAllTiles() {
       divScroll.innerHTML = "";
