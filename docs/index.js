@@ -118,10 +118,18 @@ function start([ Page, UI ]) {
     const imageCanvas = new OffscreenCanvas(image.naturalWidth, image.naturalHeight);
     imageCanvasCtx = imageCanvas.getContext("2d");
     imageCanvasCtx.drawImage(image, 0, 0);
-    for await (const event of mapFrame.viewportChanged) {
-      event.viewport.ctx.drawImage(image, 0, 0);
-      event.viewport.accept();
-    }
+    (async () => {
+      for await (const event of mapFrame.viewportChanged) {
+        event.viewport.ctx.drawImage(image, 0, 0);
+        event.viewport.accept();
+      }
+    })();
+    (async () => {
+      for await (const event of mapFrame.clicked) {
+        console.log(event.point);
+        console.log(mapFrame.viewport.ctx.isPointInPath(path, event.point.x, event.point.y));
+      }
+    })();
   }
   staticImage(new URL("./map-of-the-world-2241469.png", urlSelf));
 }
