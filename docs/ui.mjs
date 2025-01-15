@@ -558,8 +558,9 @@ function createMapFrame(args) {
   });
   obj.clicked = new EventGenerator((generate, final, reject) => {
     canvas.addEventListener("click", (evt) => {
+      const viewportPoint = new DOMPoint(evt.offsetX * window.devicePixelRatio, evt.offsetY * window.devicePixelRatio);
       generate({
-        point: new DOMPoint(evt.offsetX * window.devicePixelRatio, evt.offsetY * window.devicePixelRatio),
+        point: viewportPoint.matrixTransform(viewport.getTransform().inverse()),
       });
     });
   });
