@@ -131,7 +131,7 @@ function start([ Page, UI ]) {
         console.log(event.point);
         const path = new Path2D("M 200 200 l 200 0 l 0 200 l -200 0 l 0 -200");
         console.log(mapFrame.getViewport().ctx.isPointInPath(path, event.point.x, event.point.y));
-        viewport.ctx.strokePath(path);
+        viewport.ctx.stroke(path);
       }
     })();
   }
