@@ -96,6 +96,24 @@ function start([ Page, UI ]) {
     topTitle: "Tiles",
   });
   const tilesFrame = tilesView.topFrame;
+  tilesFrame.addItem({
+    icon: "./icons/home.svg",
+    title: "Home",
+    item: {
+      description: "This is the first item.",
+    },
+  });
+  tilesFrame.addItem({
+    icon: "./icons/home.svg",
+    title: "Second",
+    item: {
+      description: "This is the second item.",
+    },
+  });
+  tilesFrame.setCallback(({ objItemContent, objItem }) => {
+    const description = objItemContent.addElement(UI.symTextDisplay, {});
+    description.setText(objItem.description);
+  });
   const listView = windowObj.addView({
     icon: "./icons/list.svg",
     title: "List",
