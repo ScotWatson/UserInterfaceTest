@@ -128,10 +128,10 @@ function start([ Page, UI ]) {
     })();
     (async () => {
       for await (const event of mapFrame.clicked) {
-        console.log(event.point);
+        console.log(event);
         const path = new Path2D("M 200 200 l 200 0 l 0 200 l -200 0 l 0 -200");
-        console.log(mapFrame.getViewport().ctx.isPointInPath(path, event.point.x, event.point.y));
-        viewport.ctx.stroke(path);
+        console.log(mapFrame.getViewport().ctx.isPointInPath(path, event.canvasPoint.x, event.canvasPoint.y));
+        mapFrame.getViewport().ctx.stroke(path);
       }
     })();
   }
