@@ -544,7 +544,7 @@ function createTilesFrame(args) {
       divNewTile.style.aspectRatio = "1";
       divNewTile.style.border = "1px solid black";
       divNewTile.addEventListener("click", (evt) => {
-        objItem.openItemPanel(item);
+        objItem.openItemDetail(item);
       });
       return {
       };
