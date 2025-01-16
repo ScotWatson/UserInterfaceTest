@@ -524,7 +524,6 @@ function createTilesFrame(args) {
   divScroll.style.justifyContent = "space-around";
   divScroll.style.alignItems = "center";
   divScroll.style.alignContent = "space-around";
-  divScroll.style.backgroundColor = "grey";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
   const { div: divItem, obj: objItem } = createItemDetail(args);
@@ -1197,16 +1196,17 @@ function createVerticalCenteredText() {
 function createVerticalScrollable() {
   const div = document.createElement("div");
   div.style.display = "block";
-  div.style.backgroundColor = "white";
+  div.style.backgroundColor = "#C0C0C0";
   div.style.overflowX = "hidden";
   div.style.overflowY = "scroll";
   div.style.boxSizing = "border-box";
-  div.style.border = "1px solid black";
   const divScroll = document.createElement("div");
   div.appendChild(divScroll);
-  divScroll.style.paddingLeft = "5%";
-  divScroll.style.paddingRight = "5%";
-  divScroll.style.width = "90%";
+  divScroll.style.marginLeft = "1%";
+  divScroll.style.marginRight = "1%";
+  divScroll.style.width = "98%";
+  divScroll.style.scrollbarWidth = "none";
+  divScroll.style.backgroundColor = "white";
   const obj = {
     content: divScroll,
   };
