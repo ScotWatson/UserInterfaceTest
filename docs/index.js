@@ -132,6 +132,35 @@ function start([ Page, UI ]) {
     topTitle: "List",
   });
   const listFrame = tilesView.topFrame;
+  listFrame.addItem({
+    icon: "./icons/home.svg",
+    title: "Home",
+    item: {
+      description: "This is the first item.",
+    },
+  });
+  listFrame.addItem({
+    icon: "./icons/home.svg",
+    title: "Second",
+    item: {
+      description: "This is the second item.",
+    },
+  });
+  for (let i = 3; i < 40; ++i) {
+    listFrame.addItem({
+      icon: "./icons/home.svg",
+      title: i + "th",
+      item: {
+        description: "This is the " + i + "th item.",
+      },
+    });
+  }
+  listFrame.setCallback(({ objItemContent, objItem }) => {
+    const description = objItemContent.addElement({
+      type: UI.symTextDisplay,
+    });
+    description.setText(objItem.description);
+  });
   const mapView = windowObj.addView({
     icon: "./icons/map.svg",
     title: "Map",
