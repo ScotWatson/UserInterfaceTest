@@ -486,7 +486,7 @@ function createItemDetail(args) {
   const obj = {
     openItemDetail(objItem) {
       objItemContent.clear();
-      itemCallback(objItemContent, objItem);
+      itemCallback({ objItemContent, objItem });
       openItemDetail();
     },
     closeItemDetail() {
