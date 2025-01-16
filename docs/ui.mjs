@@ -1200,12 +1200,12 @@ function createVerticalScrollable() {
   div.style.overflowX = "hidden";
   div.style.overflowY = "scroll";
   div.style.boxSizing = "border-box";
+  div.style.scrollbarWidth = "none";
   const divScroll = document.createElement("div");
   div.appendChild(divScroll);
   divScroll.style.marginLeft = "1%";
   divScroll.style.marginRight = "1%";
   divScroll.style.width = "98%";
-  divScroll.style.scrollbarWidth = "none";
   divScroll.style.backgroundColor = "white";
   const obj = {
     content: divScroll,
