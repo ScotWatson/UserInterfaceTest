@@ -596,7 +596,7 @@ function createListFrame(args) {
       divNewLine.style.display = "grid";
       divNewLine.style.gridTemplateRows = "50px";
       divNewLine.style.gridTemplateColumns = "50px 1fr";
-      divNewLine.style.gridTemplateAreas = "icon title";
+      divNewLine.style.gridTemplateAreas = '"icon title"';
       divNewLine.style.width = "100%";
       divNewLine.addEventListener("click", (evt) => {
         objItem.openItemDetail(item);
