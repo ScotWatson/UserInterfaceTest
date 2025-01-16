@@ -555,7 +555,7 @@ function createTilesFrame(args) {
       return {
       };
     },
-    clearAllTiles() {
+    clearAllItems() {
       divScroll.innerHTML = "";
     },
     setCallback(callback) {
@@ -568,13 +568,48 @@ function createTilesFrame(args) {
   };
 }
 function createListFrame(args) {
-  const divTop = document.createElement("div");
+  const { div: div, obj: objScroll } = createVerticalScrollable();
+  const divScroll = objScroll.content;
+  divScroll.style.display = "flex";
+  divScroll.style.flexDirection = "column";
+  divScroll.style.flexWrap = "no-wrap";
+  divScroll.style.justifyContent = "space-around";
+  divScroll.style.alignItems = "center";
+  divScroll.style.alignContent = "space-around";
+  divScroll.style.boxSizing = "border-box";
   const elements = [];
   const { div: divItem, obj: objItem } = createItemDetail(args);
-  objItem.mainFrame.append("contents");
+  objItem.mainFrame.append(div);
   const obj = {
-    addItem() {
+    addItem({ icon, title, item }) {
+      const divNewLine = document.createElement("div");
+      divScroll.appendChild(divNewLine);
+      const imgIcon = document.createElement("img");
+      divNewLine.appendChild(imgIcon);
+      imgIcon.style.gridArea = "icon";
+      imgIcon.src = icon;
+      imgIcon.style.aspectRatio = "1";
+      const divTitle = document.createElement("div");
+      divNewLine.appendChild(divTitle);
+      divTitle.style.gridArea = "title";
+      divTitle.append(title);
+      divNewLine.style.display = "grid";
+      divNewLine.style.gridTemplateRows = "1fr";
+      divNewLine.style.gridTemplateColumns = "50px 1fr";
+      divNewLine.style.gridTemplateAreas = "icon title";
+      divNewLine.style.width = "100%";
+      divNewLine.addEventListener("click", (evt) => {
+        objItem.openItemDetail(item);
+      });
+      return {
+      };
     },
+    clearAllItems() {
+      divScroll.innerHTML = "";
+    },
+    setCallback(callback) {
+      objItem.setItemCallback(callback);
+    }
   };
   return {
     div: divItem,
