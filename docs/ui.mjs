@@ -594,7 +594,7 @@ function createListFrame(args) {
       divTitle.style.gridArea = "title";
       divTitle.append(title);
       divNewLine.style.display = "grid";
-      divNewLine.style.gridTemplateRows = "1fr";
+      divNewLine.style.gridTemplateRows = "50px";
       divNewLine.style.gridTemplateColumns = "50px 1fr";
       divNewLine.style.gridTemplateAreas = "icon title";
       divNewLine.style.width = "100%";
