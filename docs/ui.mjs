@@ -538,7 +538,7 @@ function createTilesFrame(args) {
     addItem({ icon, title, item }) {
       const divNewTile = document.createElement("div");
       divScroll.appendChild(divNewTile);
-      const imgIcon = document.createElement("div");
+      const imgIcon = document.createElement("img");
       divNewTile.appendChild(imgIcon);
       imgIcon.src = icon;
       const divTitle = document.createElement("div");
@@ -548,6 +548,7 @@ function createTilesFrame(args) {
       divNewTile.style.width = "96px"; // ~1 in
       divNewTile.style.aspectRatio = "1";
       divNewTile.style.border = "1px solid black";
+      divNewTile.style.margin = "2%";
       divNewTile.addEventListener("click", (evt) => {
         objItem.openItemDetail(item);
       });
