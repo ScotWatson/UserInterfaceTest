@@ -20,6 +20,7 @@ function initialize() {
   divWindow.style.display = "grid";
   divWindow.style.width = "100%";
   divWindow.style.backgroundColor = "black";
+  divWindow.style.overflow = "hidden";
   const resize = () => {
     divWindow.style.height = window.innerHeight + "px";
   };
@@ -52,6 +53,7 @@ function createViewSelector(args) {
   div.style.width = "100%";
   div.style.height = "100%";
   div.style.gridTemplateAreas = '"hamburger view" "views view"';
+  div.style.overflow = "hidden";
   if (!args) {
     args = {};
   }
@@ -81,7 +83,6 @@ function createViewSelector(args) {
   divAppName.style.height = "50px";
   divAppName.style.fontSize = "24pt";
   divAppName.style.overflow = "hidden";
-
   const divViewButtonsContainer = document.createElement("div");
   div.appendChild(divViewButtonsContainer);
   divViewButtonsContainer.style.display = "block";
@@ -89,7 +90,7 @@ function createViewSelector(args) {
   divViewButtonsContainer.style.backgroundColor = "#00FF00";
   divViewButtonsContainer.style.border = "0px";
   divViewButtonsContainer.style.boxSizing = "border-box";
-
+  divViewButtonsContainer.style.overflow = "hidden";
   const divViewButtons = document.createElement("div");
   divViewButtonsContainer.appendChild(divViewButtons);
   divViewButtons.style.display = "block";
@@ -97,6 +98,7 @@ function createViewSelector(args) {
   divViewButtons.style.backgroundColor = "#00FF00";
   divViewButtons.style.border = "0px";
   divViewButtons.style.boxSizing = "border-box";
+  divViewButtons.style.overflow = "hidden";
 
   const views = new Map();
   collapseViewsMenu();
@@ -217,6 +219,7 @@ function createView(args) {
   div.style.gridTemplateColumns = "1fr";
   div.style.gridTemplateRows = "50px 1fr";
   div.style.gridTemplateAreas = '"topBar" "content"';
+  div.style.overflow = "hidden";
 
   const divTopBar = document.createElement("div");
   div.appendChild(divTopBar);
@@ -409,6 +412,7 @@ function createItemDetail(args) {
   div.style.gridTemplateColumns = "1fr 1fr";
   div.style.gridTemplateRows = "1fr";
   div.style.gridTemplateAreas = '"main item"';
+  div.style.overflow = "hidden";
 
   const divItemDetail = document.createElement("div");
   div.appendChild(divItemDetail);
@@ -419,6 +423,7 @@ function createItemDetail(args) {
   divItemDetail.style.gridTemplateAreas = '"topBar" "content"';
   divItemDetail.style.backgroundColor = "white";
   divItemDetail.style.borderLeft = "1px solid black";
+  divItemDetail.style.overflow = "hidden";
 
   const divItemTopBar = document.createElement("div");
   divItemDetail.appendChild(divItemTopBar);
@@ -481,6 +486,7 @@ function createItemDetail(args) {
   div.appendChild(divMain);
   divMain.style.display = "block";
   divMain.style.gridArea = "main";
+  divMain.style.overflow = "hidden";
 
   let itemCallback = null;
   const obj = {
@@ -814,6 +820,7 @@ formElementTypes.set(symButton, createButton);
 function createFormFrame(args) {
   const div = document.createElement("div");
   div.style.display = "block";
+  div.style.overflow = "hidden";
   const divContent = document.createElement("div");
   div.appendChild(divContent);
   divContent.style.display = "flex";
