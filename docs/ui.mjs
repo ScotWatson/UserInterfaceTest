@@ -9,6 +9,10 @@ const urlIconRadioSelected = new URL("./icons/radio-selected.svg", urlSelf);
 const urlIconMultiSelected = new URL("./icons/multi-selected.svg", urlSelf);
 
 function initialize() {
+  const metaWidth = document.createElement("meta");
+  metaWidth.name = "viewport";
+  metaWidth.width = "device-width";
+  document.head.appendChild();
   document.body.style.margin = "0px";
   document.body.style.border = "0px";
   document.body.style.padding = "0px";
