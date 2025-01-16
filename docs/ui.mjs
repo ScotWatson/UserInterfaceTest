@@ -12,7 +12,7 @@ function initialize() {
   const metaWidth = document.createElement("meta");
   metaWidth.name = "viewport";
   metaWidth.width = "device-width";
-  document.head.appendChild();
+  document.head.appendChild(metaWidth);
   document.body.style.margin = "0px";
   document.body.style.border = "0px";
   document.body.style.padding = "0px";
