@@ -1208,6 +1208,7 @@ function createVerticalScrollable() {
   div.style.overflowY = "scroll";
   div.style.boxSizing = "border-box";
   div.style.scrollbarWidth = "none";
+  div.style.height = "100%";
   const divScroll = document.createElement("div");
   div.appendChild(divScroll);
   divScroll.style.marginLeft = "1%";
