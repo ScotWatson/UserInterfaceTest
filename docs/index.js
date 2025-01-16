@@ -111,7 +111,9 @@ function start([ Page, UI ]) {
     },
   });
   tilesFrame.setCallback(({ objItemContent, objItem }) => {
-    const description = objItemContent.addElement(UI.symTextDisplay, {});
+    const description = objItemContent.addElement({
+      type: UI.symTextDisplay,
+    });
     description.setText(objItem.description);
   });
   const listView = windowObj.addView({
