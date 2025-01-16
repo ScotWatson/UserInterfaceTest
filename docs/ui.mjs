@@ -11,7 +11,7 @@ const urlIconMultiSelected = new URL("./icons/multi-selected.svg", urlSelf);
 function initialize() {
   const metaWidth = document.createElement("meta");
   metaWidth.name = "viewport";
-  metaWidth.width = "device-width";
+  metaWidth.content = "width=device-width";
   document.head.appendChild(metaWidth);
   document.body.style.margin = "0px";
   document.body.style.border = "0px";
