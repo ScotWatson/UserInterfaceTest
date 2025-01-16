@@ -460,7 +460,7 @@ function createItemDetail(args) {
   divItemDetail.appendChild(divItemContent);
   divItemContent.style.gridArea = "content";
 
-  openItemDetail();
+  closeItemDetail();
 
   function openItemDetail() {
     div.style.gridTemplateColumns = "2fr 1fr";
@@ -552,6 +552,9 @@ function createTilesFrame(args) {
     clearAllTiles() {
       divScroll.innerHTML = "";
     },
+    setCallback(callback) {
+      objItem.setItemCallback(callback);
+    }
   };
   return {
     div: divItem,
