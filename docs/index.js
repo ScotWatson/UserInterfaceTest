@@ -131,7 +131,7 @@ function start([ Page, UI ]) {
     topType: UI.symListFrame,
     topTitle: "List",
   });
-  const listFrame = tilesView.topFrame;
+  const listFrame = listView.topFrame;
   listFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
