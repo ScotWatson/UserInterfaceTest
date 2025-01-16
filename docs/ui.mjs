@@ -826,7 +826,7 @@ function createFormFrame(args) {
       const funcCreate = formElementTypes.get(type);
       const { div: divElement, obj: objElement } = funcCreate(args);
       elements.set(objElement, { div: divElement, obj: objElement });
-      div.appendChild(divElement);
+      divContent.appendChild(divElement);
       return objElement;
     },
     clear() {
@@ -1204,7 +1204,8 @@ function createVerticalScrollable() {
   div.style.border = "1px solid black";
   const divScroll = document.createElement("div");
   div.appendChild(divScroll);
-  divScroll.style.left = "5%";
+  divScroll.style.paddingLeft = "5%";
+  divScroll.style.paddingRight = "5%";
   divScroll.style.width = "90%";
   const obj = {
     content: divScroll,
