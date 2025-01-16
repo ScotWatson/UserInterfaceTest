@@ -110,6 +110,15 @@ function start([ Page, UI ]) {
       description: "This is the second item.",
     },
   });
+  for (let i = 3; i < 40; ++i) {
+    tilesFrame.addItem({
+      icon: "./icons/home.svg",
+      title: i + "th",
+      item: {
+        description: "This is the " + i + "th item.",
+      },
+    });
+  }
   tilesFrame.setCallback(({ objItemContent, objItem }) => {
     const description = objItemContent.addElement({
       type: UI.symTextDisplay,
