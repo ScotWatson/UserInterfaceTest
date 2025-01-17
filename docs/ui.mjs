@@ -97,7 +97,7 @@ function createViewSelector(args) {
   const views = new Map();
   for (const view of args.views) {
     const { icon, title } = view;
-    const { div: divView, obj: objView } = createView(args);
+    const { div: divView, obj: objView } = createView(view);
     const btn = document.createElement("button");
     divViewButtons.appendChild(btn);
     btn.style.display = "grid";
