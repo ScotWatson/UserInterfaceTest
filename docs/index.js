@@ -26,25 +26,25 @@ function start([ Page, UI ]) {
       {
         icon: "./icons/form.svg",
         title: "Form",
-        topType: UI.symFormFrame,
+        topType: "form",
         topTitle: "Form",
       },
       {
         icon: "./icons/bento.svg",
         title: "Tiles",
-        topType: UI.symTilesFrame,
+        topType: "tiles",
         topTitle: "Tiles",
       },
       {
         icon: "./icons/list.svg",
         title: "List",
-        topType: UI.symListFrame,
+        topType: "list",
         topTitle: "List",
       },
       {
         icon: "./icons/map.svg",
         title: "Map",
-        topType: UI.symMapFrame,
+        topType: "map",
         topTitle: "Map",
       },
     ],
@@ -52,32 +52,32 @@ function start([ Page, UI ]) {
   const formView = windowObj.views[0];
   const formFrame = formView.topFrame;
   const textEntry = formFrame.addElement({
-    type: UI.symTextEntry,
+    type: "textEntry",
   });
   textEntry.setPrompt("Text Prompt");
   const multiSelect = formFrame.addElement({
-    type: UI.symTextDisplay,
+    type: "textDisplay",
   });
   multiSelect.setText("Multi-select");
   (async () => {
     for await (const event of multiSelect.clicked) {
       const selection = formView.addFrame({
         title: "Multi-select",
-        type: UI.symSelectFormFrame,
+        type: "selectForm",
         args: {
           minOptions: 0,
           maxOptions: 2,
           options: [
             {
-              type: UI.symTextDisplay,
+              type: "textDisplay",
               args: {},
             },
             {
-              type: UI.symTextEntry,
+              type: "textEntry",
               args: {},
             },
             {
-              type: UI.symNumericEntry,
+              type: "numericEntry",
               args: {},
             },
           ],
@@ -89,7 +89,7 @@ function start([ Page, UI ]) {
     }
   })();
   const numericEntry = formFrame.addElement({
-    type: UI.symNumericEntry,
+    type: "numericEntry",
   });
   numericEntry.setPrompt("Numeric Prompt");
   numericEntry.setLimits({
@@ -98,11 +98,11 @@ function start([ Page, UI ]) {
     interval: 1,
   });
   const textDisplay = formFrame.addElement({
-    type: UI.symTextDisplay,
+    type: "textDisplay",
   });
   textDisplay.setText("Test text".repeat(100));
   const button = formFrame.addElement({
-    type: UI.symButton,
+    type: "button",
     caption: "Submit",
   });
   (async () => {
@@ -168,7 +168,7 @@ function start([ Page, UI ]) {
   }
   listFrame.setCallback(({ objItemContent, objItem }) => {
     const description = objItemContent.addElement({
-      type: UI.symTextDisplay,
+      type: "textDisplay",
     });
     description.setText(objItem.description);
   });
