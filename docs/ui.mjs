@@ -64,27 +64,17 @@ function createViewSelector(args) {
   div.style.display = "grid";
   div.style.width = "100%";
   div.style.height = "100%";
-  div.style.gridTemplateColumns = "1fr 6fr";
-  div.style.gridTemplateRows = "var(--touch-size) 1fr";
-  div.style.gridTemplateAreas = '"hamburger view" "views view"';
+  div.style.gridTemplateColumns = "var(--touch-size) 6fr";
+  div.style.gridTemplateRows = "1fr";
+  div.style.gridTemplateAreas = '"views view"';
   div.style.overflow = "hidden";
   if (!args) {
     args = {};
   }
-  if (!args.logo) {
-    args.logo = "./icons/hamburger-menu.svg";
-  }
-  if (!args.appName) {
-    args.appName = "";
-  }
-  const divHamburger = document.createElement("div");
-  div.appendChild(divHamburger);
-  divHamburger.style.display = "grid";
-  divHamburger.style.gridArea = "hamburger";
-  divHamburger.style.backgroundColor = "#808080";
   const divViewButtons = document.createElement("div");
   div.appendChild(divViewButtons);
   divViewButtons.style.display = "flex";
+  divViewButtons.style.gridArea = "views";
   divViewButtons.style.flexDirection = "column";
   divViewButtons.style.placeContent = "space-around";
   divViewButtons.style.alignItems = "center";
