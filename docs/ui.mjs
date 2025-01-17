@@ -91,9 +91,9 @@ function createViewSelector(args) {
     const btn = document.createElement("button");
     divViewButtons.appendChild(btn);
     btn.style.display = "grid";
-    btn.style.gridTemplateColumns = "var(--touch-size) var(--caption-size)";
-    btn.style.gridTemplateRows = "var(--touch-size)";
-    btn.style.gridTemplateAreas = '"icon title"';
+    btn.style.gridTemplateColumns = "var(--touch-size)";
+    btn.style.gridTemplateRows = "var(--touch-size) var(--caption-size)";
+    btn.style.gridTemplateAreas = '"icon" "title"';
     btn.style.border = "0px";
     btn.style.margin = "0px";
     btn.style.padding = "0px";
