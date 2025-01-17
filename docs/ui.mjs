@@ -460,11 +460,11 @@ export const symSelectFormFrame = Symbol();
 export const symTilesFrame = Symbol();
 export const symListFrame = Symbol();
 export const symMapFrame = Symbol();
-frameTypes.set(symFormFrame, createFormFrame);
-frameTypes.set(symSelectFormFrame, createSelectFormFrame);
-frameTypes.set(symTilesFrame, createTilesFrame);
-frameTypes.set(symListFrame, createListFrame);
-frameTypes.set(symMapFrame, createMapFrame);
+frameTypes.set("form", createFormFrame);
+frameTypes.set("selectForm", createSelectFormFrame);
+frameTypes.set("tiles", createTilesFrame);
+frameTypes.set("list", createListFrame);
+frameTypes.set("map", createMapFrame);
 
 function createTilesFrame(args) {
   const { div: div, obj: objScroll } = createVerticalScrollable();
@@ -793,10 +793,10 @@ export const symTextDisplay = Symbol();
 export const symButton = Symbol();
 
 const formElementTypes = new Map();
-formElementTypes.set(symTextEntry, createTextEntry);
-formElementTypes.set(symNumericEntry, createNumericEntry);
-formElementTypes.set(symTextDisplay, createTextDisplay);
-formElementTypes.set(symButton, createButton);
+formElementTypes.set("textEntry", createTextEntry);
+formElementTypes.set("numericEntry", createNumericEntry);
+formElementTypes.set("textDisplay", createTextDisplay);
+formElementTypes.set("button", createButton);
 
 function createFormFrame(args) {
   const div = document.createElement("div");
