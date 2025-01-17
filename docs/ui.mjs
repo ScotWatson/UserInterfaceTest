@@ -58,6 +58,8 @@ function createViewSelector(args) {
   div.style.height = "100%";
   div.style.gridTemplateAreas = '"hamburger view" "views view"';
   div.style.overflow = "hidden";
+
+  
   if (!args) {
     args = {};
   }
