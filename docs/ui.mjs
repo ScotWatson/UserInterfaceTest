@@ -909,7 +909,7 @@ function createTextEntry(args) {
     imgIcon.style.display = "block";
   } else {
     div.style.gridTemplateColumns = "1fr";
-    div.style.gridTemplateRows = "1fr";
+    div.style.gridTemplateRows = "1fr 1fr";
     div.style.gridTemplateAreas = '"prompt" "input"';
   }
   const divPrompt = document.createElement("div");
