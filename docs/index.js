@@ -114,7 +114,7 @@ function start([ Page, UI ]) {
   });
   const tilesFrame = tilesView.assignView({
     type: "tiles",
-    type: "Tiles",
+    title: "Tiles",
   });
   tilesFrame.addItem({
     icon: "./icons/home.svg",
