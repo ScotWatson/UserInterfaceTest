@@ -64,6 +64,8 @@ function createViewSelector(args) {
   div.style.display = "grid";
   div.style.width = "100%";
   div.style.height = "100%";
+  div.style.gridTemplateColumns = "1fr 6fr";
+  div.style.gridTemplateRows = "var(--touch-size) 1fr";
   div.style.gridTemplateAreas = '"hamburger view" "views view"';
   div.style.overflow = "hidden";
   if (!args) {
@@ -93,44 +95,6 @@ function createViewSelector(args) {
   divViewButtons.style.overflow = "hidden";
 
   const views = new Map();
-  collapseViewsMenu();
-
-  function expandViewsMenu() {
-    div.style.gridTemplateColumns = "1fr 6fr";
-    div.style.gridTemplateRows = "var(--touch-size) 1fr";
-    imgLogo.src = args.logo;
-    divHamburger.style.gridTemplateColumns = "var(--touch-size) 1fr";
-    divHamburger.style.gridTemplateRows = "1fr";
-    divHamburger.style.gridTemplateAreas = '"appLogo appName"';
-    divAppName.style.display = "block";
-    for (const view of views.values()) {
-      const divViewTitle = view.btn.children[1];
-      divViewTitle.style.display = "flex";
-      divViewTitle.style.alignItems = "center";
-    }
-  }
-  function collapseViewsMenu() {
-    div.style.gridTemplateColumns = "var(--touch-size) 1fr";
-    div.style.gridTemplateRows = "var(--touch-size) 1fr";
-    imgLogo.src = "./icons/hamburger-menu.svg";
-    divHamburger.style.gridTemplateColumns = "var(--touch-size)";
-    divHamburger.style.gridTemplateRows = "1fr";
-    divHamburger.style.gridTemplateAreas = '"appLogo"';
-    divAppName.style.display = "none";
-    for (const view of views.values()) {
-      const divViewTitle = view.btn.children[1];
-      divViewTitle.style.display = "none";
-    }
-  }
-
-  imgLogo.addEventListener("click", () => {
-    if (divAppName.style.display === "none") {
-      expandViewsMenu();
-    } else {
-      collapseViewsMenu();
-    }
-  });
-
   for (const view of args.views) {
     const { icon, title } = view;
     const { div: divView, obj: objView } = createView(args);
