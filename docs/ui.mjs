@@ -107,11 +107,11 @@ function createNavigationTabBar(args) {
     imgView.style.display = "block";
     imgView.style.gridArea = "icon";
     const divTabTitle = document.createElement("div");
-    btn.appendChild(divViewTitle);
+    btn.appendChild(divTabTitle);
     divTabTitle.style.gridArea = "title";
     divTabTitle.style.height = "100%";
     const divTabTitleText = document.createElement("div");
-    divTabTitle.appendChild(divViewTitleText);
+    divTabTitle.appendChild(divTabTitleText);
     divTabTitleText.innerHTML = title;
     divTabTitleText.style.display = "block";
     divTabTitleText.style.width = "100%";
