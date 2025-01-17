@@ -26,31 +26,29 @@ function start([ Page, UI ]) {
       {
         icon: "./icons/form.svg",
         title: "Form",
-        topType: "form",
-        topTitle: "Form",
       },
       {
         icon: "./icons/bento.svg",
         title: "Tiles",
-        topType: "tiles",
-        topTitle: "Tiles",
       },
       {
         icon: "./icons/list.svg",
         title: "List",
-        topType: "list",
-        topTitle: "List",
       },
       {
         icon: "./icons/map.svg",
         title: "Map",
-        topType: "map",
-        topTitle: "Map",
       },
     ],
   });
-  const formView = windowObj.views[0];
-  const formFrame = formView.topFrame;
+  const formTab = windowObj.tabs[0];
+  const formView = formTab.assignView({
+    type: "breadcrumbs",
+  });
+  const formFrame = formView.assignView({
+    type: "form",
+    title: "Form",
+  });
   const textEntry = formFrame.addElement({
     type: "textEntry",
   });
@@ -110,8 +108,14 @@ function start([ Page, UI ]) {
       window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
     }
   })();
-  const tilesView = windowObj.views[1];
-  const tilesFrame = tilesView.topFrame;
+  const tilesTab = windowObj.tabs[1];
+  const tilesView = tilesTab.assignView({
+    type: "breadcrumbs",
+  });
+  const tilesFrame = tilesView.assignView({
+    type: "tiles",
+    type: "Tiles",
+  });
   tilesFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
@@ -141,8 +145,14 @@ function start([ Page, UI ]) {
     });
     description.setText(objItem.description);
   });
-  const listView = windowObj.views[2];
-  const listFrame = listView.topFrame;
+  const listTab = windowObj.tabs[2];
+  const listView = listTab.assignView({
+    type: "breadcrumbs",
+  });
+  const listFrame = listTab.assignView({
+    type: "list",
+    title: "List",
+  });
   listFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
@@ -172,8 +182,14 @@ function start([ Page, UI ]) {
     });
     description.setText(objItem.description);
   });
-  const mapView = windowObj.views[3];
-  const mapFrame = mapView.topFrame;
+  const mapTab = windowObj.tabs[3];
+  const mapView = mapTab.assignView({
+    type: "breadcrumbs",
+  });
+  const mapFrame = mapView.assignView({
+    type: "map",
+    title: "Map",
+  });
   async function staticImage(imageUrl) {
     const image = new Image();
     const response = await fetch(imageUrl);
