@@ -22,13 +22,34 @@ const urlSelf = new URL(self.location);
 function start([ Page, UI ]) {
   const windowObj = UI.rootViewSelector({
     appName: "TestApp",
+    views: [
+      {
+        icon: "./icons/form.svg",
+        title: "Form",
+        topType: UI.symFormFrame,
+        topTitle: "Form",
+      },
+      {
+        icon: "./icons/bento.svg",
+        title: "Tiles",
+        topType: UI.symTilesFrame,
+        topTitle: "Tiles",
+      },
+      {
+        icon: "./icons/list.svg",
+        title: "List",
+        topType: UI.symListFrame,
+        topTitle: "List",
+      },
+      {
+        icon: "./icons/map.svg",
+        title: "Map",
+        topType: UI.symMapFrame,
+        topTitle: "Map",
+      },
+    ],
   });
-  const formView = windowObj.addView({
-    icon: "./icons/form.svg",
-    title: "Form",
-    topType: UI.symFormFrame,
-    topTitle: "Form",
-  });
+  const formView = windowObj.views[0];
   const formFrame = formView.topFrame;
   const textEntry = formFrame.addElement({
     type: UI.symTextEntry,
@@ -89,12 +110,7 @@ function start([ Page, UI ]) {
       window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
     }
   })();
-  const tilesView = windowObj.addView({
-    icon: "./icons/bento.svg",
-    title: "Tiles",
-    topType: UI.symTilesFrame,
-    topTitle: "Tiles",
-  });
+  const tilesView = windowObj.views[1];
   const tilesFrame = tilesView.topFrame;
   tilesFrame.addItem({
     icon: "./icons/home.svg",
@@ -125,12 +141,7 @@ function start([ Page, UI ]) {
     });
     description.setText(objItem.description);
   });
-  const listView = windowObj.addView({
-    icon: "./icons/list.svg",
-    title: "List",
-    topType: UI.symListFrame,
-    topTitle: "List",
-  });
+  const listView = windowObj.views[2];
   const listFrame = listView.topFrame;
   listFrame.addItem({
     icon: "./icons/home.svg",
@@ -161,12 +172,7 @@ function start([ Page, UI ]) {
     });
     description.setText(objItem.description);
   });
-  const mapView = windowObj.addView({
-    icon: "./icons/map.svg",
-    title: "Map",
-    topType: UI.symMapFrame,
-    topTitle: "Map",
-  });
+  const mapView = windowObj.views[3];
   const mapFrame = mapView.topFrame;
   async function staticImage(imageUrl) {
     const image = new Image();
