@@ -22,7 +22,7 @@ const urlSelf = new URL(self.location);
 function start([ Page, UI ]) {
   const windowObj = UI.rootViewSelector({
     appName: "TestApp",
-    views: [
+    tabs: [
       {
         icon: "./icons/form.svg",
         title: "Form",
