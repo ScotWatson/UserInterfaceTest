@@ -19,6 +19,14 @@ function initialize() {
   document.body.style.boxSizing = "border-box";
   document.body.style.touchAction = "none";
   const bodyShadowRoot = document.body.attachShadow({ mode: "closed" });
+  const topStyleSheet = new CSSStyleSheet();
+  topStyleSheet.insertRule("* { --device-pixel-ratio: " + window.devicePixelRatio + "; }");
+  topStyleSheet.insertRule("* { --touch-size: 0.5in; }");
+  topStyleSheet.insertRule("* { --header-size: calc(30pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule("* { --subheader-size: calc(18pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule("* { --body-text-size: calc(12pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule("* { --caption-size: calc(9pt / var(--device-pixel-ratio)); }");
+  bodyShadowRoot.adoptedStyleSheets = [...bodyShadowRoot.adoptedStyleSheets, topStyleSheet];
   const divWindow = document.createElement("div");
   document.body.appendChild(divWindow);
   divWindow.style.display = "grid";
@@ -111,9 +119,9 @@ function createViewSelector(args) {
 
   function expandViewsMenu() {
     div.style.gridTemplateColumns = "1fr 6fr";
-    div.style.gridTemplateRows = "50px 1fr";
+    div.style.gridTemplateRows = "var(--touch-size) 1fr";
     imgLogo.src = args.logo;
-    divHamburger.style.gridTemplateColumns = "50px 1fr";
+    divHamburger.style.gridTemplateColumns = "var(--touch-size) 1fr";
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo appName"';
     divAppName.style.display = "block";
@@ -124,10 +132,10 @@ function createViewSelector(args) {
     }
   }
   function collapseViewsMenu() {
-    div.style.gridTemplateColumns = "50px 1fr";
-    div.style.gridTemplateRows = "50px 1fr";
+    div.style.gridTemplateColumns = "var(--touch-size) 1fr";
+    div.style.gridTemplateRows = "var(--touch-size) 1fr";
     imgLogo.src = "./icons/hamburger-menu.svg";
-    divHamburger.style.gridTemplateColumns = "50px";
+    divHamburger.style.gridTemplateColumns = "var(--touch-size)";
     divHamburger.style.gridTemplateRows = "1fr";
     divHamburger.style.gridTemplateAreas = '"appLogo"';
     divAppName.style.display = "none";
@@ -152,8 +160,8 @@ function createViewSelector(args) {
       const btn = document.createElement("button");
       divViewButtons.appendChild(btn);
       btn.style.display = "grid";
-      btn.style.gridTemplateColumns = "50px 1fr";
-      btn.style.gridTemplateRows = "50px";
+      btn.style.gridTemplateColumns = "var(--touch-size) 1fr";
+      btn.style.gridTemplateRows = "var(--touch-size)";
       btn.style.gridTemplateAreas = '"icon title"';
       btn.style.border = "0px";
       btn.style.margin = "0px";
@@ -179,7 +187,7 @@ function createViewSelector(args) {
       divViewTitle.appendChild(divViewTitleText);
       divViewTitleText.innerHTML = title;
       divViewTitleText.style.display = "block";
-      divViewTitleText.style.fontSize = "24pt";
+      divViewTitleText.style.fontSize = "var(--header-size)";
       divViewTitleText.style.whiteSpace = "nowrap";
       divViewTitleText.style.overflow = "hidden";
       divViewTitleText.style.textOverflow = "ellipsis";
@@ -223,7 +231,7 @@ function createView(args) {
   div.style.display = "grid";
   div.style.backgroundColor = "#00FF00";
   div.style.gridTemplateColumns = "1fr";
-  div.style.gridTemplateRows = "50px 1fr";
+  div.style.gridTemplateRows = "var(--touch-size) 1fr";
   div.style.gridTemplateAreas = '"topBar" "content"';
   div.style.overflow = "hidden";
 
@@ -232,8 +240,8 @@ function createView(args) {
   divTopBar.style.display = "grid";
   divTopBar.style.gridArea = "topBar";
   divTopBar.style.backgroundColor = "#FF0000";
-  divTopBar.style.gridTemplateColumns = "1fr 50px";
-  divTopBar.style.gridTemplateRows = "50px";
+  divTopBar.style.gridTemplateColumns = "1fr var(--touch-size)";
+  divTopBar.style.gridTemplateRows = "var(--touch-size)";
   divTopBar.style.gridTemplateAreas = '"breadcrumbs actions"';
 
   const divBreadcrumbs = document.createElement("div");
@@ -256,7 +264,7 @@ function createView(args) {
   imgHome.style.display = "block";
   imgHome.style.gridArea = "home";
   imgHome.style.backgroundColor = "white";
-  imgHome.style.height = "50px";
+  imgHome.style.height = "var(--touch-size)";
 
   const imgEllipsis = document.createElement("img");
   divBreadcrumbs.appendChild(imgEllipsis);
@@ -266,7 +274,7 @@ function createView(args) {
   imgEllipsis.style.backgroundColor = "white";
   imgEllipsis.style.borderLeft = "1px solid black";
   imgEllipsis.style.boxSizing = "border-box";
-  imgEllipsis.style.height = "50px";
+  imgEllipsis.style.height = "var(--touch-size)";
 
   const divPenultimate = document.createElement("div");
   divBreadcrumbs.appendChild(divPenultimate);
@@ -274,8 +282,8 @@ function createView(args) {
   divPenultimate.style.alignItems = "center";
   divPenultimate.style.gridArea = "penultimate";
   divPenultimate.style.backgroundColor = "white";
-  divPenultimate.style.height = "50px";
-  divPenultimate.style.fontSize = "24pt";
+  divPenultimate.style.height = "var(--touch-size)";
+  divPenultimate.style.fontSize = "var(--header-size)";
   divPenultimate.style.overflow = "hidden";
   divPenultimate.style.borderLeft = "1px solid black";
   divPenultimate.style.boxSizing = "border-box";
@@ -292,8 +300,8 @@ function createView(args) {
   divUltimate.style.alignItems = "center";
   divUltimate.style.gridArea = "ultimate";
   divUltimate.style.backgroundColor = "white";
-  divUltimate.style.height = "50px";
-  divUltimate.style.fontSize = "24pt";
+  divUltimate.style.height = "var(--touch-size)";
+  divUltimate.style.fontSize = "var(--header-size)";
   divUltimate.style.overflow = "hidden";
   divUltimate.style.borderLeft = "1px solid black";
   divUltimate.style.boxSizing = "border-box";
@@ -325,7 +333,7 @@ function createView(args) {
     switch (frames.length) {
       case 0: {
         // Empty
-        divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
@@ -336,7 +344,7 @@ function createView(args) {
         break;
       case 1: {
         // Home Only
-        divBreadcrumbs.style.gridTemplateColumns = "50px 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
@@ -348,7 +356,7 @@ function createView(args) {
         break;
       case 2: {
         // One level
-        divBreadcrumbs.style.gridTemplateColumns = "50px 1fr 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) 1fr 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home penultimate ultimate"';
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "block";
@@ -361,7 +369,7 @@ function createView(args) {
         break;
       default: {
         // Multiple Levels
-        divBreadcrumbs.style.gridTemplateColumns = "50px 50px 1fr 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) var(--touch-size) 1fr 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
         imgEllipsis.style.display = "block";
         divPenultimate.style.display = "block";
@@ -425,7 +433,7 @@ function createItemDetail(args) {
   divItemDetail.style.display = "grid";
   divItemDetail.style.gridArea = "item";
   divItemDetail.style.gridTemplateColumns = "1fr";
-  divItemDetail.style.gridTemplateRows = "50px 1fr";
+  divItemDetail.style.gridTemplateRows = "var(--touch-size) 1fr";
   divItemDetail.style.gridTemplateAreas = '"topBar" "content"';
   divItemDetail.style.backgroundColor = "white";
   divItemDetail.style.borderLeft = "1px solid black";
@@ -435,8 +443,8 @@ function createItemDetail(args) {
   divItemDetail.appendChild(divItemTopBar);
   divItemTopBar.style.display = "grid";
   divItemTopBar.style.gridArea = "topBar";
-  divItemTopBar.style.gridTemplateColumns = "50px 1fr 50px";
-  divItemTopBar.style.gridTemplateRows = "50px";
+  divItemTopBar.style.gridTemplateColumns = "var(--touch-size) 1fr var(--touch-size)";
+  divItemTopBar.style.gridTemplateRows = "var(--touch-size)";
   divItemTopBar.style.gridTemplateAreas = '"close title actions"';
   divItemTopBar.style.backgroundColor = "white";
 
@@ -551,7 +559,7 @@ function createTilesFrame(args) {
       divNewTile.appendChild(divTitle);
       divTitle.append(title);
       divNewTile.style.display = "block";
-      divNewTile.style.width = "96px"; // ~1 in
+      divNewTile.style.width = "calc(2 * var(--touch-size))"; // ~1 in
       divNewTile.style.aspectRatio = "1";
       divNewTile.style.border = "1px solid black";
       divNewTile.style.margin = "2%";
@@ -600,8 +608,8 @@ function createListFrame(args) {
       divTitle.style.gridArea = "title";
       divTitle.append(title);
       divNewLine.style.display = "grid";
-      divNewLine.style.gridTemplateRows = "50px";
-      divNewLine.style.gridTemplateColumns = "50px 1fr";
+      divNewLine.style.gridTemplateRows = "var(--touch-size)";
+      divNewLine.style.gridTemplateColumns = "var(--touch-size) 1fr";
       divNewLine.style.gridTemplateAreas = '"icon title"';
       divNewLine.style.width = "100%";
       divNewLine.addEventListener("click", (evt) => {
@@ -892,7 +900,7 @@ function createTextEntry(args) {
   div.style.display = "grid";
   div.style.width = "100%";
   if (args.icon) {
-    div.style.gridTemplateColumns = "50px 1fr";
+    div.style.gridTemplateColumns = "var(--touch-size) 1fr";
     div.style.gridTemplateRows = "1fr 1fr";
     div.style.gridTemplateAreas = '"icon prompt" "icon input"';
     const imgIcon = document.createElement("img");
@@ -908,7 +916,7 @@ function createTextEntry(args) {
   div.appendChild(divPrompt);
   divPrompt.style.display = "block";
   divPrompt.style.width = "100%";
-  divPrompt.style.fontSize = "12pt";
+  divPrompt.style.fontSize = "var(--subheader-size)";
   divPrompt.style.overflow = "hidden";
   const input = document.createElement("input");
   div.appendChild(input);
@@ -916,7 +924,7 @@ function createTextEntry(args) {
   input.style.display = "block";
   input.style.gridArea = "input";
   input.style.width = "100%";
-  input.style.fontSize = "12pt";
+  input.style.fontSize = "var(--body-text-size)";
   input.style.border = "1px solid black";
   input.style.boxSizing = "border-box";
   const obj = {
@@ -960,8 +968,8 @@ function createSelectFormFrame(args) {
         div.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "50px";
-        divOption.style.gridTemplateColumns = "50px 1fr";
+        divOption.style.height = "var(--touch-size)";
+        divOption.style.gridTemplateColumns = "var(--touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
@@ -1003,8 +1011,8 @@ function createSelectFormFrame(args) {
         div.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "50px";
-        divOption.style.gridTemplateColumns = "50px 1fr";
+        divOption.style.height = "var(--touch-size)";
+        divOption.style.gridTemplateColumns = "var(--touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const funcCreate = formElementTypes.get(option.type);
@@ -1028,7 +1036,7 @@ function createSelectFormFrame(args) {
     }
     default: {
       div.style.display = "grid";
-      div.style.gridTemplateRows = "50px 1fr";
+      div.style.gridTemplateRows = "var(--touch-size) 1fr";
       div.style.gridTemplateColumns = "1fr";
       div.style.gridTemplateAreas = '"header" "scroll"';
       const divHeader = document.createElement("div");
@@ -1042,13 +1050,13 @@ function createSelectFormFrame(args) {
       divHeader.appendChild(divRequired);
       divRequired.style.display = "block";
       divRequired.style.gridArea = "required";
-      divRequired.style.fontSize = "24pt";
+      divRequired.style.fontSize = "var(--header-size)";
       divRequired.innerHTML = minOptions + " to " + maxOptions + " of " + options.length;
       const divCurrent = document.createElement("div");
       divHeader.appendChild(divCurrent);
       divCurrent.style.display = "block";
       divCurrent.style.gridArea = "current";
-      divCurrent.style.fontSize = "24pt";
+      divCurrent.style.fontSize = "var(--header-size)";
       divCurrent.innerHTML = 0 + " of " + options.length;
       function refreshCurrent() {
         let numSelected = 0;
@@ -1072,8 +1080,8 @@ function createSelectFormFrame(args) {
         divContent.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "50px";
-        divOption.style.gridTemplateColumns = "50px 1fr";
+        divOption.style.height = "var(--touch-size)";
+        divOption.style.gridTemplateColumns = "var(--touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
@@ -1127,7 +1135,7 @@ function createNumericEntry(args) {
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.width = "100%";
-  div.style.height = "50px";
+  div.style.height = "var(--touch-size)";
   div.style.gridTemplateColumns = "1fr";
   div.style.gridTemplateRows = "1fr 2fr";
   div.style.gridTemplateAreas = '"prompt" "input"';
@@ -1139,7 +1147,7 @@ function createNumericEntry(args) {
   div.appendChild(divInput);
   divInput.style.display = "grid";
   divInput.style.gridArea = "input";
-  divInput.style.gridTemplateColumns = "1fr 50px";
+  divInput.style.gridTemplateColumns = "1fr var(--touch-size)";
   divInput.style.gridTemplateRows = "1fr";
   divInput.style.gridTemplateAreas = '"range number"';
   const inputRange = document.createElement("input");
@@ -1195,8 +1203,8 @@ function createTextDisplay(args) {
   div.appendChild(divPrimary);
   divPrimary.style.display = "block";
   divPrimary.style.width = "100%";
-  divPrimary.style.minHeight = "50px";
-  divPrimary.style.fontSize = "20pt";
+  divPrimary.style.minHeight = "var(--touch-size)";
+  divPrimary.style.fontSize = "var(--subheader-size)";
   const obj = {
     setText(text) {
       divPrimary.innerHTML = "";
@@ -1221,9 +1229,9 @@ function createButton(args) {
   btn.style.position = "relative";
   btn.style.top = "5px";
   btn.style.left = "10%";
-  btn.style.height = "40px";
+  btn.style.height = "var(--touch-size)";
   btn.style.width = "80%";
-  btn.style.borderRadius = "20px";
+  btn.style.borderRadius = "calc(0.4 * var(--touch-size))";
   btn.style.border = "0px";
   btn.style.backgroundColor = "#C0C0C0";
   if (typeof args.caption === "string") {
