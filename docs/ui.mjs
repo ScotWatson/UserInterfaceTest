@@ -318,9 +318,11 @@ function createBreadcrumbView(args) {
       }
     };
     for (const level of levels) {
-      frame.divViewContainer.style.display = "none";
+      level.divViewContainer.style.display = "none";
     }
-    levels[levels.length - 1].divViewContainer.style.display = "block";
+    if (levels.length >= 1) {
+      levels[levels.length - 1].divViewContainer.style.display = "block";
+    }
   }
   const obj = {
     assignView(args) {
