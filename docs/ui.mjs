@@ -123,11 +123,12 @@ function createNavigationTabBar(args) {
     div.appendChild(divViewContainer);
     divViewContainer.style.display = "none";
     divViewContainer.style.gridArea = "view";
+    divViewContainer.style.overflow = "hidden";
     viewContainers.push(divViewContainer);
     const tabObj = {
       show() {
         for (const div of viewContainers) {
-          divViewContainer.style.display = "none";
+          div.style.display = "none";
         }
         divViewContainer.style.display = "block";
       },
