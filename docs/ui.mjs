@@ -66,8 +66,6 @@ function createViewSelector(args) {
   div.style.height = "100%";
   div.style.gridTemplateAreas = '"hamburger view" "views view"';
   div.style.overflow = "hidden";
-
-  
   if (!args) {
     args = {};
   }
@@ -82,32 +80,12 @@ function createViewSelector(args) {
   divHamburger.style.display = "grid";
   divHamburger.style.gridArea = "hamburger";
   divHamburger.style.backgroundColor = "#808080";
-  const imgLogo = document.createElement("img");
-  divHamburger.appendChild(imgLogo);
-  imgLogo.src = args.logo;
-  imgLogo.style.display = "block";
-  imgLogo.style.gridArea = "appLogo";
-  imgLogo.style.backgroundColor = "#808080";
-  const divAppName = document.createElement("div");
-  divHamburger.appendChild(divAppName);
-  divAppName.append(args.appName);
-  divAppName.style.display = "block";
-  divAppName.style.gridArea = "appName";
-  divAppName.style.backgroundColor = "#808080";
-  divAppName.style.height = "50px";
-  divAppName.style.fontSize = "24pt";
-  divAppName.style.overflow = "hidden";
-  const divViewButtonsContainer = document.createElement("div");
-  div.appendChild(divViewButtonsContainer);
-  divViewButtonsContainer.style.display = "block";
-  divViewButtonsContainer.style.gridArea = "views";
-  divViewButtonsContainer.style.backgroundColor = "#00FF00";
-  divViewButtonsContainer.style.border = "0px";
-  divViewButtonsContainer.style.boxSizing = "border-box";
-  divViewButtonsContainer.style.overflow = "hidden";
   const divViewButtons = document.createElement("div");
-  divViewButtonsContainer.appendChild(divViewButtons);
-  divViewButtons.style.display = "block";
+  div.appendChild(divViewButtons);
+  divViewButtons.style.display = "flex";
+  divViewButtons.style.flexDirection = "column";
+  divViewButtons.style.placeContent = "space-around";
+  divViewButtons.style.alignItems = "center";
   divViewButtons.style.width = "100%";
   divViewButtons.style.backgroundColor = "#00FF00";
   divViewButtons.style.border = "0px";
@@ -153,71 +131,60 @@ function createViewSelector(args) {
     }
   });
 
-  const obj = {
-    addView(args) {
-      const { icon, title } = args;
-      const { div: divView, obj: objView } = createView(args);
-      const btn = document.createElement("button");
-      divViewButtons.appendChild(btn);
-      btn.style.display = "grid";
-      btn.style.gridTemplateColumns = "var(--touch-size) 1fr";
-      btn.style.gridTemplateRows = "var(--touch-size)";
-      btn.style.gridTemplateAreas = '"icon title"';
-      btn.style.border = "0px";
-      btn.style.margin = "0px";
-      btn.style.padding = "0px";
-      btn.style.width = "100%";
-      btn.style.boxSizing = "border-box";
-      const imgView = document.createElement("img");
-      btn.appendChild(imgView);
-      imgView.src = icon;
-      imgView.style.display = "block";
-      imgView.style.gridArea = "icon";
-      const divViewTitle = document.createElement("div");
-      btn.appendChild(divViewTitle);
-      if (divAppName.style.display === "none") {
-        divViewTitle.style.display = "none";
-      } else {
-        divViewTitle.style.display = "flex";
-        divViewTitle.style.alignItems = "center";
-      }
-      divViewTitle.style.gridArea = "title";
-      divViewTitle.style.height = "100%";
-      const divViewTitleText = document.createElement("div");
-      divViewTitle.appendChild(divViewTitleText);
-      divViewTitleText.innerHTML = title;
-      divViewTitleText.style.display = "block";
-      divViewTitleText.style.fontSize = "var(--header-size)";
-      divViewTitleText.style.whiteSpace = "nowrap";
-      divViewTitleText.style.overflow = "hidden";
-      divViewTitleText.style.textOverflow = "ellipsis";
-      views.set(objView, { icon, title, btn, div: divView, obj: objView });
-      div.appendChild(divView);
-      divView.style.display = "none";
-      divView.style.gridArea = "view";
-      btn.addEventListener("click", () => {
-        for (const view of views.values()) {
-          view.div.style.display = "none";
-        }
-        divView.style.display = "grid";
-      });
-      return objView;
-    },
-    deleteView(obj) {
-      if (!views.has(obj)) {
-        throw new Error("This is not a view of this container.");
-      }
-      const { icon, title, btn, div } = views.get(obj);
-      btn.remove();
-      div.remove();
-      views.delete(id);
-    },
-    moveViewBefore(objToMove, obj) {
-      const btnToMove = objToMove.btn;
-      const btn = obj.btn;
-      divViewButtons.insertBefore(btnToMove, btn);
+  for (const view of args.views) {
+    const { icon, title } = view;
+    const { div: divView, obj: objView } = createView(args);
+    const btn = document.createElement("button");
+    divViewButtons.appendChild(btn);
+    btn.style.display = "grid";
+    btn.style.gridTemplateColumns = "var(--touch-size) var(--caption-size)";
+    btn.style.gridTemplateRows = "var(--touch-size)";
+    btn.style.gridTemplateAreas = '"icon title"';
+    btn.style.border = "0px";
+    btn.style.margin = "0px";
+    btn.style.padding = "0px";
+    btn.style.width = "100%";
+    btn.style.boxSizing = "border-box";
+    const imgView = document.createElement("img");
+    btn.appendChild(imgView);
+    imgView.src = icon;
+    imgView.style.display = "block";
+    imgView.style.gridArea = "icon";
+    const divViewTitle = document.createElement("div");
+    btn.appendChild(divViewTitle);
+    if (divAppName.style.display === "none") {
+      divViewTitle.style.display = "none";
+    } else {
+      divViewTitle.style.display = "flex";
+      divViewTitle.style.alignItems = "center";
     }
-  };
+    divViewTitle.style.gridArea = "title";
+    divViewTitle.style.height = "100%";
+    const divViewTitleText = document.createElement("div");
+    divViewTitle.appendChild(divViewTitleText);
+    divViewTitleText.innerHTML = title;
+    divViewTitleText.style.display = "block";
+    divViewTitleText.style.width = "100%";
+    divViewTitleText.style.fontSize = "var(--caption-size)";
+    divViewTitleText.style.whiteSpace = "nowrap";
+    divViewTitleText.style.overflow = "hidden";
+    divViewTitleText.style.textOverflow = "ellipsis";
+    views.set(objView, { icon, title, btn, div: divView, obj: objView });
+    div.appendChild(divView);
+    divView.style.display = "none";
+    divView.style.gridArea = "view";
+    btn.addEventListener("click", () => {
+      for (const view of views.values()) {
+        view.div.style.display = "none";
+      }
+      divView.style.display = "grid";
+    });
+  }
+  const obj = {};
+  obj.views = [];
+  for (const view of views.values()) {
+    obj.views.push(view.obj);
+  }
   return {
     div,
     obj,
