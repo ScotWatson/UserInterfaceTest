@@ -43,7 +43,7 @@ function initialize() {
 }
 export function rootViewSelector(args) {
   const root = initialize();
-  const { div, obj } = createViewSelector(args);
+  const { div, obj } = createNavigationTabBar(args);
   root.appendChild(div);
   return obj;
 }
@@ -59,7 +59,7 @@ export function rootFrame(args) {
   root.appendChild(div);
   return obj;
 }
-function createViewSelector(args) {
+function createNavigationTabBar(args) {
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.width = "100%";
@@ -84,10 +84,13 @@ function createViewSelector(args) {
   divViewButtons.style.boxSizing = "border-box";
   divViewButtons.style.overflow = "hidden";
 
-  const views = new Map();
-  for (const view of args.views) {
+  const obj = {
+    tabs: [],
+  };
+  const viewContainers = [];
+  for (const tab of args.tabs) {
     const { icon, title } = view;
-    const { div: divView, obj: objView } = createView(view);
+
     const btn = document.createElement("button");
     divViewButtons.appendChild(btn);
     btn.style.display = "grid";
@@ -104,34 +107,41 @@ function createViewSelector(args) {
     imgView.src = icon;
     imgView.style.display = "block";
     imgView.style.gridArea = "icon";
-    const divViewTitle = document.createElement("div");
+    const divTabTitle = document.createElement("div");
     btn.appendChild(divViewTitle);
-    divViewTitle.style.gridArea = "title";
-    divViewTitle.style.height = "100%";
-    const divViewTitleText = document.createElement("div");
-    divViewTitle.appendChild(divViewTitleText);
-    divViewTitleText.innerHTML = title;
-    divViewTitleText.style.display = "block";
-    divViewTitleText.style.width = "100%";
-    divViewTitleText.style.fontSize = "var(--caption-size)";
-    divViewTitleText.style.whiteSpace = "nowrap";
-    divViewTitleText.style.overflow = "hidden";
-    divViewTitleText.style.textOverflow = "ellipsis";
-    views.set(objView, { icon, title, btn, div: divView, obj: objView });
-    div.appendChild(divView);
-    divView.style.display = "none";
-    divView.style.gridArea = "view";
+    divTabTitle.style.gridArea = "title";
+    divTabTitle.style.height = "100%";
+    const divTabTitleText = document.createElement("div");
+    divTabTitle.appendChild(divViewTitleText);
+    divTabTitleText.innerHTML = title;
+    divTabTitleText.style.display = "block";
+    divTabTitleText.style.width = "100%";
+    divTabTitleText.style.fontSize = "var(--caption-size)";
+    divTabTitleText.style.whiteSpace = "nowrap";
+    divTabTitleText.style.overflow = "hidden";
+    divTabTitleText.style.textOverflow = "ellipsis";
+    const divViewContainer = document.createElement("div");
+    div.appendChild(divViewContainer);
+    divViewContainer.style.display = "none";
+    divViewContainer.style.gridArea = "view";
+    viewContainers.push(divViewContainer);
+    const tabObj = {
+      show() {
+        for (const div of viewContainers) {
+          divViewContainer.style.display = "none";
+        }
+        divViewContainer.style.display = "block";
+      },
+      assignView(args) {
+        const { div: divView, obj: objView } = createView(view);
+        divViewContainer.appendChild(divView);
+        return objView;
+      },
+    };
     btn.addEventListener("click", () => {
-      for (const view of views.values()) {
-        view.div.style.display = "none";
-      }
-      divView.style.display = "grid";
+      tabObj.show();
     });
-  }
-  const obj = {};
-  obj.views = [];
-  for (const view of views.values()) {
-    obj.views.push(view.obj);
+    obj.tabs.push(tabObj);
   }
   return {
     div,
@@ -139,9 +149,22 @@ function createViewSelector(args) {
   };
 }
 
-const frameTypes = new Map();
+const viewTypes = new Map();
+viewTypes.set("breadcrumb", createBreadcrumbView);
+viewTypes.set("form", createFormFrame);
+viewTypes.set("selectForm", createSelectFormFrame);
+viewTypes.set("tiles", createTilesFrame);
+viewTypes.set("list", createListFrame);
+viewTypes.set("map", createMapFrame);
+
 function createView(args) {
-  const { type, title, topType, topTitle } = args;
+  const { type } = args;
+  const funcCreate = viewTypes.get(type);
+  return funcCreate(args);
+}
+
+function createBreadcrumbView(args) {
+  const { homeIcon } = args;
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.backgroundColor = "#00FF00";
@@ -226,13 +249,13 @@ function createView(args) {
   divUltimateText.style.whiteSpace = "nowrap";
   divUltimateText.style.overflow = "hidden";
   divUltimateText.style.textOverflow = "ellipsis";
-  const frames = [];
-  function removeLastFrame() {
-    const removedFrame = frames.pop();
+  const levels = [];
+  function removeLastLevel() {
+    const removedLevel = frames.pop();
     removedFrame.div.remove();
   }
   imgHome.addEventListener("click", () => {
-    while (frames.length > 1) {
+    while (levels.length > 1) {
       removeLastFrame();
     }
     updateBreadcrumbs();
@@ -241,11 +264,11 @@ function createView(args) {
     
   });
   divPenultimate.addEventListener("click", () => {
-    removeLastFrame();
+    removeLastLevel();
     updateBreadcrumbs();
   });
   function updateBreadcrumbs() {
-    switch (frames.length) {
+    switch (levels.length) {
       case 0: {
         // Empty
         divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) 1fr";
@@ -266,7 +289,7 @@ function createView(args) {
         divPenultimate.innerHTML = "";
         divUltimate.style.display = "block";
         divUltimate.innerHTML = "";
-        divUltimate.append(frames[frames.length - 1].title);
+        divUltimate.append(levels[levels.length - 1].title);
       }
         break;
       case 2: {
@@ -276,10 +299,10 @@ function createView(args) {
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "block";
         divPenultimate.innerHTML = "";
-        divPenultimate.append(frames[frames.length - 2].title);
+        divPenultimate.append(levels[levels.length - 2].title);
         divUltimate.style.display = "block";
         divUltimate.innerHTML = "";
-        divUltimate.append(frames[frames.length - 1].title);
+        divUltimate.append(levels[levels.length - 1].title);
       }
         break;
       default: {
@@ -289,32 +312,30 @@ function createView(args) {
         imgEllipsis.style.display = "block";
         divPenultimate.style.display = "block";
         divPenultimate.innerHTML = "";
-        divPenultimate.append(frames[frames.length - 2].title);
+        divPenultimate.append(levels[levels.length - 2].title);
         divUltimate.style.display = "block";
         divUltimate.innerHTML = "";
-        divUltimate.append(frames[frames.length - 1].title);
+        divUltimate.append(levels[levels.length - 1].title);
       }
     };
-    for (const frame of frames) {
-      frame.div.style.display = "none";
+    for (const level of levels) {
+      frame.divViewContainer.style.display = "none";
     }
-    frames[frames.length - 1].div.style.display = frames[frames.length - 1].display;
+    levels[levels.length - 1].divViewContainer.style.display = "block";
   }
   const obj = {
-    addFrame(args) {
-      const { type, title, args: frameArgs } = args;
-      const funcCreate = frameTypes.get(type);
-      const { div: divFrame, obj: objFrame } = funcCreate(frameArgs);
-      frames.push({
-        title,
-        div: divFrame,
-        display: divFrame.style.display,
-      });
-      divFrame.style.display = "none";
-      divFrame.style.gridArea = "content";
-      div.appendChild(divFrame);
+    assignView(args) {
+      const { type, title, args: viewArgs } = args;
+      const funcCreate = viewTypes.get(type);
+      const { div: divView, obj: objView } = funcCreate(viewArgs);
+      const divViewContainer = document.createElement("div");
+      div.appendChild(divViewContainer);
+      divViewContainer.style.display = "none";
+      divViewContainer.style.gridArea = "content";
+      divViewContainer.appendChild(divView);
+      levels.push({ title, divViewContainer });
       updateBreadcrumbs();
-      return objFrame;
+      return objView;
     },
     back() {
       if (frames.length === 1) {
@@ -324,10 +345,6 @@ function createView(args) {
       updateBreadcrumbs();
     },
   };
-  obj.topFrame = obj.addFrame({
-    type: topType,
-    title: topTitle,
-  });
   updateBreadcrumbs();
   return {
     div,
@@ -438,17 +455,6 @@ function createItemDetail(args) {
     obj,
   };
 }
-
-export const symFormFrame = Symbol();
-export const symSelectFormFrame = Symbol();
-export const symTilesFrame = Symbol();
-export const symListFrame = Symbol();
-export const symMapFrame = Symbol();
-frameTypes.set("form", createFormFrame);
-frameTypes.set("selectForm", createSelectFormFrame);
-frameTypes.set("tiles", createTilesFrame);
-frameTypes.set("list", createListFrame);
-frameTypes.set("map", createMapFrame);
 
 function createTilesFrame(args) {
   const { div: div, obj: objScroll } = createVerticalScrollable();
