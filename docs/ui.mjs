@@ -1143,6 +1143,7 @@ function createNumericEntry(args) {
   div.appendChild(divPrompt);
   divPrompt.style.display = "block";
   divPrompt.style.gridArea = "prompt";
+  divPrompt.style.fontSize = "var(--subheader-size)";
   const divInput = document.createElement("div");
   div.appendChild(divInput);
   divInput.style.display = "grid";
