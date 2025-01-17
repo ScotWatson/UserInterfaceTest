@@ -149,7 +149,7 @@ function createNavigationTabBar(args) {
 }
 
 const viewTypes = new Map();
-viewTypes.set("breadcrumb", createBreadcrumbView);
+viewTypes.set("breadcrumbs", createBreadcrumbView);
 viewTypes.set("form", createFormFrame);
 viewTypes.set("selectForm", createSelectFormFrame);
 viewTypes.set("tiles", createTilesFrame);
