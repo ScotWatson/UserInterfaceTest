@@ -132,7 +132,7 @@ function createNavigationTabBar(args) {
         divViewContainer.style.display = "block";
       },
       assignView(args) {
-        const { div: divView, obj: objView } = createView(view);
+        const { div: divView, obj: objView } = createView(args);
         divViewContainer.appendChild(divView);
         return objView;
       },
