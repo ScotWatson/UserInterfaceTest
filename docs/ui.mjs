@@ -116,12 +116,6 @@ function createViewSelector(args) {
     imgView.style.gridArea = "icon";
     const divViewTitle = document.createElement("div");
     btn.appendChild(divViewTitle);
-    if (divAppName.style.display === "none") {
-      divViewTitle.style.display = "none";
-    } else {
-      divViewTitle.style.display = "flex";
-      divViewTitle.style.alignItems = "center";
-    }
     divViewTitle.style.gridArea = "title";
     divViewTitle.style.height = "100%";
     const divViewTitleText = document.createElement("div");
