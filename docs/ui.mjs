@@ -89,8 +89,7 @@ function createNavigationTabBar(args) {
   };
   const viewContainers = [];
   for (const tab of args.tabs) {
-    const { icon, title } = view;
-
+    const { icon, title } = tab;
     const btn = document.createElement("button");
     divViewButtons.appendChild(btn);
     btn.style.display = "grid";
