@@ -8,7 +8,12 @@ const urlIconUnselected = new URL("./icons/unselected.svg", urlSelf);
 const urlIconRadioSelected = new URL("./icons/radio-selected.svg", urlSelf);
 const urlIconMultiSelected = new URL("./icons/multi-selected.svg", urlSelf);
 
-function initialize() {
+const rootTypeFunctions = new Map();
+rootTypeFunctions.set("navigation", createNavigationTabBar);
+rootTypeFunctions.set("hierarchy", createView);
+
+export function initialize(args) {
+  const { type } = args;
   const metaWidth = document.createElement("meta");
   metaWidth.name = "viewport";
   metaWidth.content = "width=device-width";
@@ -41,24 +46,10 @@ function initialize() {
   bodyShadowRoot.appendChild(divWindow);
   return divWindow;
 }
-export function rootViewSelector(args) {
-  const root = initialize();
-  const { div, obj } = createNavigationTabBar(args);
-  root.appendChild(div);
-  return obj;
-}
-export function rootView(args) {
-  const root = initialize();
-  const { div, obj } = createView(args);
-  root.appendChild(div);
-  return obj;
-}
-export function rootFrame(args) {
-  const root = initialize();
-  const { div, obj } = createFrame(args);
-  root.appendChild(div);
-  return obj;
-}
+
+const navTypeFunctions = new Map();
+navTypeFunctions.set("hierarchy", createBreadcrumbView);
+
 function createNavigationTabBar(args) {
   const div = document.createElement("div");
   div.style.display = "grid";
@@ -83,7 +74,6 @@ function createNavigationTabBar(args) {
   divViewButtons.style.border = "0px";
   divViewButtons.style.boxSizing = "border-box";
   divViewButtons.style.overflow = "hidden";
-
   const obj = {
     tabs: [],
   };
@@ -133,7 +123,9 @@ function createNavigationTabBar(args) {
         divViewContainer.style.display = "block";
       },
       assignView(args) {
-        const { div: divView, obj: objView } = createView(args);
+        const { type } = args;
+        const funcCreate = navTypeFunctions.get(type);
+        const { div: divView, obj: objView } = funcCreate(args);
         divViewContainer.appendChild(divView);
         return objView;
       },
@@ -149,20 +141,12 @@ function createNavigationTabBar(args) {
   };
 }
 
-const viewTypes = new Map();
-viewTypes.set("breadcrumbs", createBreadcrumbView);
-viewTypes.set("form", createFormFrame);
-viewTypes.set("selectForm", createSelectFormFrame);
-viewTypes.set("tiles", createTilesFrame);
-viewTypes.set("list", createListFrame);
-viewTypes.set("map", createMapFrame);
-
-function createView(args) {
-  const { type } = args;
-  const funcCreate = viewTypes.get(type);
-  return funcCreate(args);
-}
-
+const hierarchyTypeFunctions = new Map();
+hierarchyTypeFunctions.set("form", createFormFrame);
+hierarchyTypeFunctions.set("selectForm", createSelectFormFrame);
+hierarchyTypeFunctions.set("tiles", createTilesFrame);
+hierarchyTypeFunctions.set("list", createListFrame);
+hierarchyTypeFunctions.set("map", createMapFrame);
 function createBreadcrumbView(args) {
   const { homeIcon } = args;
   const div = document.createElement("div");
@@ -328,7 +312,7 @@ function createBreadcrumbView(args) {
   const obj = {
     assignView(args) {
       const { type, title, args: viewArgs } = args;
-      const funcCreate = viewTypes.get(type);
+      const funcCreate = hierarchyTypeFunctions.get(type);
       const { div: divView, obj: objView } = funcCreate(viewArgs);
       const divViewContainer = document.createElement("div");
       div.appendChild(divViewContainer);
@@ -354,7 +338,7 @@ function createBreadcrumbView(args) {
   };
 }
 
-function createItemDetail(args) {
+function createSecondaryScreen(args) {
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.gridTemplateColumns = "1fr 1fr";
@@ -469,7 +453,7 @@ function createTilesFrame(args) {
   divScroll.style.alignContent = "space-around";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
-  const { div: divItem, obj: objItem } = createItemDetail(args);
+  const { div: divItem, obj: objItem } = createSecondaryScreen(args);
   objItem.mainFrame.append(div);
   const obj = {
     addItem({ icon, title, item }) {
@@ -515,7 +499,7 @@ function createListFrame(args) {
   divScroll.style.alignContent = "space-around";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
-  const { div: divItem, obj: objItem } = createItemDetail(args);
+  const { div: divItem, obj: objItem } = createSecondaryScreen(args);
   objItem.mainFrame.append(div);
   const obj = {
     addItem({ icon, title, item }) {
@@ -574,7 +558,7 @@ function createMapFrame(args) {
       });
     });
   });
-  const { div: divItem, obj: objItem } = createItemDetail(args);
+  const { div: divItem, obj: objItem } = createSecondaryScreen(args);
   const div = objItem.mainFrame;
   div.appendChild(canvas);
   div.style.overflow = "hidden";
