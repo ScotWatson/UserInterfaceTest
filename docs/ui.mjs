@@ -3,7 +3,7 @@
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-import "AsyncEvents" from "./async-events.mjs";
+import AsyncEvents from "./async-events.mjs";
 
 const urlSelf = new URL(self.location);
 const urlIconUnselected = new URL("./icons/unselected.svg", urlSelf);
@@ -542,8 +542,8 @@ function createListFrame(args) {
 function createMapFrame(args) {
   const obj = {};
   let changeViewport;
-  obj.viewportChanged = new EventGenerator((generate, final, reject) => {
-    changeViewport = generate;
+  obj.viewportChanged = new AsyncEvents.EventIterator(({ next, complete, error }) => {
+    changeViewport = next;
   });
   const canvas = document.createElement("canvas", {
     alpha: false,
@@ -551,10 +551,10 @@ function createMapFrame(args) {
     desynchronized: true,
     willReadFrequently: false,
   });
-  obj.clicked = new EventGenerator((generate, final, reject) => {
+  obj.clicked = new AsyncEvents.EventIterator(({ next, complete, error }) => {
     canvas.addEventListener("click", (evt) => {
       const canvasPoint = new DOMPoint(evt.offsetX * window.devicePixelRatio, evt.offsetY * window.devicePixelRatio);
-      generate({
+      next({
         canvasPoint,
         imagePoint: canvasPoint.matrixTransform(ctx.getTransform().inverse()),
       });
@@ -1120,8 +1120,8 @@ function createTextDisplay(args) {
       divPrimary.innerHTML = "";
       divPrimary.append(text);
     },
-    clicked: new EventGenerator((generate, final, reject) => {
-      div.addEventListener("click", generate);
+    clicked: new AsyncEvents.EventIterator(({ next, complete, error }) => {
+      div.addEventListener("click", next);
     }),
   };
   return {
@@ -1148,8 +1148,8 @@ function createButton(args) {
     btn.innerHTML = args.caption;
   }
   const obj = {
-    clicked: new EventGenerator((generate, final, reject) => {
-      btn.addEventListener("click", generate);
+    clicked: new AsyncEvents.EventIterator(({ next, complete, error }) => {
+      btn.addEventListener("click", next);
     }),
   };
   return {
