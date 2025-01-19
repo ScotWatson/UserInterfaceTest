@@ -12,7 +12,7 @@ const urlIconMultiSelected = new URL("./icons/multi-selected.svg", urlSelf);
 
 const rootTypeFunctions = new Map();
 rootTypeFunctions.set("navigation", createNavigationTabBar);
-rootTypeFunctions.set("hierarchy", createView);
+rootTypeFunctions.set("hierarchy", createBreadcrumbView);
 
 export function initialize(args) {
   const { type } = args;
