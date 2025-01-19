@@ -21,32 +21,33 @@ Promise.all([ loadingPage, loadingUI, loadingAsyncEvents ]).then(start);
 const urlSelf = new URL(self.location);
 
 function start([ Page, UI, AsyncEvents ]) {
-  const windowObj = UI.rootViewSelector({
+  const windowObj = UI.initialize({
     appName: "TestApp",
     tabs: [
       {
         icon: "./icons/form.svg",
         title: "Form",
+        type: "hierarchy",
       },
       {
         icon: "./icons/bento.svg",
         title: "Tiles",
+        type: "hierarchy",
       },
       {
         icon: "./icons/list.svg",
         title: "List",
+        type: "hierarchy",
       },
       {
         icon: "./icons/map.svg",
         title: "Map",
+        type: "hierarchy",
       },
     ],
   });
   const formTab = windowObj.tabs[0];
-  const formView = formTab.assignView({
-    type: "breadcrumbs",
-  });
-  const formFrame = formView.assignView({
+  const formFrame = formTab.assignView({
     type: "form",
     title: "Form",
   });
@@ -106,10 +107,7 @@ function start([ Page, UI, AsyncEvents ]) {
     window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
   })();
   const tilesTab = windowObj.tabs[1];
-  const tilesView = tilesTab.assignView({
-    type: "breadcrumbs",
-  });
-  const tilesFrame = tilesView.assignView({
+  const tilesFrame = tilesTab.assignView({
     type: "tiles",
     title: "Tiles",
   });
@@ -143,9 +141,6 @@ function start([ Page, UI, AsyncEvents ]) {
     description.setText(objItem.description);
   });
   const listTab = windowObj.tabs[2];
-  const listView = listTab.assignView({
-    type: "breadcrumbs",
-  });
   const listFrame = listTab.assignView({
     type: "list",
     title: "List",
@@ -180,10 +175,7 @@ function start([ Page, UI, AsyncEvents ]) {
     description.setText(objItem.description);
   });
   const mapTab = windowObj.tabs[3];
-  const mapView = mapTab.assignView({
-    type: "breadcrumbs",
-  });
-  const mapFrame = mapView.assignView({
+  const mapFrame = mapTab.assignView({
     type: "map",
     title: "Map",
   });
