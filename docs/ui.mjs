@@ -336,7 +336,7 @@ function createBreadcrumbView(args) {
       updateBreadcrumbs();
     },
   };
-  obj.addView({
+  obj.firstView = obj.addView({
     type: firstView.type,
     options: firstView.options,
   });
