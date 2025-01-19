@@ -21,36 +21,44 @@ Promise.all([ loadingPage, loadingUI, loadingAsyncEvents ]).then(start);
 const urlSelf = new URL(self.location);
 
 function start([ Page, UI, AsyncEvents ]) {
-  const windowObj = UI.initialize({
-    appName: "TestApp",
+  const objLayoutViewport = UI.initialize({
     tabs: [
       {
         icon: "./icons/form.svg",
         title: "Form",
         type: "hierarchy",
+        options: {
+          firstType: "form",
+        },
       },
       {
         icon: "./icons/bento.svg",
         title: "Tiles",
         type: "hierarchy",
+        options: {
+          firstType: "tiles",
+        },
       },
       {
         icon: "./icons/list.svg",
         title: "List",
         type: "hierarchy",
+        options: {
+          firstType: "list",
+        },
       },
       {
         icon: "./icons/map.svg",
         title: "Map",
         type: "hierarchy",
+        options: {
+          firstType: "map",
+        },
       },
     ],
   });
-  const formTab = windowObj.tabs[0];
-  const formFrame = formTab.assignView({
-    type: "form",
-    title: "Form",
-  });
+  const formTab = windowObj.view.tabs[0];
+  const formFrame = formTab.view.firstView;
   const textEntry = formFrame.addElement({
     type: "textEntry",
   });
@@ -98,7 +106,7 @@ function start([ Page, UI, AsyncEvents ]) {
   const textDisplay = formFrame.addElement({
     type: "textDisplay",
   });
-  textDisplay.setText("Test text".repeat(100));
+  textDisplay.setText("Test text ".repeat(100));
   const button = formFrame.addElement({
     type: "button",
     caption: "Submit",
@@ -106,11 +114,8 @@ function start([ Page, UI, AsyncEvents ]) {
   AsyncEvents.listen(button.clicked, async (event) => {
     window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
   })();
-  const tilesTab = windowObj.tabs[1];
-  const tilesFrame = tilesTab.assignView({
-    type: "tiles",
-    title: "Tiles",
-  });
+  const tilesTab = windowObj.view.tabs[1];
+  const tilesFrame = tilesTab.view.firstView;
   tilesFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
@@ -140,11 +145,8 @@ function start([ Page, UI, AsyncEvents ]) {
     });
     description.setText(objItem.description);
   });
-  const listTab = windowObj.tabs[2];
-  const listFrame = listTab.assignView({
-    type: "list",
-    title: "List",
-  });
+  const listTab = windowObj.view.tabs[2];
+  const listFrame = listTab.view.firstView;
   listFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
@@ -174,11 +176,8 @@ function start([ Page, UI, AsyncEvents ]) {
     });
     description.setText(objItem.description);
   });
-  const mapTab = windowObj.tabs[3];
-  const mapFrame = mapTab.assignView({
-    type: "map",
-    title: "Map",
-  });
+  const mapTab = windowObj.view.tabs[3];
+  const mapFrame = mapTab.view.firstView;
   async function staticImage(imageUrl) {
     const image = new Image();
     const response = await fetch(imageUrl);
