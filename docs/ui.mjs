@@ -155,7 +155,7 @@ hierarchyTypeFunctions.set("tiles", createTilesFrame);
 hierarchyTypeFunctions.set("list", createListFrame);
 hierarchyTypeFunctions.set("map", createMapFrame);
 function createBreadcrumbView(args) {
-  const { homeIcon } = args;
+  const { firstView } = args;
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.backgroundColor = "#00FF00";
@@ -317,10 +317,10 @@ function createBreadcrumbView(args) {
     }
   }
   const obj = {
-    assignView(args) {
-      const { type, title, args: viewArgs } = args;
+    addView(args) {
+      const { type, title, options } = args;
       const funcCreate = hierarchyTypeFunctions.get(type);
-      const { div: divView, obj: objView } = funcCreate(viewArgs);
+      const { div: divView, obj: objView } = funcCreate(options);
       const divViewContainer = document.createElement("div");
       div.appendChild(divViewContainer);
       divViewContainer.style.display = "none";
@@ -338,6 +338,10 @@ function createBreadcrumbView(args) {
       updateBreadcrumbs();
     },
   };
+  addView({
+    type: firstView.type,
+    options: firstView.options,
+  });
   updateBreadcrumbs();
   return {
     div,
