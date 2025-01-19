@@ -72,7 +72,7 @@ function start([ Page, UI, AsyncEvents ]) {
       ],
     },
   });
-  const formTab = windowObj.view.tabs[0];
+  const formTab = objLayoutViewport.view.tabs[0];
   const formFrame = formTab.view.firstView;
   const textEntry = formFrame.addElement({
     type: "textEntry",
@@ -129,7 +129,7 @@ function start([ Page, UI, AsyncEvents ]) {
   AsyncEvents.listen(button.clicked, async (event) => {
     window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
   })();
-  const tilesTab = windowObj.view.tabs[1];
+  const tilesTab = objLayoutViewport.view.tabs[1];
   const tilesFrame = tilesTab.view.firstView;
   tilesFrame.addItem({
     icon: "./icons/home.svg",
@@ -160,7 +160,7 @@ function start([ Page, UI, AsyncEvents ]) {
     });
     description.setText(objItem.description);
   });
-  const listTab = windowObj.view.tabs[2];
+  const listTab = objLayoutViewport.view.tabs[2];
   const listFrame = listTab.view.firstView;
   listFrame.addItem({
     icon: "./icons/home.svg",
@@ -191,7 +191,7 @@ function start([ Page, UI, AsyncEvents ]) {
     });
     description.setText(objItem.description);
   });
-  const mapTab = windowObj.view.tabs[3];
+  const mapTab = objLayoutViewport.view.tabs[3];
   const mapFrame = mapTab.view.firstView;
   async function staticImage(imageUrl) {
     const image = new Image();
