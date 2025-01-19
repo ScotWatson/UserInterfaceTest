@@ -14,12 +14,13 @@ const loadingPage = new Promise((resolve, reject) => {
 });
 
 const loadingUI = import("./ui.mjs");
+const loadingAsyncEvents = import("./async-events.mjs");
 
-Promise.all([ loadingPage, loadingUI ]).then(start);
+Promise.all([ loadingPage, loadingUI, loadingAsyncEvents ]).then(start);
 
 const urlSelf = new URL(self.location);
 
-function start([ Page, UI ]) {
+function start([ Page, UI, AsyncEvents ]) {
   const windowObj = UI.rootViewSelector({
     appName: "TestApp",
     tabs: [
@@ -57,35 +58,33 @@ function start([ Page, UI ]) {
     type: "textDisplay",
   });
   multiSelect.setText("Multi-select");
-  (async () => {
-    for await (const event of multiSelect.clicked) {
-      const selection = formView.addFrame({
-        title: "Multi-select",
-        type: "selectForm",
-        args: {
-          minOptions: 0,
-          maxOptions: 2,
-          options: [
-            {
-              type: "textDisplay",
-              args: {},
-            },
-            {
-              type: "textEntry",
-              args: {},
-            },
-            {
-              type: "numericEntry",
-              args: {},
-            },
-          ],
-        },
-      });
-      selection.options[0].element.setText("Option #1");
-      selection.options[1].element.setPrompt("Option #2: Enter some text");
-      selection.options[2].element.setPrompt("Option #3: Enter a number");
-    }
-  })();
+  AsyncEvents.listen(multiSelect.clicked, async (event) => {
+    const selection = formView.addFrame({
+      title: "Multi-select",
+      type: "selectForm",
+      args: {
+        minOptions: 0,
+        maxOptions: 2,
+        options: [
+          {
+            type: "textDisplay",
+            args: {},
+          },
+          {
+            type: "textEntry",
+            args: {},
+          },
+          {
+            type: "numericEntry",
+            args: {},
+          },
+        ],
+      },
+    });
+    selection.options[0].element.setText("Option #1");
+    selection.options[1].element.setPrompt("Option #2: Enter some text");
+    selection.options[2].element.setPrompt("Option #3: Enter a number");
+  });
   const numericEntry = formFrame.addElement({
     type: "numericEntry",
   });
@@ -103,10 +102,8 @@ function start([ Page, UI ]) {
     type: "button",
     caption: "Submit",
   });
-  (async () => {
-    for await (const event of button.clicked) {
-      window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
-    }
+  AsyncEvents.listen(button.clicked, async (event) => {
+    window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
   })();
   const tilesTab = windowObj.tabs[1];
   const tilesView = tilesTab.assignView({
@@ -199,21 +196,17 @@ function start([ Page, UI ]) {
     imageCanvasCtx = imageCanvas.getContext("2d");
     imageCanvasCtx.drawImage(image, 0, 0);
     let viewport = null;
-    (async () => {
-      for await (const event of mapFrame.viewportChanged) {
-        event.viewport.ctx.drawImage(image, 0, 0);
-        event.viewport.accept();
-        viewport = event.viewport;
-      }
-    })();
-    (async () => {
-      for await (const event of mapFrame.clicked) {
-        console.log(event);
-        const path = new Path2D("M 200 200 l 200 0 l 0 200 l -200 0 l 0 -200");
-        console.log(mapFrame.getViewport().ctx.isPointInPath(path, event.canvasPoint.x, event.canvasPoint.y));
-        mapFrame.getViewport().ctx.stroke(path);
-      }
-    })();
+    AsyncEvents.listen(mapFrame.viewportChanged, async (event) => {
+      event.viewport.ctx.drawImage(image, 0, 0);
+      event.viewport.accept();
+      viewport = event.viewport;
+    });
+    AsyncEvents.listen(mapFrame.clicked, async (event) => {
+      console.log(event);
+      const path = new Path2D("M 200 200 l 200 0 l 0 200 l -200 0 l 0 -200");
+      console.log(mapFrame.getViewport().ctx.isPointInPath(path, event.canvasPoint.x, event.canvasPoint.y));
+      mapFrame.getViewport().ctx.stroke(path);
+    });
   }
   staticImage(new URL("./map-of-the-world-2241469.png", urlSelf));
 }
