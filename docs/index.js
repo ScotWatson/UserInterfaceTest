@@ -14,7 +14,7 @@ const loadingPage = new Promise((resolve, reject) => {
 });
 
 const loadingUI = import("./ui.mjs");
-const loadingAsyncEvents = import("./async-events.mjs");
+const loadingAsyncEvents = import("https://scotwatson.github.io/WebCommon/20240119/async-events.mjs");
 
 Promise.all([ loadingPage, loadingUI, loadingAsyncEvents ]).then(start);
 
