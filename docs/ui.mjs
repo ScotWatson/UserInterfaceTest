@@ -47,6 +47,13 @@ export function initialize(args) {
   resize();
   bodyShadowRoot.appendChild(divWindow);
   return divWindow;
+  const { type, options } = tab;
+  const funcCreate = rootTypeFunctions.get(type);
+  const { div: divView, obj: objView } = funcCreate(options);
+  divWindow.appendChild(divView);
+  return {
+    view: objView,
+  };
 }
 
 const navTypeFunctions = new Map();
@@ -117,6 +124,10 @@ function createNavigationTabBar(args) {
     divViewContainer.style.gridArea = "view";
     divViewContainer.style.overflow = "hidden";
     viewContainers.push(divViewContainer);
+    const { type, options } = tab;
+    const funcCreate = navTypeFunctions.get(type);
+    const { div: divView, obj: objView } = funcCreate(options);
+    divViewContainer.appendChild(divView);
     const tabObj = {
       show() {
         for (const div of viewContainers) {
@@ -124,13 +135,7 @@ function createNavigationTabBar(args) {
         }
         divViewContainer.style.display = "block";
       },
-      assignView(args) {
-        const { type } = args;
-        const funcCreate = navTypeFunctions.get(type);
-        const { div: divView, obj: objView } = funcCreate(args);
-        divViewContainer.appendChild(divView);
-        return objView;
-      },
+      view: objView,
     };
     btn.addEventListener("click", () => {
       tabObj.show();
