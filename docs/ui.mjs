@@ -549,7 +549,7 @@ function createListFrame(args) {
 function createMapFrame(args) {
   const obj = {};
   let changeViewport;
-  obj.viewportChanged = new AsyncEvents.EventIterator(({ next, complete, error }) => {
+  obj.viewportChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
     changeViewport = next;
   });
   const canvas = document.createElement("canvas", {
@@ -558,7 +558,7 @@ function createMapFrame(args) {
     desynchronized: true,
     willReadFrequently: false,
   });
-  obj.clicked = new AsyncEvents.EventIterator(({ next, complete, error }) => {
+  obj.clicked = new AsyncEvents.EventIterable(({ next, complete, error }) => {
     canvas.addEventListener("click", (evt) => {
       const canvasPoint = new DOMPoint(evt.offsetX * window.devicePixelRatio, evt.offsetY * window.devicePixelRatio);
       next({
@@ -1127,7 +1127,7 @@ function createTextDisplay(args) {
       divPrimary.innerHTML = "";
       divPrimary.append(text);
     },
-    clicked: new AsyncEvents.EventIterator(({ next, complete, error }) => {
+    clicked: new AsyncEvents.EventIterable(({ next, complete, error }) => {
       div.addEventListener("click", next);
     }),
   };
@@ -1155,7 +1155,7 @@ function createButton(args) {
     btn.innerHTML = args.caption;
   }
   const obj = {
-    clicked: new AsyncEvents.EventIterator(({ next, complete, error }) => {
+    clicked: new AsyncEvents.EventIterable(({ next, complete, error }) => {
       btn.addEventListener("click", next);
     }),
   };
