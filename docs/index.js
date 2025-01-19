@@ -28,7 +28,10 @@ function start([ Page, UI, AsyncEvents ]) {
         title: "Form",
         type: "hierarchy",
         options: {
-          firstType: "form",
+          firstView: {
+            type: "form",
+            options: {},
+          },
         },
       },
       {
@@ -36,7 +39,10 @@ function start([ Page, UI, AsyncEvents ]) {
         title: "Tiles",
         type: "hierarchy",
         options: {
-          firstType: "tiles",
+          firstView: {
+            type: "tiles",
+            options: {},
+          },
         },
       },
       {
@@ -44,7 +50,10 @@ function start([ Page, UI, AsyncEvents ]) {
         title: "List",
         type: "hierarchy",
         options: {
-          firstType: "list",
+          firstView: {
+            type: "list",
+            options: {},
+          },
         },
       },
       {
@@ -52,7 +61,10 @@ function start([ Page, UI, AsyncEvents ]) {
         title: "Map",
         type: "hierarchy",
         options: {
-          firstType: "map",
+          firstView: {
+            type: "map",
+            options: {},
+          },
         },
       },
     ],
