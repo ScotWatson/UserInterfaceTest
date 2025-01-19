@@ -15,7 +15,7 @@ rootTypeFunctions.set("navigation", createNavigationTabBar);
 rootTypeFunctions.set("hierarchy", createBreadcrumbView);
 
 export function initialize(args) {
-  const { type } = args;
+  const { type, options } = args;
   const metaWidth = document.createElement("meta");
   metaWidth.name = "viewport";
   metaWidth.content = "width=device-width";
@@ -46,8 +46,6 @@ export function initialize(args) {
   window.addEventListener("resize", resize);
   resize();
   bodyShadowRoot.appendChild(divWindow);
-  return divWindow;
-  const { type, options } = tab;
   const funcCreate = rootTypeFunctions.get(type);
   const { div: divView, obj: objView } = funcCreate(options);
   divWindow.appendChild(divView);
