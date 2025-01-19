@@ -4,39 +4,42 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 */
 
 // Implements the async iterable interface
-class EventGenerator {
+class EventIterable {
   #next;
-  constructor(init) {
+  constructor(subscribe) {
+    // subscribe acts as the subscribe function of an observable (takes an observer as an argument), except that complete also takes an optional value argument
     let _resolve = null;
     let _reject = null;
-    const next = () => {
+    const waitForInput = () => {
       this.#next = new Promise((resolve, reject) => {
         _resolve = resolve;
         _reject = reject;
       });
     }
-    function generate(value) {
+    function next(value) {
       _resolve({
         value,
         done: false,
       });
-      next();
+      waitForInput();
     }
-    function final(value) {
+    function complete(value) {
       _resolve({
         value,
         done: false,
       });
-      next();
+      waitForInput();
     }
-    function reject(reason) {
+    function error(reason) {
       _reject(reason);
-      next();
+      waitForInput();
     }
-    init(generate, final, reject);
-    next();
+    subscribe({ next, complete, error });
+    waitForInput();
   }
   [Symbol.asyncIterator]() {
+    // This function may be called more than once, allowing for multiple consumers
+    // Client code may stop consuming (calling next()) at any time, so values are not stored up after the last promise returned from next() is settled.
     return {
       next: () => {
         return new Promise((resolve, reject) => {
