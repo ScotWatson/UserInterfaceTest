@@ -22,52 +22,55 @@ const urlSelf = new URL(self.location);
 
 function start([ Page, UI, AsyncEvents ]) {
   const objLayoutViewport = UI.initialize({
-    tabs: [
-      {
-        icon: "./icons/form.svg",
-        title: "Form",
-        type: "hierarchy",
-        options: {
-          firstView: {
-            type: "form",
-            options: {},
+    type: "navigation",
+    options: {
+      tabs: [
+        {
+          icon: "./icons/form.svg",
+          title: "Form",
+          type: "hierarchy",
+          options: {
+            firstView: {
+              type: "form",
+              options: {},
+            },
           },
         },
-      },
-      {
-        icon: "./icons/bento.svg",
-        title: "Tiles",
-        type: "hierarchy",
-        options: {
-          firstView: {
-            type: "tiles",
-            options: {},
+        {
+          icon: "./icons/bento.svg",
+          title: "Tiles",
+          type: "hierarchy",
+          options: {
+            firstView: {
+              type: "tiles",
+              options: {},
+            },
           },
         },
-      },
-      {
-        icon: "./icons/list.svg",
-        title: "List",
-        type: "hierarchy",
-        options: {
-          firstView: {
-            type: "list",
-            options: {},
+        {
+          icon: "./icons/list.svg",
+          title: "List",
+          type: "hierarchy",
+          options: {
+            firstView: {
+              type: "list",
+              options: {},
+            },
           },
         },
-      },
-      {
-        icon: "./icons/map.svg",
-        title: "Map",
-        type: "hierarchy",
-        options: {
-          firstView: {
-            type: "map",
-            options: {},
+        {
+          icon: "./icons/map.svg",
+          title: "Map",
+          type: "hierarchy",
+          options: {
+            firstView: {
+              type: "map",
+              options: {},
+            },
           },
         },
-      },
-    ],
+      ],
+    },
   });
   const formTab = windowObj.view.tabs[0];
   const formFrame = formTab.view.firstView;
