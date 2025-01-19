@@ -128,7 +128,7 @@ function start([ Page, UI, AsyncEvents ]) {
   });
   AsyncEvents.listen(button.clicked, async (event) => {
     window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
-  })();
+  });
   const tilesTab = objLayoutViewport.view.tabs[1];
   const tilesFrame = tilesTab.view.firstView;
   tilesFrame.addItem({
