@@ -6,6 +6,10 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 import * as AsyncEvents from "https://scotwatson.github.io/WebCommon/20240119/async-events.mjs";
 
 const urlSelf = new URL(self.location);
+const urlIconClose = new URL("./icons/close.svg", urlSelf);
+const urlIconEllipsis = new URL("./icons/ellipsis.svg", urlSelf);
+const urlIconHome = new URL("./icons/home.svg", urlSelf);
+const urlIconKebobMenu = new URL("./icons/kebob-menu.svg", urlSelf);
 const urlIconUnselected = new URL("./icons/unselected.svg", urlSelf);
 const urlIconRadioSelected = new URL("./icons/radio-selected.svg", urlSelf);
 const urlIconMultiSelected = new URL("./icons/multi-selected.svg", urlSelf);
@@ -180,14 +184,14 @@ function createBreadcrumbView(args) {
 
   const imgActions = document.createElement("img");
   divTopBar.appendChild(imgActions);
-  imgActions.src = "./icons/kebob-menu.svg";
+  imgActions.src = urlIconKebobMenu;
   imgActions.style.display = "block";
   imgActions.style.gridArea = "actions";
   imgActions.style.backgroundColor = "#0000FF";
 
   const imgHome = document.createElement("img");
   divBreadcrumbs.appendChild(imgHome);
-  imgHome.src = "./icons/home.svg";
+  imgHome.src = urlIconHome;
   imgHome.style.display = "block";
   imgHome.style.gridArea = "home";
   imgHome.style.backgroundColor = "white";
@@ -195,7 +199,7 @@ function createBreadcrumbView(args) {
 
   const imgEllipsis = document.createElement("img");
   divBreadcrumbs.appendChild(imgEllipsis);
-  imgEllipsis.src = "./icons/ellipsis.svg";
+  imgEllipsis.src = urlIconEllipsis;
   imgEllipsis.style.display = "block";
   imgEllipsis.style.gridArea = "ellipsis";
   imgEllipsis.style.backgroundColor = "white";
@@ -377,7 +381,7 @@ function createSecondaryScreen(args) {
 
   const imgClose = document.createElement("img");
   divItemTopBar.appendChild(imgClose);
-  imgClose.src = "./icons/close.svg";
+  imgClose.src = urlIconClose;
   imgClose.style.display = "block";
   imgClose.style.gridArea = "close";
   imgClose.style.backgroundColor = "white";
@@ -397,7 +401,7 @@ function createSecondaryScreen(args) {
 
   const imgActions = document.createElement("img");
   divItemTopBar.appendChild(imgActions);
-  imgActions.src = "./icons/kebob-menu.svg";
+  imgActions.src = urlIconKebobMenu;
   imgActions.style.gridArea = "actions";
   imgActions.style.backgroundColor = "white";
   imgActions.style.boxSizing = "border-box";
@@ -890,7 +894,7 @@ function createSelectFormFrame(args) {
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
         divOption.appendChild(imgSelect);
-        imgSelect.src = "./icons/unselected.svg";
+        imgSelect.src = urlIconUnselected;
         imgSelect.style.display = "block";
         imgSelect.style.gridArea = "select";
         const funcCreate = formElementTypes.get(option.type);
