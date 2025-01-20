@@ -536,6 +536,9 @@ function createListFrame(args) {
         objItem.openItemDetail(item);
       });
       return {
+        selected: new AsyncEvents.EventIterable(({ next, complete, error }) => {
+          divNewLine.addEventListener("click", next);
+        });
       };
     },
     clearAllItems() {
