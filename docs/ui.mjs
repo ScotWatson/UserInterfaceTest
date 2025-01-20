@@ -147,8 +147,8 @@ function createNavigationTabBar(args) {
 }
 
 const hierarchyTypeFunctions = new Map();
-hierarchyTypeFunctions.set("form", createFormFrame);
-hierarchyTypeFunctions.set("selectForm", createSelectFormFrame);
+hierarchyTypeFunctions.set("elements", createFormFrame);
+hierarchyTypeFunctions.set("form", createSelectFormFrame);
 hierarchyTypeFunctions.set("tiles", createTilesFrame);
 hierarchyTypeFunctions.set("list", createListFrame);
 hierarchyTypeFunctions.set("map", createMapFrame);
