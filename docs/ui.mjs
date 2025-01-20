@@ -6,13 +6,13 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 import * as AsyncEvents from "https://scotwatson.github.io/WebCommon/20240119/async-events.mjs";
 
 const urlSelf = new URL(self.location);
-const urlIconClose = new URL("./icons/close.svg", urlSelf);
-const urlIconEllipsis = new URL("./icons/ellipsis.svg", urlSelf);
-const urlIconHome = new URL("./icons/home.svg", urlSelf);
-const urlIconKebobMenu = new URL("./icons/kebob-menu.svg", urlSelf);
-const urlIconUnselected = new URL("./icons/unselected.svg", urlSelf);
-const urlIconRadioSelected = new URL("./icons/radio-selected.svg", urlSelf);
-const urlIconMultiSelected = new URL("./icons/multi-selected.svg", urlSelf);
+const urlIconClose = import.meta.resolve("./icons/close.svg");
+const urlIconEllipsis = import.meta.resolve("./icons/ellipsis.svg");
+const urlIconHome = import.meta.resolve("./icons/home.svg");
+const urlIconKebobMenu = import.meta.resolve("./icons/kebob-menu.svg");
+const urlIconUnselected = import.meta.resolve("./icons/unselected.svg");
+const urlIconRadioSelected = import.meta.resolve("./icons/radio-selected.svg");
+const urlIconMultiSelected = import.meta.resolve("./icons/multi-selected.svg");
 
 const rootTypeFunctions = new Map();
 rootTypeFunctions.set("navigation", createNavigationTabBar);
