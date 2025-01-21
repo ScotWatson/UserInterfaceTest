@@ -258,7 +258,7 @@ function createView(args) {
     const removedLevel = frames.pop();
     removedLevel.remove();
   }
-  imgHome.addEventListener("click", () => {
+  divHome.addEventListener("click", () => {
     while (levels.length > 1) {
       removeLastLevel();
     }
