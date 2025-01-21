@@ -393,7 +393,7 @@ function createBreadcrumbView(args) {
       const { div: divActionItem, obj: objAction } = createAction(obj);
       divActions.appendChild(divActionItem);
       actions.push(objAction);
-      return obj;
+      return objAction;
     }
     return { div, obj };
   }
