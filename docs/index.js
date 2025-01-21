@@ -70,7 +70,7 @@ function start([ Page, UI, AsyncEvents ]) {
   });
   const topView = objLayoutViewport.view
   const formTab = topView.tabs[0];
-  const formFrame = formTab.view.contents;
+  const formFrame = formTab.view.firstView.contents;
   const textEntry = formFrame.addElement({
     type: "text-entry",
   });
@@ -127,7 +127,7 @@ function start([ Page, UI, AsyncEvents ]) {
     window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
   });
   const tilesTab = topView.tabs[1];
-  const tilesFrame = tilesTab.view.contents;
+  const tilesFrame = tilesTab.view.firstView.contents;
   tilesFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
@@ -158,7 +158,7 @@ function start([ Page, UI, AsyncEvents ]) {
     description.setText(objItem.description);
   });
   const listTab = topView.tabs[2];
-  const listFrame = listTab.view.contents;
+  const listFrame = listTab.view.firstView.contents;
   listFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
@@ -189,7 +189,7 @@ function start([ Page, UI, AsyncEvents ]) {
     description.setText(objItem.description);
   });
   const mapTab = topView.tabs[3];
-  const mapFrame = mapTab.view.contents;
+  const mapFrame = mapTab.view.firstView.contents;
   async function staticImage(imageUrl) {
     const image = new Image();
     const response = await fetch(imageUrl);
