@@ -28,66 +28,54 @@ function start([ Page, UI, AsyncEvents ]) {
         {
           icon: "./icons/form.svg",
           title: "Form",
-          type: "hierarchy",
-          options: {
-            firstView: {
-              title: "Form",
-              type: "elements",
-              options: {},
-            },
+          view: {
+            title: "Form",
+            type: "elements",
+            options: {},
           },
         },
         {
           icon: "./icons/bento.svg",
           title: "Tiles",
-          type: "hierarchy",
-          options: {
-            firstView: {
-              title: "Tiles",
-              type: "tiles",
-              options: {},
-            },
+          view: {
+            title: "Tiles",
+            type: "tiles",
+            options: {},
           },
         },
         {
           icon: "./icons/list.svg",
           title: "List",
-          type: "hierarchy",
-          options: {
-            firstView: {
-              title: "List",
-              type: "list",
-              options: {},
-            },
+          view: {
+            title: "List",
+            type: "list",
+            options: {},
           },
         },
         {
           icon: "./icons/map.svg",
           title: "Map",
-          type: "hierarchy",
-          options: {
-            firstView: {
-              title: "Map",
-              type: "map",
-              options: {},
-            },
+          view: {
+            title: "Map",
+            type: "map",
+            options: {},
           },
         },
       ],
     },
   });
-  const formTab = objLayoutViewport.view.tabs[0];
-  const formFrame = formTab.view.firstView;
-  const textEntry = formFrame.view.addElement({
+  const formTab = objLayoutViewport.tabs[0];
+  const formFrame = formTab.contents;
+  const textEntry = formFrame.addElement({
     type: "text-entry",
   });
   textEntry.setPrompt("Text Prompt");
-  const multiSelect = formFrame.view.addElement({
+  const multiSelect = formFrame.addElement({
     type: "text-display",
   });
   multiSelect.setText("Multi-select");
   AsyncEvents.listen(multiSelect.clicked, async (event) => {
-    const selection = formView.addFrame({
+    const selection = formView.addLevel({
       title: "Multi-select",
       type: "form",
       args: {
@@ -133,8 +121,8 @@ function start([ Page, UI, AsyncEvents ]) {
   AsyncEvents.listen(button.clicked, async (event) => {
     window.alert("Clicked " + textEntry.getValue() + " " + numericEntry.getValue());
   });
-  const tilesTab = objLayoutViewport.view.tabs[1];
-  const tilesFrame = tilesTab.view.firstView;
+  const tilesTab = objLayoutViewport.tabs[1];
+  const tilesFrame = tilesTab.contents;
   tilesFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
@@ -164,8 +152,8 @@ function start([ Page, UI, AsyncEvents ]) {
     });
     description.setText(objItem.description);
   });
-  const listTab = objLayoutViewport.view.tabs[2];
-  const listFrame = listTab.view.firstView;
+  const listTab = objLayoutViewport.tabs[2];
+  const listFrame = listTab.contents;
   listFrame.addItem({
     icon: "./icons/home.svg",
     title: "Home",
