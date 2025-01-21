@@ -16,7 +16,6 @@ const urlIconMultiSelected = import.meta.resolve("./icons/multi-selected.svg");
 
 const rootTypeFunctions = new Map();
 rootTypeFunctions.set("navigation", createNavigationTabBar);
-rootTypeFunctions.set("hierarchy", createBreadcrumbView);
 
 function createControlledPromise() {
   let resolve = null;
@@ -67,9 +66,6 @@ export function initialize(args) {
     view: objView,
   };
 }
-
-const navTypeFunctions = new Map();
-navTypeFunctions.set("hierarchy", createBreadcrumbView);
 
 function createNavigationTabBar(args) {
   const obj = {
