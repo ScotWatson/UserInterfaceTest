@@ -475,6 +475,7 @@ function createView(args) {
   obj.firstView = obj.addLevel({
     type,
     options,
+    actions,
   });
   return {
     div,
