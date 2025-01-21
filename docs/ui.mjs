@@ -352,14 +352,14 @@ function createBreadcrumbView(args) {
     div.remove();
   });
   obj.addView = (args) => {
-    const { div: divViewContainer, obj: objView} = createView(args);
+    const { div: divViewContainer, obj: objViewContainer} = createViewContainer(args);
     div.appendChild(divViewContainer);
     obj.removed.then(() => {
-      obj.remove();
+      objView.remove();
     });
-    return objView;
+    return objViewContainer;
   };
-  function createView(args) {
+  function createViewContainer(args) {
     const { type, title, options } = args;
     const obj = {};
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
@@ -384,6 +384,7 @@ function createBreadcrumbView(args) {
     levels.push(level);
     updateBreadcrumbs();
     const actions = [];
+    obj.view = objView;
     obj.removed.then(() => {
       divViewContainer.remove();
       divActions.remove();
