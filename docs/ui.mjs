@@ -352,15 +352,15 @@ function createBreadcrumbView(args) {
     div.remove();
   });
   obj.addView = (args) => {
-    const { type, title, options } = args;
-    const { div: divViewContainer, obj: objView} = createView();
+    const { div: divViewContainer, obj: objView} = createView(args);
     div.appendChild(divViewContainer);
     obj.removed.then(() => {
       obj.remove();
     });
     return obj;
   };
-  function createView() {
+  function createView(args) {
+    const { type, title, options } = args;
     const obj = {};
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
     const funcCreate = hierarchyTypeFunctions.get(type);
