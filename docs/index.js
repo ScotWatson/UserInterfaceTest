@@ -32,6 +32,7 @@ function start([ Page, UI, AsyncEvents ]) {
             title: "Form",
             type: "elements",
             options: {},
+            actions: [],
           },
         },
         {
@@ -41,6 +42,7 @@ function start([ Page, UI, AsyncEvents ]) {
             title: "Tiles",
             type: "tiles",
             options: {},
+            actions: [],
           },
         },
         {
@@ -50,6 +52,7 @@ function start([ Page, UI, AsyncEvents ]) {
             title: "List",
             type: "list",
             options: {},
+            actions: [],
           },
         },
         {
@@ -59,6 +62,7 @@ function start([ Page, UI, AsyncEvents ]) {
             title: "Map",
             type: "map",
             options: {},
+            actions: [],
           },
         },
       ],
