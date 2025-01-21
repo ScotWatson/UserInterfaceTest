@@ -353,9 +353,9 @@ function createView(args) {
   });
   function toggleActions() {
     if (levels[levels.length - 1].divActions.display === "none") {
-      levels[levels.length - 1].objActions.show();
+      levels[levels.length - 1].objActionList.show();
     } else {
-      levels[levels.length - 1].objActions.hide();
+      levels[levels.length - 1].objActionList.hide();
     }
   }
   const obj = {};
@@ -374,17 +374,17 @@ function createView(args) {
     const level = {
       title,
       objViewContainer,
-      objActions,
+      objActionList,
       remove: obj.remove,
     };
     if (levels.length !== 0) {
-      levels[levels.length - 1].objActions.hide();
+      levels[levels.length - 1].objActionList.hide();
     }
     levels.push(level);
     delete obj.remove;
     obj.removed.then(() => {
       objViewContainer.remove();
-      objActions.remove();
+      objActionList.remove();
     });
     obj.contents = objViewContainer.view;
     obj.actions = objActionList.actions;
