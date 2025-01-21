@@ -18,6 +18,16 @@ const rootTypeFunctions = new Map();
 rootTypeFunctions.set("navigation", createNavigationTabBar);
 rootTypeFunctions.set("hierarchy", createBreadcrumbView);
 
+function createControlledPromise() {
+  let resolve = null;
+  let reject = null;
+  const promise = new Promise((_resolve, _reject) => {
+    resolve = _resolve;
+    reject = _reject;
+  });
+  return { promise, resolve, reject };
+};
+
 export function initialize(args) {
   const { type, options } = args;
   const metaWidth = document.createElement("meta");
@@ -81,7 +91,7 @@ function createNavigationTabBar(args) {
   divViewButtons.style.placeContent = "space-around";
   divViewButtons.style.alignItems = "center";
   divViewButtons.style.width = "100%";
-  divViewButtons.style.backgroundColor = "#00FF00";
+  divViewButtons.style.backgroundColor = "white";
   divViewButtons.style.border = "0px";
   divViewButtons.style.boxSizing = "border-box";
   divViewButtons.style.overflow = "hidden";
@@ -160,7 +170,7 @@ function createBreadcrumbView(args) {
   const { firstView } = args;
   const div = document.createElement("div");
   div.style.display = "grid";
-  div.style.backgroundColor = "#00FF00";
+  div.style.backgroundColor = "white";
   div.style.gridTemplateColumns = "1fr";
   div.style.gridTemplateRows = "var(--touch-size) 1fr";
   div.style.gridTemplateAreas = '"topBar" "content"';
@@ -170,7 +180,7 @@ function createBreadcrumbView(args) {
   div.appendChild(divTopBar);
   divTopBar.style.display = "grid";
   divTopBar.style.gridArea = "topBar";
-  divTopBar.style.backgroundColor = "#FF0000";
+  divTopBar.style.backgroundColor = "white";
   divTopBar.style.gridTemplateColumns = "1fr var(--touch-size)";
   divTopBar.style.gridTemplateRows = "var(--touch-size)";
   divTopBar.style.gridTemplateAreas = '"breadcrumbs actions"';
@@ -180,14 +190,14 @@ function createBreadcrumbView(args) {
   divBreadcrumbs.style.display = "grid";
   divBreadcrumbs.style.gridArea = "breadcrumbs";
   divBreadcrumbs.style.gridTemplateRows = "1fr";
-  divBreadcrumbs.style.backgroundColor = "#0000C0";
+  divBreadcrumbs.style.backgroundColor = "white";
 
   const imgActions = document.createElement("img");
   divTopBar.appendChild(imgActions);
   imgActions.src = urlIconKebobMenu;
   imgActions.style.display = "block";
   imgActions.style.gridArea = "actions";
-  imgActions.style.backgroundColor = "#0000FF";
+  imgActions.style.backgroundColor = "white";
 
   const imgHome = document.createElement("img");
   divBreadcrumbs.appendChild(imgHome);
@@ -244,8 +254,10 @@ function createBreadcrumbView(args) {
   divUltimateText.style.textOverflow = "ellipsis";
   const levels = [];
   function removeLastLevel() {
+    hideActions();
     const removedLevel = frames.pop();
-    removedFrame.div.remove();
+    removedLevel.objView.remove();
+    removedLevel.divViewContainer.remove();
   }
   imgHome.addEventListener("click", () => {
     while (levels.length > 1) {
@@ -318,68 +330,82 @@ function createBreadcrumbView(args) {
       levels[levels.length - 1].divViewContainer.style.display = "block";
     }
   }
-  const obj = {
-    addView(args) {
-      const { type, title, options } = args;
-      const funcCreate = hierarchyTypeFunctions.get(type);
-      const { div: divView, obj: objView } = funcCreate(options);
-      const divViewContainer = document.createElement("div");
-      div.appendChild(divViewContainer);
-      divViewContainer.style.display = "none";
-      divViewContainer.style.gridArea = "content";
-      divViewContainer.appendChild(divView);
-      const divActions = document.createElement("div");
-      div.appendChild(divActions);
-      divActions.style.display = "none";
-      divActions.style.flexDirection = "column";
-      divActions.style.position = "relative";
-      divActions.style.right = "0px";
-      divActions.style.top = "var(--touch-size)";
-      const level = {
-        title,
-        divViewContainer,
-        divActions,
-      };
-      levels.push(level);
-      updateBreadcrumbs();
-      const actions = [];
-      objView.addAction = ({ title }) => {
-        const { removed, remove } = () => {
-          let _resolve = null;
-          let _reject = null;
-          const _promise = new Promise((resolve, reject) => {
-            _resolve = resolve;
-            _reject = reject;
-          });
-          return { _promise, _resolve, _reject };
-        };
-        const divActionItem = document.createElement("div");
-        divActions.appendChild(divActionItem);
-        divActionItem.style.display = "block";
-        divActionItem.style.height = "var(--touch-size)";
-        divActionItem.style.width = "100%";
-        actions.push(objAction);
-        const objAction = {
-          remove,
-          clicked: new AsyncEvents.EventIterable(({ next, complete, error }) => {
-            divActionItem.addEventListener("click", next);
-            removed.then(() => {
-              divActionItem.removeEventListener("click", next);
-              complete();
-            });
-          }),
-        };
-        return objAction;
-      }
-      return objView;
-    },
-    back() {
-      if (frames.length === 1) {
-        throw new Error("No more frames to remove.");
-      }
-      removeLastFrame();
-      updateBreadcrumbs();
-    },
+  imgActions.addEventListener("click", () => {
+    toggleActions();
+  });
+  function toggleActions() {
+    if (levels[levels.length - 1].divActions.display === "none") {
+      showActions();
+    } else {
+      hideActions();
+    }
+  }
+  function showActions() {
+    levels[levels.length - 1].divActions.display = "flex";
+  }
+  function hideActions() {
+    levels[levels.length - 1].divActions.display = "none";
+  }
+  const obj = {};
+  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+  obj.addView = (args) => {
+    const { type, title, options } = args;
+    const funcCreate = hierarchyTypeFunctions.get(type);
+    const { div: divView, obj: objView } = funcCreate(options);
+    const divViewContainer = document.createElement("div");
+    div.appendChild(divViewContainer);
+    divViewContainer.style.display = "none";
+    divViewContainer.style.gridArea = "content";
+    divViewContainer.appendChild(divView);
+    const divActions = document.createElement("div");
+    div.appendChild(divActions);
+    divActions.style.display = "none";
+    divActions.style.flexDirection = "column";
+    divActions.style.position = "relative";
+    divActions.style.right = "0px";
+    divActions.style.top = "var(--touch-size)";
+    const level = {
+      title,
+      divViewContainer,
+      divActions,
+      objView,
+    };
+    levels.push(level);
+    updateBreadcrumbs();
+    const actions = [];
+    obj.addAction = ({ title }) => {
+      const objView = obj;
+      const obj = {};
+      ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+      const divActionItem = document.createElement("div");
+      divActions.appendChild(divActionItem);
+      divActionItem.style.display = "block";
+      divActionItem.style.height = "var(--touch-size)";
+      divActionItem.style.width = "100%";
+      actions.push(objAction);
+      obj.clicked = new AsyncEvents.EventIterable(({ next, complete, error }) => {
+        divActionItem.addEventListener("click", next);
+        removed.then(() => {
+          divActionItem.removeEventListener("click", next);
+          complete();
+        });
+      });
+      objView.removed.then(() => {
+        obj.remove();
+      });
+      obj.removed.then(() => {
+        divActionItem.remove();
+      });
+      return obj;
+    }
+    return obj;
+  };
+  obj.back = () => {
+    if (frames.length === 1) {
+      throw new Error("No more frames to remove.");
+    }
+    removeLastLevel();
+    updateBreadcrumbs();
   };
   obj.firstView = obj.addView({
     type: firstView.type,
@@ -1198,7 +1224,7 @@ function createButton(args) {
   btn.style.width = "80%";
   btn.style.borderRadius = "calc(0.4 * var(--touch-size))";
   btn.style.border = "0px";
-  btn.style.backgroundColor = "#C0C0C0";
+  btn.style.backgroundColor = "white";
   if (typeof args.caption === "string") {
     btn.innerHTML = args.caption;
   }
