@@ -868,9 +868,9 @@ export const symTextDisplay = Symbol();
 export const symButton = Symbol();
 
 const formElementTypes = new Map();
-formElementTypes.set("textEntry", createTextEntry);
-formElementTypes.set("numericEntry", createNumericEntry);
-formElementTypes.set("textDisplay", createTextDisplay);
+formElementTypes.set("text-entry", createTextEntry);
+formElementTypes.set("numeric-entry", createNumericEntry);
+formElementTypes.set("text-display", createTextDisplay);
 formElementTypes.set("button", createButton);
 
 function createFormFrame(args) {
