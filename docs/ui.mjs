@@ -367,7 +367,7 @@ function createBreadcrumbView(args) {
               divActionItem.removeEventListener("click", next);
               complete();
             });
-          });
+          }),
         };
         return objAction;
       }
