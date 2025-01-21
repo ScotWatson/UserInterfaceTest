@@ -405,7 +405,7 @@ function createBreadcrumbView(args) {
     div.style.width = "100%";
     obj.clicked = new AsyncEvents.EventIterable(({ next, complete, error }) => {
       div.addEventListener("click", next);
-      removed.then(() => {
+      obj.removed.then(() => {
         div.removeEventListener("click", next);
         complete();
       });
