@@ -100,7 +100,7 @@ function createNavigationTabBar(args) {
   };
   const viewContainers = [];
   for (const tab of args.tabs) {
-    const { icon, title } = tab;
+    const { icon, title, type, options } = tab;
     const btn = document.createElement("button");
     divViewButtons.appendChild(btn);
     btn.style.display = "grid";
@@ -136,7 +136,6 @@ function createNavigationTabBar(args) {
     divViewContainer.style.gridArea = "view";
     divViewContainer.style.overflow = "hidden";
     viewContainers.push(divViewContainer);
-    const { type, options } = tab;
     const funcCreate = navTypeFunctions.get(type);
     const { div: divView, obj: objView } = funcCreate(options);
     divViewContainer.appendChild(divView);
