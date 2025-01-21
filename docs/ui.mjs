@@ -193,7 +193,7 @@ function createView(args) {
   imgActions.style.backgroundColor = "white";
 
   const imgBack = document.createElement("img");
-  divTopBar.appendChild(imgHome);
+  divTopBar.appendChild(imgBack);
   imgBack.src = urlIconHome;
   imgBack.style.display = "none";
   imgBack.style.gridArea = "back";
