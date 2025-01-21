@@ -31,7 +31,7 @@ function start([ Page, UI, AsyncEvents ]) {
           type: "hierarchy",
           options: {
             firstView: {
-              type: "form",
+              type: "elements",
               options: {},
             },
           },
@@ -75,17 +75,17 @@ function start([ Page, UI, AsyncEvents ]) {
   const formTab = objLayoutViewport.view.tabs[0];
   const formFrame = formTab.view.firstView;
   const textEntry = formFrame.addElement({
-    type: "textEntry",
+    type: "text-entry",
   });
   textEntry.setPrompt("Text Prompt");
   const multiSelect = formFrame.addElement({
-    type: "textDisplay",
+    type: "text-display",
   });
   multiSelect.setText("Multi-select");
   AsyncEvents.listen(multiSelect.clicked, async (event) => {
     const selection = formView.addFrame({
       title: "Multi-select",
-      type: "selectForm",
+      type: "form",
       args: {
         minOptions: 0,
         maxOptions: 2,
