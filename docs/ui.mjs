@@ -42,7 +42,7 @@ export function initialize(args) {
   const bodyShadowRoot = document.body.attachShadow({ mode: "closed" });
   const topStyleSheet = new CSSStyleSheet();
   topStyleSheet.insertRule("* { --device-pixel-ratio: " + window.devicePixelRatio + "; }");
-  topStyleSheet.insertRule("* { --touch-size: 0.5in; }");
+  topStyleSheet.insertRule("* { --min-touch-size: 0.25in; }");
   topStyleSheet.insertRule("* { --header-size: calc(30pt / var(--device-pixel-ratio)); }");
   topStyleSheet.insertRule("* { --subheader-size: calc(18pt / var(--device-pixel-ratio)); }");
   topStyleSheet.insertRule("* { --body-text-size: calc(12pt / var(--device-pixel-ratio)); }");
@@ -76,7 +76,7 @@ function createNavigationTabBar(args) {
   div.style.display = "grid";
   div.style.width = "100%";
   div.style.height = "100%";
-  div.style.gridTemplateColumns = "var(--touch-size) 6fr";
+  div.style.gridTemplateColumns = "var(--min-touch-size) 6fr";
   div.style.gridTemplateRows = "1fr";
   div.style.gridTemplateAreas = '"views view"';
   div.style.overflow = "hidden";
@@ -104,8 +104,8 @@ function createNavigationTabBar(args) {
     const btn = document.createElement("button");
     divViewButtons.appendChild(btn);
     btn.style.display = "grid";
-    btn.style.gridTemplateColumns = "var(--touch-size)";
-    btn.style.gridTemplateRows = "var(--touch-size) var(--caption-size)";
+    btn.style.gridTemplateColumns = "var(--min-touch-size)";
+    btn.style.gridTemplateRows = "var(--min-touch-size) var(--caption-size)";
     btn.style.gridTemplateAreas = '"icon" "title"';
     btn.style.border = "0px";
     btn.style.margin = "0px";
@@ -172,7 +172,7 @@ function createBreadcrumbView(args) {
   div.style.display = "grid";
   div.style.backgroundColor = "white";
   div.style.gridTemplateColumns = "1fr";
-  div.style.gridTemplateRows = "var(--touch-size) 1fr";
+  div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
   div.style.gridTemplateAreas = '"topBar" "content"';
   div.style.overflow = "hidden";
 
@@ -181,8 +181,8 @@ function createBreadcrumbView(args) {
   divTopBar.style.display = "grid";
   divTopBar.style.gridArea = "topBar";
   divTopBar.style.backgroundColor = "white";
-  divTopBar.style.gridTemplateColumns = "1fr var(--touch-size)";
-  divTopBar.style.gridTemplateRows = "var(--touch-size)";
+  divTopBar.style.gridTemplateColumns = "1fr var(--min-touch-size)";
+  divTopBar.style.gridTemplateRows = "var(--min-touch-size)";
   divTopBar.style.gridTemplateAreas = '"breadcrumbs actions"';
 
   const divBreadcrumbs = document.createElement("div");
@@ -205,7 +205,7 @@ function createBreadcrumbView(args) {
   imgHome.style.display = "block";
   imgHome.style.gridArea = "home";
   imgHome.style.backgroundColor = "white";
-  imgHome.style.height = "var(--touch-size)";
+  imgHome.style.height = "var(--min-touch-size)";
 
   const imgEllipsis = document.createElement("img");
   divBreadcrumbs.appendChild(imgEllipsis);
@@ -215,7 +215,7 @@ function createBreadcrumbView(args) {
   imgEllipsis.style.backgroundColor = "white";
   imgEllipsis.style.borderLeft = "1px solid black";
   imgEllipsis.style.boxSizing = "border-box";
-  imgEllipsis.style.height = "var(--touch-size)";
+  imgEllipsis.style.height = "var(--min-touch-size)";
 
   const divPenultimate = document.createElement("div");
   divBreadcrumbs.appendChild(divPenultimate);
@@ -223,7 +223,7 @@ function createBreadcrumbView(args) {
   divPenultimate.style.alignItems = "center";
   divPenultimate.style.gridArea = "penultimate";
   divPenultimate.style.backgroundColor = "white";
-  divPenultimate.style.height = "var(--touch-size)";
+  divPenultimate.style.height = "var(--min-touch-size)";
   divPenultimate.style.fontSize = "var(--header-size)";
   divPenultimate.style.overflow = "hidden";
   divPenultimate.style.borderLeft = "1px solid black";
@@ -241,7 +241,7 @@ function createBreadcrumbView(args) {
   divUltimate.style.alignItems = "center";
   divUltimate.style.gridArea = "ultimate";
   divUltimate.style.backgroundColor = "white";
-  divUltimate.style.height = "var(--touch-size)";
+  divUltimate.style.height = "var(--min-touch-size)";
   divUltimate.style.fontSize = "var(--header-size)";
   divUltimate.style.overflow = "hidden";
   divUltimate.style.borderLeft = "1px solid black";
@@ -276,7 +276,7 @@ function createBreadcrumbView(args) {
     switch (levels.length) {
       case 0: {
         // Empty
-        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
@@ -287,7 +287,7 @@ function createBreadcrumbView(args) {
         break;
       case 1: {
         // Home Only
-        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
@@ -299,7 +299,7 @@ function createBreadcrumbView(args) {
         break;
       case 2: {
         // One level
-        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) 1fr 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) 1fr 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home penultimate ultimate"';
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "block";
@@ -312,7 +312,7 @@ function createBreadcrumbView(args) {
         break;
       default: {
         // Multiple Levels
-        divBreadcrumbs.style.gridTemplateColumns = "var(--touch-size) var(--touch-size) 1fr 1fr";
+        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) var(--min-touch-size) 1fr 1fr";
         divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
         imgEllipsis.style.display = "block";
         divPenultimate.style.display = "block";
@@ -402,7 +402,7 @@ function createBreadcrumbView(args) {
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
     const div = document.createElement("div");
     div.style.display = "block";
-    div.style.height = "var(--touch-size)";
+    div.style.height = "var(--min-touch-size)";
     div.style.width = "100%";
     obj.clicked = new AsyncEvents.EventIterable(({ next, complete, error }) => {
       div.addEventListener("click", next);
@@ -447,7 +447,7 @@ function createSecondaryScreen(args) {
   divItemDetail.style.display = "grid";
   divItemDetail.style.gridArea = "item";
   divItemDetail.style.gridTemplateColumns = "1fr";
-  divItemDetail.style.gridTemplateRows = "var(--touch-size) 1fr";
+  divItemDetail.style.gridTemplateRows = "var(--min-touch-size) 1fr";
   divItemDetail.style.gridTemplateAreas = '"topBar" "content"';
   divItemDetail.style.backgroundColor = "white";
   divItemDetail.style.borderLeft = "1px solid black";
@@ -457,8 +457,8 @@ function createSecondaryScreen(args) {
   divItemDetail.appendChild(divItemTopBar);
   divItemTopBar.style.display = "grid";
   divItemTopBar.style.gridArea = "topBar";
-  divItemTopBar.style.gridTemplateColumns = "var(--touch-size) 1fr var(--touch-size)";
-  divItemTopBar.style.gridTemplateRows = "var(--touch-size)";
+  divItemTopBar.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
+  divItemTopBar.style.gridTemplateRows = "var(--min-touch-size)";
   divItemTopBar.style.gridTemplateAreas = '"close title actions"';
   divItemTopBar.style.backgroundColor = "white";
 
@@ -562,7 +562,7 @@ function createTilesFrame(args) {
       divNewTile.appendChild(divTitle);
       divTitle.append(title);
       divNewTile.style.display = "block";
-      divNewTile.style.width = "calc(2 * var(--touch-size))"; // ~1 in
+      divNewTile.style.width = "calc(2 * var(--min-touch-size))"; // ~1 in
       divNewTile.style.aspectRatio = "1";
       divNewTile.style.border = "1px solid black";
       divNewTile.style.margin = "2%";
@@ -611,8 +611,8 @@ function createListFrame(args) {
       divTitle.style.gridArea = "title";
       divTitle.append(title);
       divNewLine.style.display = "grid";
-      divNewLine.style.gridTemplateRows = "var(--touch-size)";
-      divNewLine.style.gridTemplateColumns = "var(--touch-size) 1fr";
+      divNewLine.style.gridTemplateRows = "var(--min-touch-size)";
+      divNewLine.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
       divNewLine.style.gridTemplateAreas = '"icon title"';
       divNewLine.style.width = "100%";
       divNewLine.addEventListener("click", (evt) => {
@@ -906,7 +906,7 @@ function createTextEntry(args) {
   div.style.display = "grid";
   div.style.width = "100%";
   if (args.icon) {
-    div.style.gridTemplateColumns = "var(--touch-size) 1fr";
+    div.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
     div.style.gridTemplateRows = "1fr 1fr";
     div.style.gridTemplateAreas = '"icon prompt" "icon input"';
     const imgIcon = document.createElement("img");
@@ -974,8 +974,8 @@ function createSelectFormFrame(args) {
         div.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "var(--touch-size)";
-        divOption.style.gridTemplateColumns = "var(--touch-size) 1fr";
+        divOption.style.height = "var(--min-touch-size)";
+        divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
@@ -1017,8 +1017,8 @@ function createSelectFormFrame(args) {
         div.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "var(--touch-size)";
-        divOption.style.gridTemplateColumns = "var(--touch-size) 1fr";
+        divOption.style.height = "var(--min-touch-size)";
+        divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const funcCreate = formElementTypes.get(option.type);
@@ -1042,7 +1042,7 @@ function createSelectFormFrame(args) {
     }
     default: {
       div.style.display = "grid";
-      div.style.gridTemplateRows = "var(--touch-size) 1fr";
+      div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
       div.style.gridTemplateColumns = "1fr";
       div.style.gridTemplateAreas = '"header" "scroll"';
       const divHeader = document.createElement("div");
@@ -1086,8 +1086,8 @@ function createSelectFormFrame(args) {
         divContent.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "var(--touch-size)";
-        divOption.style.gridTemplateColumns = "var(--touch-size) 1fr";
+        divOption.style.height = "var(--min-touch-size)";
+        divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
         const imgSelect = document.createElement("img");
@@ -1141,7 +1141,7 @@ function createNumericEntry(args) {
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.width = "100%";
-  div.style.height = "var(--touch-size)";
+  div.style.height = "var(--min-touch-size)";
   div.style.gridTemplateColumns = "1fr";
   div.style.gridTemplateRows = "1fr 2fr";
   div.style.gridTemplateAreas = '"prompt" "input"';
@@ -1154,7 +1154,7 @@ function createNumericEntry(args) {
   div.appendChild(divInput);
   divInput.style.display = "grid";
   divInput.style.gridArea = "input";
-  divInput.style.gridTemplateColumns = "1fr var(--touch-size)";
+  divInput.style.gridTemplateColumns = "1fr var(--min-touch-size)";
   divInput.style.gridTemplateRows = "1fr";
   divInput.style.gridTemplateAreas = '"range number"';
   const inputRange = document.createElement("input");
@@ -1210,7 +1210,7 @@ function createTextDisplay(args) {
   div.appendChild(divPrimary);
   divPrimary.style.display = "block";
   divPrimary.style.width = "100%";
-  divPrimary.style.minHeight = "var(--touch-size)";
+  divPrimary.style.minHeight = "var(--min-touch-size)";
   divPrimary.style.fontSize = "var(--subheader-size)";
   const obj = {
     setText(text) {
@@ -1236,9 +1236,9 @@ function createButton(args) {
   btn.style.position = "relative";
   btn.style.top = "5px";
   btn.style.left = "10%";
-  btn.style.height = "var(--touch-size)";
+  btn.style.height = "var(--min-touch-size)";
   btn.style.width = "80%";
-  btn.style.borderRadius = "calc(0.4 * var(--touch-size))";
+  btn.style.borderRadius = "calc(0.4 * var(--min-touch-size))";
   btn.style.border = "0px";
   btn.style.backgroundColor = "white";
   if (typeof args.caption === "string") {
