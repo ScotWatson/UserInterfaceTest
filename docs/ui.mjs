@@ -353,23 +353,29 @@ function createBreadcrumbView(args) {
   });
   obj.addView = (args) => {
     const { type, title, options } = args;
-    const objHierarchy = obj;
+    const { div: divViewContainer, obj: objView} = createView();
+    div.appendChild(divViewContainer);
+    obj.removed.then(() => {
+      obj.remove();
+    });
+    return obj;
+  };
+  function createView() {
     const obj = {};
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
     const funcCreate = hierarchyTypeFunctions.get(type);
     const { div: divView, obj: objView } = funcCreate(options);
     const divViewContainer = document.createElement("div");
-    div.appendChild(divViewContainer);
     divViewContainer.style.display = "none";
     divViewContainer.style.gridArea = "content";
     divViewContainer.appendChild(divView);
     const divActions = document.createElement("div");
-    div.appendChild(divActions);
+    divViewContainer.appendChild(divActions);
     divActions.style.display = "none";
     divActions.style.flexDirection = "column";
     divActions.style.position = "relative";
     divActions.style.right = "0px";
-    divActions.style.top = "var(--touch-size)";
+    divActions.style.top = "0px";
     const level = {
       title,
       divViewContainer,
@@ -384,32 +390,32 @@ function createBreadcrumbView(args) {
       divActions.remove();
     });
     obj.addAction = ({ title }) => {
-      const objView = obj;
-      const obj = {};
-      ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-      const divActionItem = document.createElement("div");
+      const { div: divActionItem, obj: objAction } = createAction(obj);
       divActions.appendChild(divActionItem);
-      divActionItem.style.display = "block";
-      divActionItem.style.height = "var(--touch-size)";
-      divActionItem.style.width = "100%";
       actions.push(objAction);
-      obj.clicked = new AsyncEvents.EventIterable(({ next, complete, error }) => {
-        divActionItem.addEventListener("click", next);
-        removed.then(() => {
-          divActionItem.removeEventListener("click", next);
-          complete();
-        });
-      });
-      objView.removed.then(() => {
-        obj.remove();
-      });
-      obj.removed.then(() => {
-        divActionItem.remove();
-      });
       return obj;
     }
-    return obj;
-  };
+    return { div, obj };
+  }
+  function createAction() {
+    const obj = {};
+    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+    const div = document.createElement("div");
+    div.style.display = "block";
+    div.style.height = "var(--touch-size)";
+    div.style.width = "100%";
+    obj.clicked = new AsyncEvents.EventIterable(({ next, complete, error }) => {
+      div.addEventListener("click", next);
+      removed.then(() => {
+        div.removeEventListener("click", next);
+        complete();
+      });
+    });
+    obj.removed.then(() => {
+      div.remove();
+    });
+    return { div, obj };
+  }
   obj.back = () => {
     if (frames.length === 1) {
       throw new Error("No more frames to remove.");
