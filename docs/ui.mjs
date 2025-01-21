@@ -343,7 +343,7 @@ function createBreadcrumbView(args) {
       levels.push(level);
       updateBreadcrumbs();
       const actions = [];
-      objView.addAction({ title }) {
+      objView.addAction = ({ title }) => {
         const { removed, remove } = () => {
           let _resolve = null;
           let _reject = null;
