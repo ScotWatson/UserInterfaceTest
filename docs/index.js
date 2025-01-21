@@ -31,6 +31,7 @@ function start([ Page, UI, AsyncEvents ]) {
           type: "hierarchy",
           options: {
             firstView: {
+              title: "Form",
               type: "elements",
               options: {},
             },
@@ -42,6 +43,7 @@ function start([ Page, UI, AsyncEvents ]) {
           type: "hierarchy",
           options: {
             firstView: {
+              title: "Tiles",
               type: "tiles",
               options: {},
             },
@@ -53,6 +55,7 @@ function start([ Page, UI, AsyncEvents ]) {
           type: "hierarchy",
           options: {
             firstView: {
+              title: "List",
               type: "list",
               options: {},
             },
@@ -64,6 +67,7 @@ function start([ Page, UI, AsyncEvents ]) {
           type: "hierarchy",
           options: {
             firstView: {
+              title: "Map",
               type: "map",
               options: {},
             },
