@@ -348,8 +348,14 @@ function createBreadcrumbView(args) {
   }
   const obj = {};
   ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+  obj.removed.then(() => {
+    div.remove();
+  });
   obj.addView = (args) => {
     const { type, title, options } = args;
+    const objHierarchy = obj;
+    const obj = {};
+    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
     const funcCreate = hierarchyTypeFunctions.get(type);
     const { div: divView, obj: objView } = funcCreate(options);
     const divViewContainer = document.createElement("div");
@@ -368,11 +374,15 @@ function createBreadcrumbView(args) {
       title,
       divViewContainer,
       divActions,
-      objView,
+      objView: obj,
     };
     levels.push(level);
     updateBreadcrumbs();
     const actions = [];
+    obj.removed.then(() => {
+      divViewContainer.remove();
+      divActions.remove();
+    });
     obj.addAction = ({ title }) => {
       const objView = obj;
       const obj = {};
