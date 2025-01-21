@@ -328,8 +328,49 @@ function createBreadcrumbView(args) {
       divViewContainer.style.display = "none";
       divViewContainer.style.gridArea = "content";
       divViewContainer.appendChild(divView);
-      levels.push({ title, divViewContainer });
+      const divActions = document.createElement("div");
+      div.appendChild(divActions);
+      divActions.style.display = "none";
+      divActions.style.flexDirection = "column";
+      divActions.style.position = "relative";
+      divActions.style.right = "0px";
+      divActions.style.top = "var(--touch-size)";
+      const level = {
+        title,
+        divViewContainer,
+        divActions,
+      };
+      levels.push(level);
       updateBreadcrumbs();
+      const actions = [];
+      objView.addAction({ title }) {
+        const { removed, remove } = () => {
+          let _resolve = null;
+          let _reject = null;
+          const _promise = new Promise((resolve, reject) => {
+            _resolve = resolve;
+            _reject = reject;
+          });
+          return { _promise, _resolve, _reject };
+        };
+        const divActionItem = document.createElement("div");
+        divActions.appendChild(divActionItem);
+        divActionItem.style.display = "block";
+        divActionItem.style.height = "var(--touch-size)";
+        divActionItem.style.width = "100%";
+        actions.push(objAction);
+        const objAction = {
+          remove,
+          clicked: new AsyncEvents.EventIterable(({ next, complete, error }) => {
+            divActionItem.addEventListener("click", next);
+            removed.then(() => {
+              divActionItem.removeEventListener("click", next);
+              complete();
+            });
+          });
+        };
+        return objAction;
+      }
       return objView;
     },
     back() {
