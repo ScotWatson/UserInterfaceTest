@@ -368,7 +368,6 @@ function createBreadcrumbView(args) {
     const divViewContainer = document.createElement("div");
     divViewContainer.style.display = "none";
     divViewContainer.style.gridArea = "content";
-    divViewContainer.appendChild(divView);
     const divActions = document.createElement("div");
     divViewContainer.appendChild(divActions);
     divActions.style.display = "none";
