@@ -365,11 +365,11 @@ function createBreadcrumbView(args) {
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
     const funcCreate = hierarchyTypeFunctions.get(type);
     const { div: divView, obj: objView } = funcCreate(options);
-    const divViewContainer = document.createElement("div");
-    divViewContainer.style.display = "none";
-    divViewContainer.style.gridArea = "content";
+    const div = document.createElement("div");
+    div.style.display = "none";
+    div.style.gridArea = "content";
     const divActions = document.createElement("div");
-    divViewContainer.appendChild(divActions);
+    div.appendChild(divActions);
     divActions.style.display = "none";
     divActions.style.flexDirection = "column";
     divActions.style.position = "relative";
@@ -377,7 +377,7 @@ function createBreadcrumbView(args) {
     divActions.style.top = "0px";
     const level = {
       title,
-      divViewContainer,
+      divViewContainer: div,
       divActions,
       objView: obj,
     };
