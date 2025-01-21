@@ -72,6 +72,9 @@ const navTypeFunctions = new Map();
 navTypeFunctions.set("hierarchy", createBreadcrumbView);
 
 function createNavigationTabBar(args) {
+  const obj = {
+    tabs: [],
+  };
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.width = "100%";
@@ -95,30 +98,50 @@ function createNavigationTabBar(args) {
   divViewButtons.style.border = "0px";
   divViewButtons.style.boxSizing = "border-box";
   divViewButtons.style.overflow = "hidden";
-  const obj = {
-    tabs: [],
-  };
   const viewContainers = [];
   for (const tab of args.tabs) {
-    const { icon, title, type, options } = tab;
-    const btn = document.createElement("button");
-    divViewButtons.appendChild(btn);
-    btn.style.display = "grid";
-    btn.style.gridTemplateColumns = "var(--min-touch-size)";
-    btn.style.gridTemplateRows = "var(--min-touch-size) var(--caption-size)";
-    btn.style.gridTemplateAreas = '"icon" "title"';
-    btn.style.border = "0px";
-    btn.style.margin = "0px";
-    btn.style.padding = "0px";
-    btn.style.width = "100%";
-    btn.style.boxSizing = "border-box";
+    const { icon, title, view } = tab;
+    const { div: divTab, obj: objTab } = createTab({ icon, title });
+    divViewButtons.appendChild(divTab);
+    const divViewContainer = document.createElement("div");
+    div.appendChild(divViewContainer);
+    divViewContainer.style.display = "none";
+    divViewContainer.style.gridArea = "view";
+    divViewContainer.style.overflow = "hidden";
+    viewContainers.push(divViewContainer);
+    const { div: divView, obj: objView } = createView(view);
+    divViewContainer.appendChild(divView);
+    objTab.show = () => {
+      for (const div of viewContainers) {
+        div.style.display = "none";
+      }
+      divViewContainer.style.display = "block";
+    },
+    objTab.view = objView,
+    divTab.addEventListener("click", () => {
+      objTab.show();
+    });
+    obj.tabs.push(objTab);
+  }
+  function createTab({ icon, title }) {
+    const obj = {};
+    const div = document.createElement("button");
+    div.style.display = "grid";
+    div.style.gridTemplateColumns = "var(--min-touch-size)";
+    div.style.gridTemplateRows = "var(--min-touch-size) var(--caption-size)";
+    div.style.gridTemplateAreas = '"icon" "title"';
+    div.style.border = "0px";
+    div.style.margin = "0px";
+    div.style.padding = "0px";
+    div.style.width = "100%";
+    div.style.boxSizing = "border-box";
     const imgView = document.createElement("img");
-    btn.appendChild(imgView);
+    div.appendChild(imgView);
     imgView.src = icon;
     imgView.style.display = "block";
     imgView.style.gridArea = "icon";
     const divTabTitle = document.createElement("div");
-    btn.appendChild(divTabTitle);
+    div.appendChild(divTabTitle);
     divTabTitle.style.gridArea = "title";
     divTabTitle.style.height = "100%";
     const divTabTitleText = document.createElement("div");
@@ -130,28 +153,10 @@ function createNavigationTabBar(args) {
     divTabTitleText.style.whiteSpace = "nowrap";
     divTabTitleText.style.overflow = "hidden";
     divTabTitleText.style.textOverflow = "ellipsis";
-    const divViewContainer = document.createElement("div");
-    div.appendChild(divViewContainer);
-    divViewContainer.style.display = "none";
-    divViewContainer.style.gridArea = "view";
-    divViewContainer.style.overflow = "hidden";
-    viewContainers.push(divViewContainer);
-    const funcCreate = navTypeFunctions.get(type);
-    const { div: divView, obj: objView } = funcCreate(options);
-    divViewContainer.appendChild(divView);
-    const tabObj = {
-      show() {
-        for (const div of viewContainers) {
-          div.style.display = "none";
-        }
-        divViewContainer.style.display = "block";
-      },
-      view: objView,
+    return {
+      div,
+      obj,
     };
-    btn.addEventListener("click", () => {
-      tabObj.show();
-    });
-    obj.tabs.push(tabObj);
   }
   return {
     div,
@@ -159,14 +164,14 @@ function createNavigationTabBar(args) {
   };
 }
 
-const hierarchyTypeFunctions = new Map();
-hierarchyTypeFunctions.set("elements", createFormFrame);
-hierarchyTypeFunctions.set("form", createSelectFormFrame);
-hierarchyTypeFunctions.set("tiles", createTilesFrame);
-hierarchyTypeFunctions.set("list", createListFrame);
-hierarchyTypeFunctions.set("map", createMapFrame);
-function createBreadcrumbView(args) {
-  const { firstView } = args;
+const viewTypeFunctions = new Map();
+viewTypeFunctions.set("elements", createFormFrame);
+viewTypeFunctions.set("form", createSelectFormFrame);
+viewTypeFunctions.set("tiles", createTilesFrame);
+viewTypeFunctions.set("list", createListFrame);
+viewTypeFunctions.set("map", createMapFrame);
+function createView(args) {
+  const { type, options, title, actions } = args;
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.backgroundColor = "white";
@@ -182,14 +187,7 @@ function createBreadcrumbView(args) {
   divTopBar.style.backgroundColor = "white";
   divTopBar.style.gridTemplateColumns = "1fr var(--min-touch-size)";
   divTopBar.style.gridTemplateRows = "var(--min-touch-size)";
-  divTopBar.style.gridTemplateAreas = '"breadcrumbs actions"';
-
-  const divBreadcrumbs = document.createElement("div");
-  divTopBar.appendChild(divBreadcrumbs);
-  divBreadcrumbs.style.display = "grid";
-  divBreadcrumbs.style.gridArea = "breadcrumbs";
-  divBreadcrumbs.style.gridTemplateRows = "1fr";
-  divBreadcrumbs.style.backgroundColor = "white";
+  divTopBar.style.gridTemplateAreas = '"home actions"';
 
   const imgActions = document.createElement("img");
   divTopBar.appendChild(imgActions);
@@ -198,16 +196,24 @@ function createBreadcrumbView(args) {
   imgActions.style.gridArea = "actions";
   imgActions.style.backgroundColor = "white";
 
-  const imgHome = document.createElement("img");
-  divBreadcrumbs.appendChild(imgHome);
-  imgHome.src = urlIconHome;
-  imgHome.style.display = "block";
-  imgHome.style.gridArea = "home";
-  imgHome.style.backgroundColor = "white";
-  imgHome.style.height = "var(--min-touch-size)";
+  const imgBack = document.createElement("img");
+  divTopBar.appendChild(imgHome);
+  imgBack.src = urlIconHome;
+  imgBack.style.display = "none";
+  imgBack.style.gridArea = "back";
+  imgBack.style.backgroundColor = "white";
+  imgBack.style.height = "var(--min-touch-size)";
+
+  const divHome = document.createElement("img");
+  divTopBar.appendChild(divHome);
+  divHome.src = urlIconHome;
+  divHome.style.display = "block";
+  divHome.style.gridArea = "home";
+  divHome.style.backgroundColor = "white";
+  divHome.style.height = "var(--min-touch-size)";
 
   const imgEllipsis = document.createElement("img");
-  divBreadcrumbs.appendChild(imgEllipsis);
+  divTopBar.appendChild(imgEllipsis);
   imgEllipsis.src = urlIconEllipsis;
   imgEllipsis.style.display = "block";
   imgEllipsis.style.gridArea = "ellipsis";
@@ -217,7 +223,7 @@ function createBreadcrumbView(args) {
   imgEllipsis.style.height = "var(--min-touch-size)";
 
   const divPenultimate = document.createElement("div");
-  divBreadcrumbs.appendChild(divPenultimate);
+  divTopBar.appendChild(divPenultimate);
   divPenultimate.style.display = "flex";
   divPenultimate.style.alignItems = "center";
   divPenultimate.style.gridArea = "penultimate";
@@ -235,7 +241,7 @@ function createBreadcrumbView(args) {
   divPenultimateText.style.textOverflow = "ellipsis";
 
   const divUltimate = document.createElement("div");
-  divBreadcrumbs.appendChild(divUltimate);
+  divTopBar.appendChild(divUltimate);
   divUltimate.style.display = "flex";
   divUltimate.style.alignItems = "center";
   divUltimate.style.gridArea = "ultimate";
@@ -253,14 +259,12 @@ function createBreadcrumbView(args) {
   divUltimateText.style.textOverflow = "ellipsis";
   const levels = [];
   function removeLastLevel() {
-    hideActions();
     const removedLevel = frames.pop();
-    removedLevel.objView.remove();
-    removedLevel.divViewContainer.remove();
+    removedLevel.remove();
   }
   imgHome.addEventListener("click", () => {
     while (levels.length > 1) {
-      removeLastFrame();
+      removeLastLevel();
     }
     updateBreadcrumbs();
   });
@@ -275,31 +279,49 @@ function createBreadcrumbView(args) {
     switch (levels.length) {
       case 0: {
         // Empty
-        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
-        divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
-        imgEllipsis.style.display = "none";
-        divPenultimate.style.display = "none";
-        divPenultimate.innerHTML = "";
-        divUltimate.style.display = "block";
-        divUltimate.innerHTML = "";
+        throw new Error("Internal Logic Error");
       }
         break;
       case 1: {
         // Home Only
-        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
-        divBreadcrumbs.style.gridTemplateAreas = '"home ultimate"';
+        if (title === "" && actions.length === 0) {
+          div.style.gridTemplateRows = "1fr";
+          div.style.gridTemplateAreas = '"content"';
+          divTopBar.style.display = "none";
+        } else {
+          div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
+          div.style.gridTemplateAreas = '"topBar" "content"';
+          divTopBar.style.display = "grid";
+        }
+        if (actions.length === 0) {
+          divTopBar.style.gridTemplateColumns = "1fr";
+          divTopBar.style.gridTemplateAreas = '"home"';
+        } else {
+          divTopBar.style.gridTemplateColumns = "1fr var(--min-touch-size)";
+          divTopBar.style.gridTemplateAreas = '"home actions"';
+        }
+        divHome.style.display = "block";
+        divHome.innerHTML = "";
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
         divPenultimate.innerHTML = "";
-        divUltimate.style.display = "block";
+        divUltimate.style.display = "none";
         divUltimate.innerHTML = "";
         divUltimate.append(levels[levels.length - 1].title);
       }
         break;
       case 2: {
         // One level
-        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) 1fr 1fr";
-        divBreadcrumbs.style.gridTemplateAreas = '"home penultimate ultimate"';
+        div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
+        div.style.gridTemplateAreas = '"topBar" "content"';
+        divTopBar.style.display = "grid";
+        if (actions.length === 0) {
+          divTopBar.style.gridTemplateColumns = "1fr 1fr 1fr";
+          divTopBar.style.gridTemplateAreas = '"home penultimate ultimate"';
+        } else {
+          divTopBar.style.gridTemplateColumns = "1fr 1fr 1fr var(--min-touch-size)";
+          divTopBar.style.gridTemplateAreas = '"home penultimate ultimate actions"';
+        }
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "block";
         divPenultimate.innerHTML = "";
@@ -311,8 +333,11 @@ function createBreadcrumbView(args) {
         break;
       default: {
         // Multiple Levels
-        divBreadcrumbs.style.gridTemplateColumns = "var(--min-touch-size) var(--min-touch-size) 1fr 1fr";
-        divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate"';
+        div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
+        div.style.gridTemplateAreas = '"topBar" "content"';
+        divTopBar.style.display = "grid";
+        divBreadcrumbs.style.gridTemplateColumns = "1fr var(--min-touch-size) 1fr 1fr var(--min-touch-size)";
+        divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate actions"';
         imgEllipsis.style.display = "block";
         divPenultimate.style.display = "block";
         divPenultimate.innerHTML = "";
@@ -323,78 +348,104 @@ function createBreadcrumbView(args) {
       }
     };
     for (const level of levels) {
-      level.divViewContainer.style.display = "none";
+      level.objViewContainer.hide();
     }
-    if (levels.length >= 1) {
-      levels[levels.length - 1].divViewContainer.style.display = "block";
-    }
+    levels[levels.length - 1].objViewContainer.show();
   }
   imgActions.addEventListener("click", () => {
     toggleActions();
   });
   function toggleActions() {
     if (levels[levels.length - 1].divActions.display === "none") {
-      showActions();
+      levels[levels.length - 1].objActions.show();
     } else {
-      hideActions();
+      levels[levels.length - 1].objActions.hide();
     }
-  }
-  function showActions() {
-    levels[levels.length - 1].divActions.display = "flex";
-  }
-  function hideActions() {
-    levels[levels.length - 1].divActions.display = "none";
   }
   const obj = {};
   ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
   obj.removed.then(() => {
     div.remove();
   });
-  obj.addView = (args) => {
-    const { div: divViewContainer, obj: objViewContainer} = createViewContainer(args);
-    div.appendChild(divViewContainer);
-    obj.removed.then(() => {
-      objView.remove();
-    });
-    return objViewContainer;
-  };
-  function createViewContainer(args) {
-    const { type, title, options } = args;
+  obj.addLevel = (args) => {
     const obj = {};
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-    const funcCreate = hierarchyTypeFunctions.get(type);
+    const { type, options, title, actions } = args;
+    const { div: divViewContainer, obj: objViewContainer} = createViewContainer({ type, options });
+    div.appendChild(divViewContainer);
+    const { div: divActionList, obj: objActionList} = createActionList(actions);
+    div.appendChild(divActionList);
+    const level = {
+      title,
+      objViewContainer,
+      objActions,
+      remove: obj.remove,
+    };
+    if (levels.length !== 0) {
+      levels[levels.length - 1].objActions.hide();
+    }
+    levels.push(level);
+    delete obj.remove;
+    obj.removed.then(() => {
+      objViewContainer.remove();
+      objActions.remove();
+    });
+    obj.contents = objViewContainer.view;
+    obj.actions = objActionList.actions;
+    obj.removed.then(() => {
+      objViewContainer.remove();
+    });
+    updateBreadcrumbs();
+    return obj;
+  };
+  function createViewContainer(args) {
+    const { type, options } = args;
+    const obj = {};
+    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+    const funcCreate = viewTypeFunctions.get(type);
     const { div: divView, obj: objView } = funcCreate(options);
     const div = document.createElement("div");
     div.style.display = "none";
     div.style.gridArea = "content";
-    const divActions = document.createElement("div");
-    div.appendChild(divActions);
-    divActions.style.display = "none";
-    divActions.style.flexDirection = "column";
-    divActions.style.position = "relative";
-    divActions.style.right = "0px";
-    divActions.style.top = "0px";
-    const level = {
-      title,
-      divViewContainer: div,
-      divActions,
-      objView: obj,
-    };
-    levels.push(level);
-    updateBreadcrumbs();
-    const actions = [];
     obj.view = objView;
     obj.removed.then(() => {
-      divViewContainer.remove();
-      divActions.remove();
+      div.remove();
     });
-    obj.addAction = ({ title }) => {
-      const { div: divActionItem, obj: objAction } = createAction(obj);
-      divActions.appendChild(divActionItem);
-      actions.push(objAction);
-      return objAction;
+    obj.show = () => {
+      div.style.display = "block";
+    };
+    obj.hide = () => {
+      div.style.display = "none";
+    };
+    return {
+      div,
+      obj,
+    };
+  }
+  function createActionList(actions) {
+    const obj = {};
+    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+    const div = document.createElement("div");
+    div.style.display = "none";
+    div.style.flexDirection = "column";
+    div.style.position = "relative";
+    div.style.right = "0px";
+    div.style.top = "0px";
+    for (const action of actions) {
+      const { div: divAction, obj: objAction } = createAction(obj);
+      div.appendChild(divAction);
+      obj.actions.push(objAction);
     }
-    return { div, obj };
+    obj.show = () => {
+      div.style.display = "block";
+    }
+    obj.hide = () => {
+      div.style.display = "none";
+    }
+    return {
+      div,
+      obj,
+    };
   }
   function createAction() {
     const obj = {};
@@ -413,7 +464,10 @@ function createBreadcrumbView(args) {
     obj.removed.then(() => {
       div.remove();
     });
-    return { div, obj };
+    return {
+      div,
+      obj,
+    };
   }
   obj.back = () => {
     if (frames.length === 1) {
@@ -423,10 +477,9 @@ function createBreadcrumbView(args) {
     updateBreadcrumbs();
   };
   obj.firstView = obj.addView({
-    type: firstView.type,
-    options: firstView.options,
+    type,
+    options,
   });
-  updateBreadcrumbs();
   return {
     div,
     obj,
