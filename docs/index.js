@@ -74,11 +74,11 @@ function start([ Page, UI, AsyncEvents ]) {
   });
   const formTab = objLayoutViewport.view.tabs[0];
   const formFrame = formTab.view.firstView;
-  const textEntry = formFrame.addElement({
+  const textEntry = formFrame.view.addElement({
     type: "text-entry",
   });
   textEntry.setPrompt("Text Prompt");
-  const multiSelect = formFrame.addElement({
+  const multiSelect = formFrame.view.addElement({
     type: "text-display",
   });
   multiSelect.setText("Multi-select");
