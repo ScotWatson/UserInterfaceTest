@@ -472,7 +472,7 @@ function createView(args) {
     removeLastLevel();
     updateBreadcrumbs();
   };
-  obj.firstView = obj.addView({
+  obj.firstView = obj.addLevel({
     type,
     options,
   });
