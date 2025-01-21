@@ -357,7 +357,7 @@ function createBreadcrumbView(args) {
     obj.removed.then(() => {
       obj.remove();
     });
-    return obj;
+    return objView;
   };
   function createView(args) {
     const { type, title, options } = args;
