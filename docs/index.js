@@ -107,7 +107,7 @@ function start([ Page, UI, AsyncEvents ]) {
     selection.options[2].element.setPrompt("Option #3: Enter a number");
   });
   const numericEntry = formFrame.addElement({
-    type: "numericEntry",
+    type: "numeric-entry",
   });
   numericEntry.setPrompt("Numeric Prompt");
   numericEntry.setLimits({
