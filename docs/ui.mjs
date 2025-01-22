@@ -1035,7 +1035,7 @@ function createSelectFormFrame(args) {
         div.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "var(--min-touch-size)";
+        divOption.style.minHeight = "var(--min-touch-size)";
         divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
@@ -1078,7 +1078,7 @@ function createSelectFormFrame(args) {
         div.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "var(--min-touch-size)";
+        divOption.style.minHeight = "var(--min-touch-size)";
         divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
@@ -1147,7 +1147,7 @@ function createSelectFormFrame(args) {
         divContent.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
-        divOption.style.height = "var(--min-touch-size)";
+        divOption.style.minHeight = "var(--min-touch-size)";
         divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
         divOption.style.gridTemplateRows = "1fr";
         divOption.style.gridTemplateAreas = '"select element"';
