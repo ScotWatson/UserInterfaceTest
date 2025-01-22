@@ -197,7 +197,7 @@ function createView(args) {
   divTopBar.appendChild(divHome);
   divHome.style.display = "flex";
   divHome.style.alignItems = "center";
-  divHome.style.gridArea = "penultimate";
+  divHome.style.gridArea = "home";
   divHome.style.backgroundColor = "white";
   divHome.style.height = "var(--min-touch-size)";
   divHome.style.fontSize = "var(--header-size)";
@@ -308,8 +308,7 @@ function createView(args) {
           divTopBar.style.gridTemplateColumns = "1fr var(--min-touch-size)";
           divTopBar.style.gridTemplateAreas = '"home actions"';
         }
-        divHome.style.display = "block";
-        divHome.innerHTML = "";
+        divHome.style.display = "flex";
         imgEllipsis.style.display = "none";
         divPenultimate.style.display = "none";
         divPenultimate.innerHTML = "";
