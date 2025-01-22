@@ -1268,7 +1268,7 @@ function createTextDisplay(args) {
   const div = document.createElement("div");
   div.style.display = "block";
   div.style.width = "100%";
-  div.style.minHeight = "50px";
+  div.style.minHeight = "var(--min-touch-size)";
   const divPrimary = document.createElement("div");
   div.appendChild(divPrimary);
   divPrimary.style.display = "block";
