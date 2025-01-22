@@ -84,20 +84,20 @@ function start([ Page, UI, AsyncEvents ]) {
     const selection = formView.addLevel({
       title: "Multi-select",
       type: "form",
-      args: {
+      options: {
         minOptions: 0,
         maxOptions: 2,
         options: [
           {
-            type: "textDisplay",
+            type: "text-display",
             args: {},
           },
           {
-            type: "textEntry",
+            type: "text-entry",
             args: {},
           },
           {
-            type: "numericEntry",
+            type: "numeric-entry",
             args: {},
           },
         ],
