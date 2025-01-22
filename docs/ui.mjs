@@ -175,6 +175,7 @@ function createView(args) {
   div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
   div.style.gridTemplateAreas = '"topBar" "content"';
   div.style.overflow = "hidden";
+  div.style.height = "100%";
 
   const divTopBar = document.createElement("div");
   div.appendChild(divTopBar);
