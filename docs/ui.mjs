@@ -185,13 +185,6 @@ function createView(args) {
   divTopBar.style.gridTemplateRows = "var(--min-touch-size)";
   divTopBar.style.gridTemplateAreas = '"home actions"';
 
-  const imgActions = document.createElement("img");
-  divTopBar.appendChild(imgActions);
-  imgActions.src = urlIconKebobMenu;
-  imgActions.style.display = "block";
-  imgActions.style.gridArea = "actions";
-  imgActions.style.backgroundColor = "white";
-
   const imgBack = document.createElement("img");
   divTopBar.appendChild(imgBack);
   imgBack.src = urlIconHome;
@@ -200,9 +193,8 @@ function createView(args) {
   imgBack.style.backgroundColor = "white";
   imgBack.style.height = "var(--min-touch-size)";
 
-  const divHome = document.createElement("img");
+  const divHome = document.createElement("div");
   divTopBar.appendChild(divHome);
-  divHome.src = urlIconHome;
   divHome.style.display = "block";
   divHome.style.gridArea = "home";
   divHome.style.backgroundColor = "white";
@@ -253,6 +245,14 @@ function createView(args) {
   divUltimateText.style.whiteSpace = "nowrap";
   divUltimateText.style.overflow = "hidden";
   divUltimateText.style.textOverflow = "ellipsis";
+
+  const imgActions = document.createElement("img");
+  divTopBar.appendChild(imgActions);
+  imgActions.src = urlIconKebobMenu;
+  imgActions.style.display = "block";
+  imgActions.style.gridArea = "actions";
+  imgActions.style.backgroundColor = "white";
+
   const levels = [];
   function removeLastLevel() {
     const removedLevel = frames.pop();
