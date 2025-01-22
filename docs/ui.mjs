@@ -603,6 +603,7 @@ function createSecondaryScreen(args) {
 
 function createTilesFrame(args) {
   const { div: div, obj: objScroll } = createVerticalScrollable();
+  div.style.height = "100%";
   const divScroll = objScroll.content;
   divScroll.style.display = "flex";
   divScroll.style.flexDirection = "row";
@@ -649,6 +650,7 @@ function createTilesFrame(args) {
 }
 function createListFrame(args) {
   const { div: div, obj: objScroll } = createVerticalScrollable();
+  div.style.height = "100%";
   const divScroll = objScroll.content;
   divScroll.style.display = "flex";
   divScroll.style.flexDirection = "column";
@@ -722,6 +724,7 @@ function createMapFrame(args) {
   });
   const { div: divItem, obj: objItem } = createSecondaryScreen(args);
   const div = objItem.mainFrame;
+  div.style.height = "100%";
   div.appendChild(canvas);
   div.style.overflow = "hidden";
   canvas.style.display = "block";
