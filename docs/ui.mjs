@@ -1028,13 +1028,14 @@ function createSelectFormFrame(args) {
     displayType = "allSelected";
   }
   const div = document.createElement("div");
+  div.style.height = "100%";
   switch (displayType) {
     case "radio": {
       const divContent = document.createElement("div");
       div.appendChild(divContent);
       for (const option of args.options) {
         const divOption = document.createElement("div");
-        div.appendChild(divOption);
+        divContent.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
         divOption.style.minHeight = "var(--min-touch-size)";
@@ -1077,7 +1078,7 @@ function createSelectFormFrame(args) {
       div.appendChild(divContent);
       for (const option of options) {
         const divOption = document.createElement("div");
-        div.appendChild(divOption);
+        divContent.appendChild(divOption);
         divOption.style.display = "grid";
         divOption.style.width = "100%";
         divOption.style.minHeight = "var(--min-touch-size)";
@@ -1105,7 +1106,7 @@ function createSelectFormFrame(args) {
     }
     default: {
       div.style.display = "grid";
-      div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
+      div.style.gridTemplateRows = "max-content 1fr";
       div.style.gridTemplateColumns = "1fr";
       div.style.gridTemplateAreas = '"header" "scroll"';
       const divHeader = document.createElement("div");
