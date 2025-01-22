@@ -195,10 +195,22 @@ function createView(args) {
 
   const divHome = document.createElement("div");
   divTopBar.appendChild(divHome);
-  divHome.style.display = "block";
-  divHome.style.gridArea = "home";
+  divHome.style.display = "flex";
+  divHome.style.alignItems = "center";
+  divHome.style.gridArea = "penultimate";
   divHome.style.backgroundColor = "white";
   divHome.style.height = "var(--min-touch-size)";
+  divHome.style.fontSize = "var(--header-size)";
+  divHome.style.overflow = "hidden";
+  divHome.style.borderLeft = "1px solid black";
+  divHome.style.boxSizing = "border-box";
+  const divHomeText = document.createElement("div");
+  divHome.appendChild(divHomeText);
+  divHomeText.style.display = "block";
+  divHomeText.style.whiteSpace = "nowrap";
+  divHomeText.style.overflow = "hidden";
+  divHomeText.style.textOverflow = "ellipsis";
+  divHomeText.append(title);
 
   const imgEllipsis = document.createElement("img");
   divTopBar.appendChild(imgEllipsis);
