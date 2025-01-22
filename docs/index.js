@@ -102,6 +102,7 @@ function start([ Page, UI, AsyncEvents ]) {
           },
         ],
       },
+      actions: [],
     });
     selection.options[0].element.setText("Option #1");
     selection.options[1].element.setPrompt("Option #2: Enter some text");
