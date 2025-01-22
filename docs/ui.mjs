@@ -40,12 +40,12 @@ export function initialize(args) {
   document.body.style.touchAction = "none";
   const bodyShadowRoot = document.body.attachShadow({ mode: "closed" });
   const topStyleSheet = new CSSStyleSheet();
-  topStyleSheet.insertRule(":root { --device-pixel-ratio: " + window.devicePixelRatio + "; }");
-  topStyleSheet.insertRule(":root { --min-touch-size: 0.25in; }");
-  topStyleSheet.insertRule(":root { --header-size: calc(30pt / var(--device-pixel-ratio)); }");
-  topStyleSheet.insertRule(":root { --subheader-size: calc(18pt / var(--device-pixel-ratio)); }");
-  topStyleSheet.insertRule(":root { --body-text-size: calc(12pt / var(--device-pixel-ratio)); }");
-  topStyleSheet.insertRule(":root { --caption-size: calc(9pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule("* { --device-pixel-ratio: " + window.devicePixelRatio + "; }");
+  topStyleSheet.insertRule("* { --min-touch-size: 0.25in; }");
+  topStyleSheet.insertRule("* { --header-size: calc(30pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule("* { --subheader-size: calc(18pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule("* { --body-text-size: calc(12pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule("* { --caption-size: calc(9pt / var(--device-pixel-ratio)); }");
   bodyShadowRoot.adoptedStyleSheets = [...bodyShadowRoot.adoptedStyleSheets, topStyleSheet];
   const divWindow = document.createElement("div");
   document.body.appendChild(divWindow);
