@@ -70,7 +70,8 @@ function start([ Page, UI, AsyncEvents ]) {
   });
   const topView = objLayoutViewport.view
   const formTab = topView.tabs[0];
-  const formFrame = formTab.view.firstView.contents;
+  const formView = formTab.view;
+  const formFrame = formView.firstView.contents;
   const textEntry = formFrame.addElement({
     type: "text-entry",
   });
