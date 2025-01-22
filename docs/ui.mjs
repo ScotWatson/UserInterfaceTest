@@ -255,7 +255,7 @@ function createView(args) {
 
   const levels = [];
   function removeLastLevel() {
-    const removedLevel = frames.pop();
+    const removedLevel = levels.pop();
     removedLevel.remove();
   }
   divHome.addEventListener("click", () => {
@@ -401,6 +401,7 @@ function createView(args) {
     const funcCreate = viewTypeFunctions.get(type);
     const { div: divView, obj: objView } = funcCreate(options);
     const div = document.createElement("div");
+    div.appendChild(divView);
     div.style.display = "none";
     div.style.gridArea = "content";
     obj.view = objView;
