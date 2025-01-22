@@ -116,7 +116,7 @@ function start([ Page, UI, AsyncEvents ]) {
     interval: 1,
   });
   const textDisplay = formFrame.addElement({
-    type: "textDisplay",
+    type: "text-display",
   });
   textDisplay.setText("Test text ".repeat(100));
   const button = formFrame.addElement({
