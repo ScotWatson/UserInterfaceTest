@@ -504,6 +504,7 @@ function createSecondaryScreen(args) {
   div.style.gridTemplateRows = "1fr";
   div.style.gridTemplateAreas = '"main item"';
   div.style.overflow = "hidden";
+  div.style.height = "100%";
 
   const divItemDetail = document.createElement("div");
   div.appendChild(divItemDetail);
@@ -603,7 +604,6 @@ function createSecondaryScreen(args) {
 
 function createTilesFrame(args) {
   const { div: div, obj: objScroll } = createVerticalScrollable();
-  div.style.height = "100%";
   const divScroll = objScroll.content;
   divScroll.style.display = "flex";
   divScroll.style.flexDirection = "row";
