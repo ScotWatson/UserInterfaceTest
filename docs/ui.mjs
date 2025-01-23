@@ -629,42 +629,43 @@ function createTilesFrame(args) {
   divScroll.style.alignContent = "space-around";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
-  const { div: divItem, obj: objItem } = createSecondaryScreen(args);
-  objItem.mainFrame.append(div);
-  const obj = {
-    addItem({ icon, title, item }) {
-      const divNewTile = document.createElement("div");
-      divScroll.appendChild(divNewTile);
-      const imgIcon = document.createElement("img");
-      divNewTile.appendChild(imgIcon);
-      imgIcon.src = icon;
-      const divTitle = document.createElement("div");
-      divNewTile.appendChild(divTitle);
-      divTitle.append(title);
-      divNewTile.style.display = "block";
-      divNewTile.style.width = "calc(2 * var(--min-touch-size))"; // ~1 in
-      divNewTile.style.aspectRatio = "1";
-      divNewTile.style.border = "1px solid black";
-      divNewTile.style.margin = "2%";
-      divNewTile.addEventListener("click", (evt) => {
-        objItem.openItemDetail(item);
-      });
-      return {
-      };
-    },
-    clearAllItems() {
-      divScroll.innerHTML = "";
-    },
-    setCallback(callback) {
-      objItem.setItemCallback(callback);
-    }
+  const obj = {};
+  obj.addItem = ({ icon, title, item }) => {
+    const divNewTile = document.createElement("div");
+    divScroll.appendChild(divNewTile);
+    const imgIcon = document.createElement("img");
+    divNewTile.appendChild(imgIcon);
+    imgIcon.src = icon;
+    const divTitle = document.createElement("div");
+    divNewTile.appendChild(divTitle);
+    divTitle.append(title);
+    divNewTile.style.display = "block";
+    divNewTile.style.width = "calc(2 * var(--min-touch-size))"; // ~1 in
+    divNewTile.style.aspectRatio = "1";
+    divNewTile.style.border = "1px solid black";
+    divNewTile.style.margin = "2%";
+    return {
+      selected: new AsyncEvents.EventIterable(({ next, complete, error }) => {
+        divNewLine.addEventListener("click", next);
+      }),
+    };
+  },
+  obj.clearAllItems = () => {
+    divScroll.innerHTML = "";
+  };
+  obj.show = () => {
+    div.style.display = "block";
+  };
+  obj.hide = () => {
+    div.style.display = "none";
   };
   return {
-    div: divItem,
+    div,
     obj,
   };
 }
 function createListFrame(args) {
+  const obj = {};
   const { div: div, obj: objScroll } = createVerticalScrollable();
   div.style.height = "100%";
   const divScroll = objScroll.content;
@@ -676,41 +677,37 @@ function createListFrame(args) {
   divScroll.style.alignContent = "space-around";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
-  const { div: divItem, obj: objItem } = createSecondaryScreen(args);
-  objItem.mainFrame.append(div);
-  const obj = {
-    addItem({ icon, title, item }) {
-      const divNewLine = document.createElement("div");
-      divScroll.appendChild(divNewLine);
-      const imgIcon = document.createElement("img");
-      divNewLine.appendChild(imgIcon);
-      imgIcon.style.gridArea = "icon";
-      imgIcon.src = icon;
-      imgIcon.style.aspectRatio = "1";
-      const divTitle = document.createElement("div");
-      divNewLine.appendChild(divTitle);
-      divTitle.style.gridArea = "title";
-      divTitle.append(title);
-      divNewLine.style.display = "grid";
-      divNewLine.style.gridTemplateRows = "var(--min-touch-size)";
-      divNewLine.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
-      divNewLine.style.gridTemplateAreas = '"icon title"';
-      divNewLine.style.width = "100%";
-      divNewLine.addEventListener("click", (evt) => {
-        objItem.openItemDetail(item);
-      });
-      return {
-        selected: new AsyncEvents.EventIterable(({ next, complete, error }) => {
-          divNewLine.addEventListener("click", next);
-        }),
-      };
-    },
-    clearAllItems() {
-      divScroll.innerHTML = "";
-    },
-    setCallback(callback) {
-      objItem.setItemCallback(callback);
-    }
+  obj.addItem = ({ icon, title, item }) => {
+    const divNewLine = document.createElement("div");
+    divScroll.appendChild(divNewLine);
+    const imgIcon = document.createElement("img");
+    divNewLine.appendChild(imgIcon);
+    imgIcon.style.gridArea = "icon";
+    imgIcon.src = icon;
+    imgIcon.style.aspectRatio = "1";
+    const divTitle = document.createElement("div");
+    divNewLine.appendChild(divTitle);
+    divTitle.style.gridArea = "title";
+    divTitle.append(title);
+    divNewLine.style.display = "grid";
+    divNewLine.style.gridTemplateRows = "var(--min-touch-size)";
+    divNewLine.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
+    divNewLine.style.gridTemplateAreas = '"icon title"';
+    divNewLine.style.width = "100%";
+    return {
+      selected: new AsyncEvents.EventIterable(({ next, complete, error }) => {
+        divNewLine.addEventListener("click", next);
+      }),
+    };
+  };
+  obj.clearAllItems = () => {
+    divScroll.innerHTML = "";
+  };
+  obj.show = () => {
+    div.style.display = "block";
+  };
+  obj.hide = () => {
+    div.style.display = "none";
   };
   return {
     div: divItem,
@@ -938,6 +935,12 @@ function createMapFrame(args) {
     render();
     createNewViewport();
   }
+  obj.show = () => {
+    div.style.display = "block";
+  };
+  obj.hide = () => {
+    div.style.display = "none";
+  };
   return {
     div: divItem,
     obj,
@@ -956,6 +959,7 @@ formElementTypes.set("text-display", createTextDisplay);
 formElementTypes.set("button", createButton);
 
 function createFormFrame(args) {
+  const obj = {};
   const div = document.createElement("div");
   div.style.display = "block";
   div.style.overflow = "hidden";
@@ -964,19 +968,23 @@ function createFormFrame(args) {
   divContent.style.display = "flex";
   divContent.style.flexDirection = "column";
   const elements = new Map();
-  const obj = {
-    addElement(args) {
-      const { type } = args;
-      const funcCreate = formElementTypes.get(type);
-      const { div: divElement, obj: objElement } = funcCreate(args);
-      elements.set(objElement, { div: divElement, obj: objElement });
-      divContent.appendChild(divElement);
-      return objElement;
-    },
-    clear() {
-      divContent.textContent = "";
-      elements.clear();
-    },
+  obj.addElement = (args) => {
+    const { type } = args;
+    const funcCreate = formElementTypes.get(type);
+    const { div: divElement, obj: objElement } = funcCreate(args);
+    elements.set(objElement, { div: divElement, obj: objElement });
+    divContent.appendChild(divElement);
+    return objElement;
+  };
+  obj.clear = () => {
+    divContent.textContent = "";
+    elements.clear();
+  };
+  obj.show = () => {
+    div.style.display = "block";
+  };
+  obj.hide = () => {
+    div.style.display = "none";
   };
   return {
     div,
@@ -1031,6 +1039,7 @@ function createTextEntry(args) {
 }
 function createSelectFormFrame(args) {
   const { minOptions, maxOptions, options } = args;
+  const obj = {};
   const optionLines = new Map();
   const optionsArray = [];
   if ((minOptions < 0) || (minOptions > options.length)) {
@@ -1047,6 +1056,7 @@ function createSelectFormFrame(args) {
     displayType = "allSelected";
   }
   const div = document.createElement("div");
+  div.style.display = "block";
   div.style.height = "100%";
   switch (displayType) {
     case "radio": {
@@ -1212,8 +1222,12 @@ function createSelectFormFrame(args) {
       }
     }
   };
-  const obj = {
-    options: optionsArray,
+  obj.options = optionsArray;
+  obj.show = () => {
+    div.style.display = "block";
+  };
+  obj.hide = () => {
+    div.style.display = "none";
   };
   return {
     div,
