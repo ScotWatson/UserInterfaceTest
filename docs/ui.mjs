@@ -600,12 +600,9 @@ function createTilesFrame(args) {
   obj.clearAllItems = () => {
     divScroll.innerHTML = "";
   };
-  obj.show = () => {
-    div.style.display = "block";
-  };
-  obj.hide = () => {
-    div.style.display = "none";
-  };
+  obj.removed.then(() => {
+    div.remove();
+  });
   return {
     div,
     obj,
@@ -651,12 +648,9 @@ function createListFrame(args) {
   obj.clearAllItems = () => {
     divScroll.innerHTML = "";
   };
-  obj.show = () => {
-    div.style.display = "block";
-  };
-  obj.hide = () => {
-    div.style.display = "none";
-  };
+  obj.removed.then(() => {
+    div.remove();
+  });
   return {
     div,
     obj,
@@ -883,12 +877,9 @@ function createMapFrame(args) {
     render();
     createNewViewport();
   }
-  obj.show = () => {
-    div.style.display = "block";
-  };
-  obj.hide = () => {
-    div.style.display = "none";
-  };
+  obj.removed.then(() => {
+    div.remove();
+  });
   return {
     div,
     obj,
@@ -1172,12 +1163,9 @@ function createSelectFormFrame(args) {
     }
   };
   obj.options = optionsArray;
-  obj.show = () => {
-    div.style.display = "block";
-  };
-  obj.hide = () => {
-    div.style.display = "none";
-  };
+  obj.removed.then(() => {
+    div.remove();
+  });
   return {
     div,
     obj,
@@ -1334,5 +1322,6 @@ function createVisibilityController(div) {
     hide() {
       div.style.visibility = "hidden";
     },
+    
   };
 }
