@@ -1329,10 +1329,10 @@ function createVerticalScrollable() {
 function createVisibilityController(div) {
   return {
     show() {
-      div.classList.add("hidden");
+      div.style.visibility = "visible";
     },
     hide() {
-      div.classList.remove("hidden");
+      div.style.visibility = "none";
     },
   };
 }
