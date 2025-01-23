@@ -1332,7 +1332,7 @@ function createVisibilityController(div) {
       div.style.visibility = "visible";
     },
     hide() {
-      div.style.visibility = "none";
+      div.style.visibility = "hidden";
     },
   };
 }
