@@ -454,7 +454,7 @@ function createView(args) {
     div.style.borderLeft = "1px solid black";
     div.style.overflow = "hidden";
     const divSecondaryTopBar = document.createElement("div");
-    divSecondary.appendChild(divSecondaryTopBar);
+    div.appendChild(divSecondaryTopBar);
     divSecondaryTopBar.style.display = "grid";
     divSecondaryTopBar.style.gridArea = "topBar";
     divSecondaryTopBar.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
