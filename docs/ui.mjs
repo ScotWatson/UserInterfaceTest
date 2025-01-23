@@ -365,9 +365,9 @@ function createView(args) {
       }
     };
     for (const level of levels) {
-      level.objViewContainer.hide();
+      level.objView.hide();
     }
-    levels[levels.length - 1].objViewContainer.show();
+    levels[levels.length - 1].objView.show();
   }
   imgActions.addEventListener("click", () => {
     toggleActions();
