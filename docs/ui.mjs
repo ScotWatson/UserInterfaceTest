@@ -680,8 +680,7 @@ function createMapFrame(args) {
       });
     });
   });
-  const { div: divItem, obj: objItem } = createSecondaryScreen(args);
-  const div = objItem.mainFrame;
+  const div = document.createElement("div");
   div.style.height = "100%";
   div.appendChild(canvas);
   div.style.overflow = "hidden";
