@@ -422,7 +422,7 @@ function createView(args) {
       remove: obj.remove,
     };
     if (levels.length !== 0) {
-      levels[levels.length - 1].objActionList.hide();
+      levels[levels.length - 1].objActionsVisibility.hide();
     }
     if (secondary !== null) {
       secondary.obj.remove();
