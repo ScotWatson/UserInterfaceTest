@@ -386,19 +386,19 @@ function createView(args) {
   });
   let secondary = null;
   obj.closeSecondary = () => {
-    divContent.style.display = "grid";
-    divContent.style.gridTemplateRows = "1fr";
-    divContent.style.gridTemplateColumns = "1fr";
-    divContent.style.gridTemplateAreas = '"main"';
+    divContents.style.display = "grid";
+    divContents.style.gridTemplateRows = "1fr";
+    divContents.style.gridTemplateColumns = "1fr";
+    divContents.style.gridTemplateAreas = '"main"';
     secondary.obj.remove();
   };
   obj.openSecondary = ({ title, actions, options }) => {
-    divContent.style.display = "grid";
-    divContent.style.gridTemplateRows = "1fr";
-    divContent.style.gridTemplateColumns = "2fr 1fr";
-    divContent.style.gridTemplateAreas = '"main secondary"';
+    divContents.style.display = "grid";
+    divContents.style.gridTemplateRows = "1fr";
+    divContents.style.gridTemplateColumns = "2fr 1fr";
+    divContents.style.gridTemplateAreas = '"main secondary"';
     const secondary = createSecondaryPanel({ title, actions, options });
-    divContent.appendChild(secondary.div);
+    divContents.appendChild(secondary.div);
     AsyncEvents.listen(secondary.obj.closeRequested, (event) => {
       obj.closeSecondary();
     });
@@ -408,14 +408,15 @@ function createView(args) {
     const { type, options, title, actions } = args;
     const obj = {};
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-    const { div: divViewContainer, obj: objViewContainer} = createViewContainer({ type, options });
-    divContent.appendChild(divViewContainer);
+    const funcCreate = viewTypeFunctions.get(type);
+    const { div: divView, obj: objView } = funcCreate(options);
+    divContents.appendChild(divView);
     divViewContainer.style.gridArea = "main";
     const { div: divActionList, obj: objActionList} = createActionList(actions);
     div.appendChild(divActionList);
     const level = {
       title,
-      objViewContainer,
+      objView,
       objActionList,
       remove: obj.remove,
     };
@@ -431,7 +432,7 @@ function createView(args) {
       objViewContainer.remove();
       objActionList.remove();
     });
-    obj.contents = objViewContainer.view;
+    obj.contents = objView;
     obj.actions = objActionList.actions;
     obj.removed.then(() => {
       objViewContainer.remove();
@@ -439,33 +440,6 @@ function createView(args) {
     updateBreadcrumbs();
     return obj;
   };
-  function createViewContainer(args) {
-    const { type, options } = args;
-    const obj = {};
-    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-    const funcCreate = viewTypeFunctions.get(type);
-    const { div: divView, obj: objView } = funcCreate(options);
-    const div = document.createElement("div");
-    div.appendChild(divView);
-    divView.style.gridArea = "main";
-    div.style.display = "none";
-    div.style.gridArea = "content";
-    div.style.overflow = "hidden";
-    obj.view = objView;
-    obj.removed.then(() => {
-      div.remove();
-    });
-    obj.show = () => {
-      div.style.display = "block";
-    };
-    obj.hide = () => {
-      div.style.display = "none";
-    };
-    return {
-      div,
-      obj,
-    };
-  }
   function createSecondaryPanel(args) {
     const obj = {};
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
