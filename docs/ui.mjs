@@ -886,7 +886,7 @@ function createMapFrame(args) {
     div.style.display = "none";
   };
   return {
-    div: divItem,
+    div,
     obj,
   };
 }
