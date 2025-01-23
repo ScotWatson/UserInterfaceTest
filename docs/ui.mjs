@@ -365,18 +365,18 @@ function createView(args) {
       }
     };
     for (const level of levels) {
-      level.objView.hide();
+      level.objViewVisibility.hide();
     }
-    levels[levels.length - 1].objView.show();
+    levels[levels.length - 1].objViewVisibility.show();
   }
   imgActions.addEventListener("click", () => {
     toggleActions();
   });
   function toggleActions() {
-    if (levels[levels.length - 1].divActions.display === "none") {
-      levels[levels.length - 1].objActionList.show();
+    if (levels[levels.length - 1].divActionVisibility.isVisible) {
+      levels[levels.length - 1].objActionsVisibility.hide();
     } else {
-      levels[levels.length - 1].objActionList.hide();
+      levels[levels.length - 1].objActionsVisibility.show();
     }
   }
   const obj = {};
@@ -416,8 +416,8 @@ function createView(args) {
     div.appendChild(divActionList);
     const level = {
       title,
-      objView,
-      objActionList,
+      objViewVisibility: createVisibilityController(div),
+      objActionsVisibility: createVisibilityController(div),
       remove: obj.remove,
     };
     if (levels.length !== 0) {
@@ -1323,5 +1323,15 @@ function createVerticalScrollable() {
   return {
     div,
     obj,
+  };
+}
+function createVisibilityController(div) {
+  return {
+    show() {
+      div.classList.add("hidden");
+    },
+    hide() {
+      div.classList.remove("hidden");
+    },
   };
 }
