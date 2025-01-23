@@ -646,7 +646,7 @@ function createTilesFrame(args) {
     divNewTile.style.margin = "2%";
     return {
       selected: new AsyncEvents.EventIterable(({ next, complete, error }) => {
-        divNewLine.addEventListener("click", next);
+        divNewTile.addEventListener("click", () => { next(item); });
       }),
     };
   },
@@ -696,7 +696,7 @@ function createListFrame(args) {
     divNewLine.style.width = "100%";
     return {
       selected: new AsyncEvents.EventIterable(({ next, complete, error }) => {
-        divNewLine.addEventListener("click", next);
+        divNewLine.addEventListener("click", () => { next(item); });
       }),
     };
   };
@@ -710,7 +710,7 @@ function createListFrame(args) {
     div.style.display = "none";
   };
   return {
-    div: divItem,
+    div,
     obj,
   };
 }
