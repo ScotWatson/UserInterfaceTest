@@ -130,66 +130,46 @@ function start([ Page, UI, AsyncEvents ]) {
   });
   const tilesTab = topView.tabs[1];
   const tilesFrame = tilesTab.view.firstView.contents;
-  tilesFrame.addItem({
-    icon: "./icons/home.svg",
-    title: "Home",
-    item: {
-      description: "This is the first item.",
-    },
-  });
-  tilesFrame.addItem({
-    icon: "./icons/home.svg",
-    title: "Second",
-    item: {
-      description: "This is the second item.",
-    },
-  });
-  for (let i = 3; i < 40; ++i) {
-    tilesFrame.addItem({
+  for (let i = 1; i < 40; ++i) {
+    const tile = tilesFrame.addItem({
       icon: "./icons/home.svg",
       title: i + "th",
       item: {
         description: "This is the " + i + "th item.",
       },
     });
-  }
-  tilesFrame.setCallback(({ objItemContent, objItem }) => {
-    const description = objItemContent.addElement({
-      type: UI.symTextDisplay,
+    AsyncEvents.listen(tile.selected, (evt) => {
+      const panel = tilesTab.view.openSecondary({
+        options: {},
+        actions: [],
+      });
+      const description = panel.addElement({
+        type: "text-display",
+      });
+      description.setText(evt.item);
     });
-    description.setText(objItem.description);
-  });
+  }
   const listTab = topView.tabs[2];
   const listFrame = listTab.view.firstView.contents;
-  listFrame.addItem({
-    icon: "./icons/home.svg",
-    title: "Home",
-    item: {
-      description: "This is the first item.",
-    },
-  });
-  listFrame.addItem({
-    icon: "./icons/home.svg",
-    title: "Second",
-    item: {
-      description: "This is the second item.",
-    },
-  });
-  for (let i = 3; i < 40; ++i) {
-    listFrame.addItem({
+  for (let i = 1; i < 40; ++i) {
+    const listRow = listFrame.addItem({
       icon: "./icons/home.svg",
       title: i + "th",
       item: {
         description: "This is the " + i + "th item.",
       },
     });
-  }
-  listFrame.setCallback(({ objItemContent, objItem }) => {
-    const description = objItemContent.addElement({
-      type: "textDisplay",
+    AsyncEvents.listen(listRow.selected, (evt) => {
+      const panel = listTab.view.openSecondary({
+        options: {},
+        actions: [],
+      });
+      const description = panel.addElement({
+        type: "text-display",
+      });
+      description.setText(evt.item);
     });
-    description.setText(objItem.description);
-  });
+  }
   const mapTab = topView.tabs[3];
   const mapFrame = mapTab.view.firstView.contents;
   async function staticImage(imageUrl) {
