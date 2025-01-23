@@ -417,8 +417,8 @@ function createView(args) {
     div.appendChild(divActionList);
     const level = {
       title,
-      objViewVisibility: createVisibilityController(div),
-      objActionsVisibility: createVisibilityController(div),
+      objViewVisibility: createVisibilityController(divView),
+      objActionsVisibility: createVisibilityController(divActionList),
       remove: obj.remove,
     };
     if (levels.length !== 0) {
