@@ -563,61 +563,6 @@ function createView(args) {
     obj,
   };
 }
-
-function createSecondaryScreen(args) {
-  const div = document.createElement("div");
-  div.style.display = "grid";
-  div.style.gridTemplateColumns = "1fr 1fr";
-  div.style.gridTemplateRows = "1fr";
-  div.style.gridTemplateAreas = '"main item"';
-  div.style.overflow = "hidden";
-  div.style.height = "100%";
-
-  closeItemDetail();
-
-  function openItemDetail() {
-    div.style.gridTemplateColumns = "2fr 1fr";
-    div.style.gridTemplateRows = "1fr";
-    divSecondary.style.display = "grid";
-  }
-  function closeItemDetail() {
-    div.style.gridTemplateColumns = "1fr";
-    div.style.gridTemplateRows = "1fr";
-    divSecondary.style.display = "none";
-  }
-
-  imgClose.addEventListener("click", () => {
-    closeItemDetail();
-  });
-
-  const divMain = document.createElement("div");
-  div.appendChild(divMain);
-  divMain.style.display = "block";
-  divMain.style.gridArea = "main";
-  divMain.style.overflow = "hidden";
-
-  let itemCallback = null;
-  const obj = {
-    openItemDetail(objItem) {
-      objItemContent.clear();
-      itemCallback({ objSecondaryContent, objItem });
-      openItemDetail();
-    },
-    closeItemDetail() {
-      closeItemDetail();
-      objItemContent.clear();
-    },
-    mainFrame: divMain,
-    setItemCallback(newCallback) {
-      itemCallback = newCallback;
-    },
-  };
-  return {
-    div,
-    obj,
-  };
-}
-
 function createTilesFrame(args) {
   const { div: div, obj: objScroll } = createVerticalScrollable();
   const divScroll = objScroll.content;
