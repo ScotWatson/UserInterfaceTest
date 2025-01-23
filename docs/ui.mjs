@@ -435,7 +435,7 @@ function createView(args) {
     obj.contents = objView;
     obj.actions = objActionList.actions;
     obj.removed.then(() => {
-      objViewContainer.remove();
+      objView.remove();
     });
     updateBreadcrumbs();
     return obj;
@@ -564,6 +564,8 @@ function createView(args) {
   };
 }
 function createTilesFrame(args) {
+  const obj = {};
+  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
   const { div: div, obj: objScroll } = createVerticalScrollable();
   const divScroll = objScroll.content;
   divScroll.style.display = "flex";
@@ -574,7 +576,6 @@ function createTilesFrame(args) {
   divScroll.style.alignContent = "space-around";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
-  const obj = {};
   obj.addItem = ({ icon, title, item }) => {
     const divNewTile = document.createElement("div");
     divScroll.appendChild(divNewTile);
@@ -611,6 +612,7 @@ function createTilesFrame(args) {
 }
 function createListFrame(args) {
   const obj = {};
+  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
   const { div: div, obj: objScroll } = createVerticalScrollable();
   div.style.height = "100%";
   const divScroll = objScroll.content;
@@ -661,6 +663,7 @@ function createListFrame(args) {
 }
 function createMapFrame(args) {
   const obj = {};
+  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
   let changeViewport;
   obj.viewportChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
     changeViewport = next;
@@ -984,6 +987,7 @@ function createTextEntry(args) {
 function createSelectFormFrame(args) {
   const { minOptions, maxOptions, options } = args;
   const obj = {};
+  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
   const optionLines = new Map();
   const optionsArray = [];
   if ((minOptions < 0) || (minOptions > options.length)) {
