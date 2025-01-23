@@ -46,6 +46,7 @@ export function initialize(args) {
   topStyleSheet.insertRule("* { --subheader-size: calc(18pt / var(--device-pixel-ratio)); }");
   topStyleSheet.insertRule("* { --body-text-size: calc(12pt / var(--device-pixel-ratio)); }");
   topStyleSheet.insertRule("* { --caption-size: calc(9pt / var(--device-pixel-ratio)); }");
+  topStyleSheet.insertRule(".hidden { display: none; }");
   bodyShadowRoot.adoptedStyleSheets = [...bodyShadowRoot.adoptedStyleSheets, topStyleSheet];
   const divWindow = document.createElement("div");
   document.body.appendChild(divWindow);
