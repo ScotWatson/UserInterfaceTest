@@ -411,7 +411,7 @@ function createView(args) {
     const funcCreate = viewTypeFunctions.get(type);
     const { div: divView, obj: objView } = funcCreate(options);
     divContents.appendChild(divView);
-    divViewContainer.style.gridArea = "main";
+    divView.style.gridArea = "main";
     const { div: divActionList, obj: objActionList} = createActionList(actions);
     div.appendChild(divActionList);
     const level = {
