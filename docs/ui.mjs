@@ -448,8 +448,6 @@ function createView(args) {
     const div = document.createElement("div");
     div.appendChild(divView);
     divView.style.gridArea = "main";
-    div.appendChild(divSecondary);
-    divSecondary.style.gridArea = "secondary";
     div.style.display = "none";
     div.style.gridArea = "content";
     div.style.overflow = "hidden";
