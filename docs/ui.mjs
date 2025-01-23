@@ -429,7 +429,7 @@ function createView(args) {
     levels.push(level);
     delete obj.remove;
     obj.removed.then(() => {
-      objViewContainer.remove();
+      objView.remove();
       objActionList.remove();
     });
     obj.contents = objView;
