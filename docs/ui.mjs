@@ -397,7 +397,7 @@ function createView(args) {
     divContents.style.gridTemplateRows = "1fr";
     divContents.style.gridTemplateColumns = "2fr 1fr";
     divContents.style.gridTemplateAreas = '"main secondary"';
-    const secondary = createSecondaryPanel({ title, actions, options });
+    secondary = createSecondaryPanel({ title, actions, options });
     divContents.appendChild(secondary.div);
     AsyncEvents.listen(secondary.obj.closeRequested, (event) => {
       obj.closeSecondary();
