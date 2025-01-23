@@ -173,7 +173,7 @@ function createView(args) {
   div.style.backgroundColor = "white";
   div.style.gridTemplateColumns = "1fr";
   div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
-  div.style.gridTemplateAreas = '"topBar" "content"';
+  div.style.gridTemplateAreas = '"topBar" "contents"';
   div.style.overflow = "hidden";
   div.style.height = "100%";
 
@@ -304,11 +304,11 @@ function createView(args) {
         // Home Only
         if (title === "" && actions.length === 0) {
           div.style.gridTemplateRows = "1fr";
-          div.style.gridTemplateAreas = '"content"';
+          div.style.gridTemplateAreas = '"contents"';
           divTopBar.style.display = "none";
         } else {
           div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
-          div.style.gridTemplateAreas = '"topBar" "content"';
+          div.style.gridTemplateAreas = '"topBar" "contents"';
           divTopBar.style.display = "grid";
         }
         if (actions.length === 0) {
@@ -330,7 +330,7 @@ function createView(args) {
       case 2: {
         // One level
         div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
-        div.style.gridTemplateAreas = '"topBar" "content"';
+        div.style.gridTemplateAreas = '"topBar" "contents"';
         divTopBar.style.display = "grid";
         if (actions.length === 0) {
           divTopBar.style.gridTemplateColumns = "1fr 1fr 1fr";
@@ -351,7 +351,7 @@ function createView(args) {
       default: {
         // Multiple Levels
         div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
-        div.style.gridTemplateAreas = '"topBar" "content"';
+        div.style.gridTemplateAreas = '"topBar" "contents"';
         divTopBar.style.display = "grid";
         divBreadcrumbs.style.gridTemplateColumns = "1fr var(--min-touch-size) 1fr 1fr var(--min-touch-size)";
         divBreadcrumbs.style.gridTemplateAreas = '"home ellipsis penultimate ultimate actions"';
