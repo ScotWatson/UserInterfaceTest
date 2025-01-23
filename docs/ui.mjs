@@ -186,6 +186,15 @@ function createView(args) {
   divTopBar.style.gridTemplateRows = "var(--min-touch-size)";
   divTopBar.style.gridTemplateAreas = '"home actions"';
 
+  const divContents = document.createElement("div");
+  div.appendChild(divContents);
+  divContents.style.display = "grid";
+  divContents.style.gridArea = "contents";
+  divContents.style.backgroundColor = "white";
+  divContents.style.gridTemplateColumns = "1fr";
+  divContents.style.gridTemplateRows = "1fr";
+  divContents.style.gridTemplateAreas = '"main"';
+
   const imgBack = document.createElement("img");
   divTopBar.appendChild(imgBack);
   imgBack.src = urlIconHome;
@@ -375,12 +384,33 @@ function createView(args) {
   obj.removed.then(() => {
     div.remove();
   });
+  let secondary = null;
+  obj.closeSecondary = () => {
+    divContent.style.display = "grid";
+    divContent.style.gridTemplateRows = "1fr";
+    divContent.style.gridTemplateColumns = "1fr";
+    divContent.style.gridTemplateAreas = '"main"';
+    secondary.obj.remove();
+  };
+  obj.openSecondary = ({ title, actions, options }) => {
+    divContent.style.display = "grid";
+    divContent.style.gridTemplateRows = "1fr";
+    divContent.style.gridTemplateColumns = "2fr 1fr";
+    divContent.style.gridTemplateAreas = '"main secondary"';
+    const secondary = createSecondaryPanel({ title, actions, options });
+    divContent.appendChild(secondary.div);
+    AsyncEvents.listen(secondary.obj.closeRequested, (event) => {
+      obj.closeSecondary();
+    });
+    return secondary.obj.content;
+  };
   obj.addLevel = (args) => {
+    const { type, options, title, actions } = args;
     const obj = {};
     ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-    const { type, options, title, actions } = args;
     const { div: divViewContainer, obj: objViewContainer} = createViewContainer({ type, options });
-    div.appendChild(divViewContainer);
+    divContent.appendChild(divViewContainer);
+    divViewContainer.style.gridArea = "main";
     const { div: divActionList, obj: objActionList} = createActionList(actions);
     div.appendChild(divActionList);
     const level = {
@@ -391,6 +421,9 @@ function createView(args) {
     };
     if (levels.length !== 0) {
       levels[levels.length - 1].objActionList.hide();
+    }
+    if (secondary !== null) {
+      secondary.obj.remove();
     }
     levels.push(level);
     delete obj.remove;
@@ -414,6 +447,9 @@ function createView(args) {
     const { div: divView, obj: objView } = funcCreate(options);
     const div = document.createElement("div");
     div.appendChild(divView);
+    divView.style.gridArea = "main";
+    div.appendChild(divSecondary);
+    divSecondary.style.gridArea = "secondary";
     div.style.display = "none";
     div.style.gridArea = "content";
     div.style.overflow = "hidden";
@@ -427,6 +463,65 @@ function createView(args) {
     obj.hide = () => {
       div.style.display = "none";
     };
+    return {
+      div,
+      obj,
+    };
+  }
+  function createSecondaryPanel(args) {
+    const obj = {};
+    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+    const { title, options, actions } = args;
+    const div = document.createElement("div");
+    div.style.display = "grid";
+    div.style.gridArea = "secondary";
+    div.style.gridTemplateColumns = "1fr";
+    div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
+    div.style.gridTemplateAreas = '"topBar" "content"';
+    div.style.backgroundColor = "white";
+    div.style.borderLeft = "1px solid black";
+    div.style.overflow = "hidden";
+    const divSecondaryTopBar = document.createElement("div");
+    divSecondary.appendChild(divSecondaryTopBar);
+    divSecondaryTopBar.style.display = "grid";
+    divSecondaryTopBar.style.gridArea = "topBar";
+    divSecondaryTopBar.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
+    divSecondaryTopBar.style.gridTemplateRows = "var(--min-touch-size)";
+    divSecondaryTopBar.style.gridTemplateAreas = '"close title actions"';
+    divSecondaryTopBar.style.backgroundColor = "white";
+    const imgSecondaryClose = document.createElement("img");
+    divSecondaryTopBar.appendChild(imgSecondaryClose);
+    imgSecondaryClose.src = urlIconClose;
+    imgSecondaryClose.style.display = "block";
+    imgSecondaryClose.style.gridArea = "close";
+    imgSecondaryClose.style.backgroundColor = "white";
+    imgSecondaryClose.style.fontSize = "24pt";
+    imgSecondaryClose.style.overflow = "hidden";
+    imgSecondaryClose.style.boxSizing = "border-box";
+    const divSecondaryTitle = document.createElement("div");
+    divSecondaryTopBar.appendChild(divSecondaryTitle);
+    divSecondaryTitle.style.gridArea = "title";
+    divSecondaryTitle.style.backgroundColor = "white";
+    divSecondaryTitle.style.fontSize = "24pt";
+    divSecondaryTitle.style.overflow = "hidden";
+    divSecondaryTitle.style.borderLeft = "1px solid black";
+    divSecondaryTitle.style.boxSizing = "border-box";
+    const imgSecondaryActions = document.createElement("img");
+    divSecondaryTopBar.appendChild(imgSecondaryActions);
+    imgSecondaryActions.src = urlIconKebobMenu;
+    imgSecondaryActions.style.gridArea = "actions";
+    imgSecondaryActions.style.backgroundColor = "white";
+    imgSecondaryActions.style.boxSizing = "border-box";
+    const { div: divContent, obj: objContent } = createFormFrame();
+    div.appendChild(divContent);
+    divContent.style.gridArea = "content";
+    obj.content = objContent;
+    obj.closeRequested = new AsyncEvents.EventIterable(({ next, complete, error }) => {
+      imgSecondaryClose.addEventListener("click", next);
+    });
+    obj.removed.then(() => {
+      div.remove();
+    });
     return {
       div,
       obj,
@@ -506,68 +601,17 @@ function createSecondaryScreen(args) {
   div.style.overflow = "hidden";
   div.style.height = "100%";
 
-  const divItemDetail = document.createElement("div");
-  div.appendChild(divItemDetail);
-  divItemDetail.style.display = "grid";
-  divItemDetail.style.gridArea = "item";
-  divItemDetail.style.gridTemplateColumns = "1fr";
-  divItemDetail.style.gridTemplateRows = "var(--min-touch-size) 1fr";
-  divItemDetail.style.gridTemplateAreas = '"topBar" "content"';
-  divItemDetail.style.backgroundColor = "white";
-  divItemDetail.style.borderLeft = "1px solid black";
-  divItemDetail.style.overflow = "hidden";
-
-  const divItemTopBar = document.createElement("div");
-  divItemDetail.appendChild(divItemTopBar);
-  divItemTopBar.style.display = "grid";
-  divItemTopBar.style.gridArea = "topBar";
-  divItemTopBar.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
-  divItemTopBar.style.gridTemplateRows = "var(--min-touch-size)";
-  divItemTopBar.style.gridTemplateAreas = '"close title actions"';
-  divItemTopBar.style.backgroundColor = "white";
-
-  const imgClose = document.createElement("img");
-  divItemTopBar.appendChild(imgClose);
-  imgClose.src = urlIconClose;
-  imgClose.style.display = "block";
-  imgClose.style.gridArea = "close";
-  imgClose.style.backgroundColor = "white";
-  imgClose.style.fontSize = "24pt";
-  imgClose.style.overflow = "hidden";
-/*  divClose.style.borderLeft: 1px solid black; */
-  imgClose.style.boxSizing = "border-box";
-
-  const divItemTitle = document.createElement("div");
-  divItemTopBar.appendChild(divItemTitle);
-  divItemTitle.style.gridArea = "title";
-  divItemTitle.style.backgroundColor = "white";
-  divItemTitle.style.fontSize = "24pt";
-  divItemTitle.style.overflow = "hidden";
-  divItemTitle.style.borderLeft = "1px solid black";
-  divItemTitle.style.boxSizing = "border-box";
-
-  const imgActions = document.createElement("img");
-  divItemTopBar.appendChild(imgActions);
-  imgActions.src = urlIconKebobMenu;
-  imgActions.style.gridArea = "actions";
-  imgActions.style.backgroundColor = "white";
-  imgActions.style.boxSizing = "border-box";
-
-  const { div: divItemContent, obj: objItemContent } = createFormFrame();
-  divItemDetail.appendChild(divItemContent);
-  divItemContent.style.gridArea = "content";
-
   closeItemDetail();
 
   function openItemDetail() {
     div.style.gridTemplateColumns = "2fr 1fr";
     div.style.gridTemplateRows = "1fr";
-    divItemDetail.style.display = "grid";
+    divSecondary.style.display = "grid";
   }
   function closeItemDetail() {
     div.style.gridTemplateColumns = "1fr";
     div.style.gridTemplateRows = "1fr";
-    divItemDetail.style.display = "none";
+    divSecondary.style.display = "none";
   }
 
   imgClose.addEventListener("click", () => {
@@ -584,7 +628,7 @@ function createSecondaryScreen(args) {
   const obj = {
     openItemDetail(objItem) {
       objItemContent.clear();
-      itemCallback({ objItemContent, objItem });
+      itemCallback({ objSecondaryContent, objItem });
       openItemDetail();
     },
     closeItemDetail() {
