@@ -61,7 +61,7 @@ export function initialize(args) {
   resize();
   bodyShadowRoot.appendChild(divWindow);
   const funcCreate = rootTypeFunctions.get(type);
-  const { div: divView, obj: objView } = funcCreate(options);
+  const { controller: controllerView, obj: objView } = funcCreate(options);
   divWindow.appendChild(divView);
   return {
     view: objView,
@@ -69,10 +69,16 @@ export function initialize(args) {
 }
 
 function createNavigationTabBar(args) {
+  if (!args) {
+    args = {};
+  }
+  const { tabs } = args;
   const obj = {
     tabs: [],
   };
-  const div = document.createElement("div");
+  const controller = createController();
+  obj.removed = controller.removed;
+  const div = controller.elem;
   div.style.display = "grid";
   div.style.width = "100%";
   div.style.height = "100%";
@@ -80,9 +86,6 @@ function createNavigationTabBar(args) {
   div.style.gridTemplateRows = "1fr";
   div.style.gridTemplateAreas = '"views view"';
   div.style.overflow = "hidden";
-  if (!args) {
-    args = {};
-  }
   const divViewButtons = document.createElement("div");
   div.appendChild(divViewButtons);
   divViewButtons.style.display = "flex";
@@ -95,24 +98,19 @@ function createNavigationTabBar(args) {
   divViewButtons.style.border = "0px";
   divViewButtons.style.boxSizing = "border-box";
   divViewButtons.style.overflow = "hidden";
-  const viewContainers = [];
-  for (const tab of args.tabs) {
+  const viewControllers = [];
+  for (const tab of tabs) {
     const { icon, title, view } = tab;
-    const { div: divTab, obj: objTab } = createTab({ icon, title });
+    const { controller: controllerTab, obj: objTab } = createTab({ icon, title });
     divViewButtons.appendChild(divTab);
-    const divViewContainer = document.createElement("div");
-    div.appendChild(divViewContainer);
-    divViewContainer.style.display = "none";
-    divViewContainer.style.gridArea = "view";
-    divViewContainer.style.overflow = "hidden";
-    viewContainers.push(divViewContainer);
-    const { div: divView, obj: objView } = createView(view);
+    const { controller: controllerView, obj: objView } = createView(view);
+    viewContainers.push(controllerView);
     divViewContainer.appendChild(divView);
     objTab.show = () => {
-      for (const div of viewContainers) {
-        div.style.display = "none";
+      for (const controller of viewControllers) {
+        controller.hide();
       }
-      divViewContainer.style.display = "block";
+      controllerView.show();
     },
     objTab.view = objView,
     divTab.addEventListener("click", () => {
@@ -122,7 +120,8 @@ function createNavigationTabBar(args) {
   }
   function createTab({ icon, title }) {
     const obj = {};
-    const div = document.createElement("button");
+    const controller = createController("button");
+    const div = controller.elem;
     div.style.display = "grid";
     div.style.gridTemplateColumns = "var(--min-touch-size)";
     div.style.gridTemplateRows = "var(--min-touch-size) var(--caption-size)";
@@ -162,14 +161,15 @@ function createNavigationTabBar(args) {
 }
 
 const viewTypeFunctions = new Map();
-viewTypeFunctions.set("elements", createFormFrame);
-viewTypeFunctions.set("form", createSelectFormFrame);
+viewTypeFunctions.set("elements", createElementListLevel);
+viewTypeFunctions.set("form", createFormLevel);
 viewTypeFunctions.set("tiles", createTilesFrame);
 viewTypeFunctions.set("list", createListFrame);
 viewTypeFunctions.set("map", createMapFrame);
 function createView(args) {
   const { type, options, title, actions } = args;
-  const div = document.createElement("div");
+  const controller = createController();
+  const div = controller.elem;
   div.style.display = "grid";
   div.style.backgroundColor = "white";
   div.style.gridTemplateColumns = "1fr";
@@ -177,7 +177,6 @@ function createView(args) {
   div.style.gridTemplateAreas = '"topBar" "contents"';
   div.style.overflow = "hidden";
   div.style.height = "100%";
-
   const divTopBar = document.createElement("div");
   div.appendChild(divTopBar);
   divTopBar.style.display = "grid";
@@ -186,7 +185,6 @@ function createView(args) {
   divTopBar.style.gridTemplateColumns = "1fr var(--min-touch-size)";
   divTopBar.style.gridTemplateRows = "var(--min-touch-size)";
   divTopBar.style.gridTemplateAreas = '"home actions"';
-
   const divContents = document.createElement("div");
   div.appendChild(divContents);
   divContents.style.display = "grid";
@@ -195,7 +193,6 @@ function createView(args) {
   divContents.style.gridTemplateColumns = "1fr";
   divContents.style.gridTemplateRows = "1fr";
   divContents.style.gridTemplateAreas = '"main"';
-
   const imgBack = document.createElement("img");
   divTopBar.appendChild(imgBack);
   imgBack.src = urlIconHome;
@@ -203,7 +200,6 @@ function createView(args) {
   imgBack.style.gridArea = "back";
   imgBack.style.backgroundColor = "white";
   imgBack.style.height = "var(--min-touch-size)";
-
   const divHome = document.createElement("div");
   divTopBar.appendChild(divHome);
   divHome.style.display = "flex";
@@ -222,7 +218,6 @@ function createView(args) {
   divHomeText.style.overflow = "hidden";
   divHomeText.style.textOverflow = "ellipsis";
   divHomeText.append(title);
-
   const imgEllipsis = document.createElement("img");
   divTopBar.appendChild(imgEllipsis);
   imgEllipsis.src = urlIconEllipsis;
@@ -232,7 +227,6 @@ function createView(args) {
   imgEllipsis.style.borderLeft = "1px solid black";
   imgEllipsis.style.boxSizing = "border-box";
   imgEllipsis.style.height = "var(--min-touch-size)";
-
   const divPenultimate = document.createElement("div");
   divTopBar.appendChild(divPenultimate);
   divPenultimate.style.display = "flex";
@@ -250,7 +244,6 @@ function createView(args) {
   divPenultimateText.style.whiteSpace = "nowrap";
   divPenultimateText.style.overflow = "hidden";
   divPenultimateText.style.textOverflow = "ellipsis";
-
   const divUltimate = document.createElement("div");
   divTopBar.appendChild(divUltimate);
   divUltimate.style.display = "flex";
@@ -268,14 +261,12 @@ function createView(args) {
   divUltimateText.style.whiteSpace = "nowrap";
   divUltimateText.style.overflow = "hidden";
   divUltimateText.style.textOverflow = "ellipsis";
-
   const imgActions = document.createElement("img");
   divTopBar.appendChild(imgActions);
   imgActions.src = urlIconKebobMenu;
   imgActions.style.display = "block";
   imgActions.style.gridArea = "actions";
   imgActions.style.backgroundColor = "white";
-
   const levels = [];
   function removeLastLevel() {
     const removedLevel = levels.pop();
@@ -408,44 +399,41 @@ function createView(args) {
   obj.addLevel = (args) => {
     const { type, options, title, actions } = args;
     const obj = {};
-    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
     const funcCreate = viewTypeFunctions.get(type);
-    const { div: divView, obj: objView } = funcCreate(options);
-    divContents.appendChild(divView);
+    const { controller: controllerView, obj: objView } = funcCreate(options, view);
+    divContents.appendChild(controllerView.elem);
     divView.style.gridArea = "main";
-    const { div: divActionList, obj: objActionList} = createActionList(actions);
-    div.appendChild(divActionList);
+    const { controller: controllerActionList, obj: objActionList} = createActionList(actions);
+    div.appendChild(controllerActionList.elem);
     const level = {
       title,
-      objViewVisibility: createVisibilityController(divView),
-      objActionsVisibility: createVisibilityController(divActionList),
+      controllerView,
+      controllerActionList,
       remove: obj.remove,
     };
     if (levels.length !== 0) {
-      levels[levels.length - 1].objActionsVisibility.hide();
+      levels[levels.length - 1].controllerActionList.hide();
     }
     if (secondary !== null) {
       secondary.obj.remove();
     }
     levels.push(level);
-    delete obj.remove;
+    obj.removed = controllerView.removed;
     obj.removed.then(() => {
-      objView.remove();
-      objActionList.remove();
+      controllerView.remove();
+      controllerActionList.remove();
     });
     obj.contents = objView;
     obj.actions = objActionList.actions;
-    obj.removed.then(() => {
-      objView.remove();
-    });
     updateBreadcrumbs();
     return obj;
   };
   function createSecondaryPanel(args) {
-    const obj = {};
-    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
     const { title, options, actions } = args;
-    const div = document.createElement("div");
+    const obj = {};
+    const controller = createController();
+    obj.removed = controller.removed;
+    const div = controller.elem;
     div.style.display = "grid";
     div.style.gridArea = "secondary";
     div.style.gridTemplateColumns = "1fr";
@@ -485,7 +473,7 @@ function createView(args) {
     imgSecondaryActions.style.gridArea = "actions";
     imgSecondaryActions.style.backgroundColor = "white";
     imgSecondaryActions.style.boxSizing = "border-box";
-    const { div: divContent, obj: objContent } = createFormFrame();
+    const { div: divContent, obj: objContent } = createElementListLevel();
     div.appendChild(divContent);
     divContent.style.gridArea = "content";
     obj.content = objContent;
@@ -496,21 +484,21 @@ function createView(args) {
       div.remove();
     });
     return {
-      div,
+      controller,
       obj,
     };
   }
   function createActionList(actions) {
     const obj = {};
-    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-    const div = document.createElement("div");
+    const controller = createController();
+    const div = controller.elem;
     div.style.display = "none";
     div.style.flexDirection = "column";
     div.style.position = "relative";
     div.style.right = "0px";
     div.style.top = "0px";
     for (const action of actions) {
-      const { div: divAction, obj: objAction } = createAction(obj);
+      const { controller: controllerAction, obj: objAction } = createAction(obj);
       div.appendChild(divAction);
       obj.actions.push(objAction);
     }
@@ -521,14 +509,14 @@ function createView(args) {
       div.style.display = "none";
     }
     return {
-      div,
+      controller,
       obj,
     };
   }
   function createAction() {
     const obj = {};
-    ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-    const div = document.createElement("div");
+    const controller = createController();
+    const div = controller.elem;
     div.style.display = "block";
     div.style.height = "var(--min-touch-size)";
     div.style.width = "100%";
@@ -543,7 +531,7 @@ function createView(args) {
       div.remove();
     });
     return {
-      div,
+      controller,
       obj,
     };
   }
@@ -560,15 +548,16 @@ function createView(args) {
     actions,
   });
   return {
-    div,
+    controller,
     obj,
   };
 }
 function createTilesFrame(args) {
   const obj = {};
-  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-  const { div: div, obj: objScroll } = createVerticalScrollable();
-  const divScroll = objScroll.content;
+  const controller = createController();
+  const div = controller.elem;
+  const divScroll = createVerticalScrollable(div);
+  div.style.height = "100%";
   divScroll.style.display = "flex";
   divScroll.style.flexDirection = "row";
   divScroll.style.flexWrap = "wrap";
@@ -604,16 +593,16 @@ function createTilesFrame(args) {
     div.remove();
   });
   return {
-    div,
+    controller,
     obj,
   };
 }
 function createListFrame(args) {
   const obj = {};
-  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-  const { div: div, obj: objScroll } = createVerticalScrollable();
+  const controller = createController();
+  const div = controller.elem;
+  const divScroll = createVerticalScrollable(div);
   div.style.height = "100%";
-  const divScroll = objScroll.content;
   divScroll.style.display = "flex";
   divScroll.style.flexDirection = "column";
   divScroll.style.flexWrap = "no-wrap";
@@ -652,13 +641,14 @@ function createListFrame(args) {
     div.remove();
   });
   return {
-    div,
+    controller,
     obj,
   };
 }
 function createMapFrame(args) {
   const obj = {};
-  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+  const controller = createController();
+  const div = controller.elem;
   let changeViewport;
   obj.viewportChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
     changeViewport = next;
@@ -678,7 +668,6 @@ function createMapFrame(args) {
       });
     });
   });
-  const div = document.createElement("div");
   div.style.height = "100%";
   div.appendChild(canvas);
   div.style.overflow = "hidden";
@@ -881,15 +870,10 @@ function createMapFrame(args) {
     div.remove();
   });
   return {
-    div,
+    controller,
     obj,
   };
 }
-
-export const symTextEntry = Symbol();
-export const symNumericEntry = Symbol();
-export const symTextDisplay = Symbol();
-export const symButton = Symbol();
 
 const formElementTypes = new Map();
 formElementTypes.set("text-entry", createTextEntry);
@@ -897,9 +881,10 @@ formElementTypes.set("numeric-entry", createNumericEntry);
 formElementTypes.set("text-display", createTextDisplay);
 formElementTypes.set("button", createButton);
 
-function createFormFrame(args) {
+function createElementListLevel(args) {
   const obj = {};
-  const div = document.createElement("div");
+  const controller = createController();
+  const div = controller.elem;
   div.style.display = "block";
   div.style.overflow = "hidden";
   const divContent = document.createElement("div");
@@ -919,19 +904,15 @@ function createFormFrame(args) {
     divContent.textContent = "";
     elements.clear();
   };
-  obj.show = () => {
-    div.style.display = "block";
-  };
-  obj.hide = () => {
-    div.style.display = "none";
-  };
   return {
-    div,
+    controller,
     obj,
   };
 }
 function createTextEntry(args) {
-  const div = document.createElement("div");
+  const obj = {};
+  const controller = createController();
+  const div = controller.elem;
   div.style.display = "grid";
   div.style.width = "100%";
   if (args.icon) {
@@ -962,24 +943,121 @@ function createTextEntry(args) {
   input.style.fontSize = "var(--body-text-size)";
   input.style.border = "1px solid black";
   input.style.boxSizing = "border-box";
-  const obj = {
-    setPrompt(text) {
-      divPrompt.innerHTML = "";
-      divPrompt.append(text);
-    },
-    getValue() {
-      return input.value;
-    },
+  obj.setPrompt = (text) => {
+    divPrompt.innerHTML = "";
+    divPrompt.append(text);
+  };
+  obj.getValue = () => {
+    return input.value;
   };
   return {
-    div,
+    controller,
     obj,
   };
 }
-function createSelectFormFrame(args) {
+
+const selectFormElementTypes = new Map();
+selectFormElementTypes.set("text-entry", createTextEntry);
+selectFormElementTypes.set("numeric-entry", createNumericEntry);
+selectFormElementTypes.set("select", createSelect);
+selectFormElementTypes.set("button", createButton);
+
+function createRadioOption(args) {
+  const { type } = args;
+  const obj = {};
+  const controller = createController();
+  const div = controller.elem;
+  obj.removed = controller.removed;
+  div.style.display = "grid";
+  div.style.gridTemplateRows = "1fr";
+  div.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
+  div.style.gridTemplateAreas = '"radio control status"';
+  div.style.width = "100%";
+  div.style.minHeight = "var(--min-touch-size)";
+  const imgSelect = document.createElement("img");
+  div.appendChild(imgSelect);
+  imgSelect.src = urlIconUnselected;
+  imgSelect.style.display = "block";
+  imgSelect.style.gridArea = "radio";
+  const funcCreate = formElementTypes.get(option.type);
+  const { div: divControl, obj: objControl } = funcCreate(args);
+  divControl.style.gridArea = "control";
+  div.appendChild(divControl);
+  const divStatus = document.createElement("img");
+  div.appendChild(divStatus);
+  divStatus.style.display = "block";
+  divStatus.style.gridArea = "radio";
+  const objOption = {
+    element: objControl,
+    select() {
+      for (const { div: divElement, obj: objElement } of elements) {
+        divControl.children[0].src = urlIconUnselected.toString();
+      }
+      imgSelect.src = urlIconRadioSelected.toString();
+    },
+    unselect() {
+      throw new Error("Radio buttons cannot be unselected.");
+    },
+    isSelected() {
+      return !(imgSelect.src === urlIconUnselected.toString());
+    }
+  }
+}
+function createMultiSelect(args) {
+  const { type } = args;
+  const obj = {};
+  const controller = createController();
+  const div = controller.elem;
+  obj.removed = controller.removed;
+  div.style.display = "grid";
+  div.style.gridTemplateRows = "1fr";
+  div.style.gridTemplateColumns = "1fr var(--min-touch-size) var(--min-touch-size)";
+  div.style.gridTemplateAreas = '"control switch status"';
+  div.style.width = "100%";
+  div.style.minHeight = "var(--min-touch-size)";
+}
+function createSelect(args) {
+  const divText = document.createElement("div");
+  div.appendChild(divText);
+  divText.style.display = "block";
+  const divPrimary = document.createElement("div");
+  divText.appendChild(divPrimary);
+  divPrimary.style.display = "block";
+  divPrimary.style.width = "100%";
+  divPrimary.style.fontSize = "var(--subheader-size)";
+  const divSecondary = document.createElement("div");
+  divText.appendChild(divSecondary);
+  divSecondary.style.display = "block";
+  divSecondary.style.width = "100%";
+  divSecondary.style.fontSize = "var(--body-text-size)";
+  const imgSubmenu = document.createElement("img");
+  div.appendChild(imgSubmenu);
+  imgSubmenu.src = "./right-caret.svg";  
+  const obj = {
+    expanded: new AsyncEvents.EventIterable(({ next, complete, error }) => {
+      imgSubmenu.addEventListener("click", () => {
+        const callback = (options) => {
+          view.addLevel({
+            title: primaryText,
+            type: "form",
+            options,
+          });
+        }
+        next(callback);
+      });
+    }),
+  };
+  return {
+    controller,
+    obj,
+  };
+}
+
+function createFormLevel(args, view) {
   const { minOptions, maxOptions, options } = args;
   const obj = {};
-  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+  const controller = createController();
+  const div = controller.elem;
   const optionLines = new Map();
   const optionsArray = [];
   if ((minOptions < 0) || (minOptions > options.length)) {
@@ -995,51 +1073,19 @@ function createSelectFormFrame(args) {
   if (minOptions === options.length) {
     displayType = "allSelected";
   }
-  const div = document.createElement("div");
   div.style.display = "block";
   div.style.height = "100%";
   switch (displayType) {
     case "radio": {
-      const divContent = document.createElement("div");
+      const divContent = createVerticalScroll(div);
       div.appendChild(divContent);
-      for (const option of args.options) {
-        const divOption = document.createElement("div");
-        divContent.appendChild(divOption);
-        divOption.style.display = "grid";
-        divOption.style.width = "100%";
-        divOption.style.minHeight = "var(--min-touch-size)";
-        divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
-        divOption.style.gridTemplateRows = "1fr";
-        divOption.style.gridTemplateAreas = '"select element"';
-        const imgSelect = document.createElement("img");
-        divOption.appendChild(imgSelect);
-        imgSelect.src = urlIconUnselected;
-        imgSelect.style.display = "block";
-        imgSelect.style.gridArea = "select";
-        const funcCreate = formElementTypes.get(option.type);
-        const { div: divElement, obj: objElement } = funcCreate(args);
-        divElement.style.gridArea = "element";
-        divOption.appendChild(divElement);
-        const objOption = {
-          element: objElement,
-          select() {
-            for (const { div: divElement, obj: objElement } of elements) {
-              divElement.children[0].src = urlIconUnselected.toString();
-            }
-            imgSelect.src = urlIconRadioSelected.toString();
-          },
-          unselect() {
-            throw new Error("Radio buttons cannot be unselected.");
-          },
-          isSelected() {
-            return !(imgSelect.src === urlIconUnselected.toString());
-          }
-        }
+      for (const option of options) {
+        createRadioOption(args);
+      }
         optionLines.set(objOption, { div: divOption, obj: objOption });
         optionsArray.push(objOption);
         divContent.appendChild(divOption);
         imgSelect.addEventListener("click", objOption.select);
-      }
     }
       break;
     case "allSelected": {
@@ -1167,7 +1213,7 @@ function createSelectFormFrame(args) {
     div.remove();
   });
   return {
-    div,
+    controller,
     obj,
   };
 }
@@ -1175,7 +1221,7 @@ function createNumericEntry(args) {
   const div = document.createElement("div");
   div.style.display = "grid";
   div.style.width = "100%";
-  div.style.height = "var(--min-touch-size)";
+  div.style.height = "max-content";
   div.style.gridTemplateColumns = "1fr";
   div.style.gridTemplateRows = "1fr 2fr";
   div.style.gridTemplateAreas = '"prompt" "input"';
@@ -1291,8 +1337,7 @@ function createButton(args) {
 function createVerticalCenteredText() {
   
 }
-function createVerticalScrollable() {
-  const div = document.createElement("div");
+function createVerticalScrollable(div) {
   div.style.display = "block";
   div.style.backgroundColor = "#C0C0C0";
   div.style.overflowX = "hidden";
@@ -1306,22 +1351,21 @@ function createVerticalScrollable() {
   divScroll.style.marginRight = "1%";
   divScroll.style.width = "98%";
   divScroll.style.backgroundColor = "white";
-  const obj = {
-    content: divScroll,
-  };
-  return {
-    div,
-    obj,
-  };
+  return divScroll;
 }
-function createVisibilityController(div) {
-  return {
-    show() {
-      div.style.visibility = "visible";
-    },
-    hide() {
-      div.style.visibility = "hidden";
-    },
-    
+function createController(tagName) {
+  if (typeof tagName !== "string") {
+    tagName = "div";
+  }
+  const obj = {};
+  const elem = document.createElement(tagName);
+  ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+  obj.show() {
+    div.style.visibility = "visible";
   };
+  obj.hide() {
+    div.style.visibility = "hidden";
+  };
+  obj.elem = elem;
+  return obj;
 }
