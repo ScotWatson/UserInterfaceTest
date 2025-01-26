@@ -962,63 +962,8 @@ selectFormElementTypes.set("numeric-entry", createNumericEntry);
 selectFormElementTypes.set("select", createSelect);
 selectFormElementTypes.set("button", createButton);
 
-function createRadioOption(args) {
-  const { type } = args;
-  const obj = {};
-  const controller = createController();
-  const div = controller.elem;
-  obj.removed = controller.removed;
-  div.style.display = "grid";
-  div.style.gridTemplateRows = "1fr";
-  div.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
-  div.style.gridTemplateAreas = '"radio control status"';
-  div.style.width = "100%";
-  div.style.minHeight = "var(--min-touch-size)";
-  const imgSelect = document.createElement("img");
-  div.appendChild(imgSelect);
-  imgSelect.src = urlIconUnselected;
-  imgSelect.style.display = "block";
-  imgSelect.style.gridArea = "radio";
-  const funcCreate = formElementTypes.get(option.type);
-  const { div: divControl, obj: objControl } = funcCreate(args);
-  divControl.style.gridArea = "control";
-  div.appendChild(divControl);
-  const divStatus = document.createElement("img");
-  div.appendChild(divStatus);
-  divStatus.style.display = "block";
-  divStatus.style.gridArea = "radio";
-  const objOption = {
-    element: objControl,
-    select() {
-      for (const { div: divElement, obj: objElement } of elements) {
-        divControl.children[0].src = urlIconUnselected.toString();
-      }
-      imgSelect.src = urlIconRadioSelected.toString();
-    },
-    unselect() {
-      throw new Error("Radio buttons cannot be unselected.");
-    },
-    isSelected() {
-      return !(imgSelect.src === urlIconUnselected.toString());
-    }
-  }
-}
-function createMultiSelect(args) {
-  const { type } = args;
-  const obj = {};
-  const controller = createController();
-  const div = controller.elem;
-  obj.removed = controller.removed;
-  div.style.display = "grid";
-  div.style.gridTemplateRows = "1fr";
-  div.style.gridTemplateColumns = "1fr var(--min-touch-size) var(--min-touch-size)";
-  div.style.gridTemplateAreas = '"control switch status"';
-  div.style.width = "100%";
-  div.style.minHeight = "var(--min-touch-size)";
-}
 function createSelect(args) {
   const divText = document.createElement("div");
-  div.appendChild(divText);
   divText.style.display = "block";
   const divPrimary = document.createElement("div");
   divText.appendChild(divPrimary);
@@ -1058,7 +1003,6 @@ function createFormLevel(args, view) {
   const obj = {};
   const controller = createController();
   const div = controller.elem;
-  const optionLines = new Map();
   const optionsArray = [];
   if ((minOptions < 0) || (minOptions > options.length)) {
     throw new Error("Invalid minOptions value: " + minOptions + ", must be between 0 & " + options.length);
@@ -1075,48 +1019,123 @@ function createFormLevel(args, view) {
   }
   div.style.display = "block";
   div.style.height = "100%";
+  obj.selectionChanged = AsyncEvents.EventIterable(({ next, complete, error }) => {
+    
+  });
+  {
+    isSelected();
+    getValue();
+    valueChanged;
+  }
   switch (displayType) {
     case "radio": {
       const divContent = createVerticalScroll(div);
       div.appendChild(divContent);
+      const arrControllerOption = [];
       for (const option of options) {
-        createRadioOption(args);
-      }
-        optionLines.set(objOption, { div: divOption, obj: objOption });
+        const { controllerOption, objOption } = createRadioOption(option);
         optionsArray.push(objOption);
-        divContent.appendChild(divOption);
+        arrControllerOption.push(controllerOption);
+        divContent.appendChild(controllerOption.elem);
+      }
+      function unselectAll() {
+        for (const controllerOption of arrControllerOption) {
+          controllerOption.select.src = urlIconUnselected.toString();
+        }
+      }
+      function createRadioOption(args) {
+        const { type } = args;
+        const obj = {};
+        const controller = createController();
+        const div = controller.elem;
+        obj.removed = controller.removed;
+        div.style.display = "grid";
+        div.style.gridTemplateRows = "1fr";
+        div.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
+        div.style.gridTemplateAreas = '"radio control status"';
+        div.style.width = "100%";
+        div.style.minHeight = "var(--min-touch-size)";
+        const imgSelect = document.createElement("img");
+        div.appendChild(imgSelect);
+        imgSelect.src = urlIconUnselected;
+        imgSelect.style.display = "block";
+        imgSelect.style.gridArea = "radio";
+        controller.select = imgSelect;
+        imgSelect.addEventListener("click", () => {
+          unselectAll();
+          imgSelect.src = urlIconRadioSelected.toString();
+        });
+        const funcCreate = formElementTypes.get(option.type);
+        const { div: divControl, obj: objControl } = funcCreate(args);
+        divControl.style.gridArea = "control";
+        div.appendChild(divControl);
+        const divStatus = document.createElement("img");
+        div.appendChild(divStatus);
+        divStatus.style.display = "block";
+        divStatus.style.gridArea = "radio";
         imgSelect.addEventListener("click", objOption.select);
+        obj.element = objControl;
+        obj.isSelected = () => {
+          return !(imgSelect.src === urlIconUnselected.toString());
+        };
+        obj.getValue = objControl.getValue;
+        obj.valueChanged = objControl.valueChanged;
+        obj.getValue = () => {
+          
+        };
+        obj.valueChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
+          
+        });
+        return {
+          controller,
+          obj,
+        };
+      }
     }
       break;
     case "allSelected": {
       const divContent = document.createElement("div");
       div.appendChild(divContent);
       for (const option of options) {
-        const divOption = document.createElement("div");
-        divContent.appendChild(divOption);
-        divOption.style.display = "grid";
-        divOption.style.width = "100%";
-        divOption.style.minHeight = "var(--min-touch-size)";
-        divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
-        divOption.style.gridTemplateRows = "1fr";
-        divOption.style.gridTemplateAreas = '"select element"';
-        const funcCreate = formElementTypes.get(option.type);
-        const { div: divElement, obj: objElement } = funcCreate(args);
-        divElement.style.gridArea = "element";
-        divOption.appendChild(divElement);
-        const objOption = {
-          element: objElement,
-          select() {},
-          unselect() {
-            throw new Error("Unable to unselect; all items must be selected.");
-          },
-          isSelected() {
-            return true;
-          },
-        }
-        optionLines.set(objOption, { div: divOption, obj: objOption });
+        const { controllerOption, objOption } = createRadioOption(option);
         optionsArray.push(objOption);
-        divContent.appendChild(divOption);
+        controllerArray.push(controllerOption);
+        divContent.appendChild(controllerOption.elem);
+      }
+      function createAllSelectedOption(args) {
+        const { type } = args;
+        const obj = {};
+        const controller = createController();
+        const div = controller.elem;
+        obj.removed = controller.removed;
+        div.style.display = "grid";
+        div.style.gridTemplateRows = "1fr";
+        div.style.gridTemplateColumns = "1fr var(--min-touch-size)";
+        div.style.gridTemplateAreas = '"control status"';
+        div.style.width = "100%";
+        div.style.minHeight = "var(--min-touch-size)";
+        const funcCreate = formElementTypes.get(option.type);
+        const { div: divControl, obj: objControl } = funcCreate(args);
+        divControl.style.gridArea = "control";
+        div.appendChild(divControl);
+        const divStatus = document.createElement("img");
+        div.appendChild(divStatus);
+        divStatus.style.display = "block";
+        divStatus.style.gridArea = "status";
+        obj.element = objControl;
+        obj.select = () => {
+          throw new Error("All items must be selected.");
+        };
+        obj.unselect = () => {
+          throw new Error("All items must be selected.");
+        };
+        obj.isSelected = () => {
+          return !(imgSelect.src === urlIconUnselected.toString());
+        };
+        return {
+          controller,
+          obj,
+        };
       }
     }
     default: {
@@ -1161,40 +1180,9 @@ function createFormLevel(args, view) {
       divContent.style.display = "block";
       divScroll.appendChild(divContent);
       for (const option of options) {
-        const divOption = document.createElement("div");
-        divContent.appendChild(divOption);
-        divOption.style.display = "grid";
-        divOption.style.width = "100%";
-        divOption.style.minHeight = "var(--min-touch-size)";
-        divOption.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
-        divOption.style.gridTemplateRows = "1fr";
-        divOption.style.gridTemplateAreas = '"select element"';
-        const imgSelect = document.createElement("img");
-        divOption.appendChild(imgSelect);
-        imgSelect.src = urlIconUnselected.toString();
-        imgSelect.style.display = "block";
-        imgSelect.style.gridArea = "select";
-        const funcCreate = formElementTypes.get(option.type);
-        const { div: divElement, obj: objElement } = funcCreate(args);
-        divElement.style.gridArea = "element";
-        divOption.appendChild(divElement);
-        const objOption = {
-          element: objElement,
-          select() {
-            imgSelect.src = urlIconMultiSelected.toString();
-            refreshCurrent();
-          },
-          unselect() {
-            imgSelect.src = urlIconUnselected.toString();
-            refreshCurrent();
-          },
-          isSelected() {
-            return !(imgSelect.src === urlIconUnselected.toString());
-          },
-        }
-        optionLines.set(objOption, { div: divOption, obj: objOption });
+        const { controller, obj } = createDefaultOption(args);
         optionsArray.push(objOption);
-        divContent.appendChild(divOption);
+        divContent.appendChild(controllerOption.elem);
         imgSelect.addEventListener("click", () => {
           if (objOption.isSelected()) {
             objOption.unselect();
@@ -1205,6 +1193,48 @@ function createFormLevel(args, view) {
       }
       for (let i = 0; i < minOptions; ++i) {
         optionsArray[i].select();
+      }
+      function createDefaultOption(args) {
+        const { type } = args;
+        const obj = {};
+        const controller = createController();
+        const div = controller.elem;
+        obj.removed = controller.removed;
+        div.style.display = "grid";
+        div.style.gridTemplateRows = "1fr";
+        div.style.gridTemplateColumns = "1fr var(--min-touch-size) var(--min-touch-size)";
+        div.style.gridTemplateAreas = '"control switch status"';
+        div.style.width = "100%";
+        div.style.minHeight = "var(--min-touch-size)";
+        const funcCreate = formElementTypes.get(option.type);
+        const { div: divControl, obj: objControl } = funcCreate(args);
+        divControl.style.gridArea = "control";
+        div.appendChild(divControl);
+        const imgSelect = document.createElement("img");
+        div.appendChild(imgSelect);
+        imgSelect.src = urlIconUnselected;
+        imgSelect.style.display = "block";
+        imgSelect.style.gridArea = "switch";
+        const divStatus = document.createElement("img");
+        div.appendChild(divStatus);
+        divStatus.style.display = "block";
+        divStatus.style.gridArea = "status";
+        obj.element = objControl;
+        obj.select = () => {
+          imgSelect.src = urlIconRadioSelected.toString();
+        };
+        obj.unselect = () => {
+          imgSelect.src = urlIconUnselected.toString();
+        };
+        obj.isSelected = () => {
+          return !(imgSelect.src === urlIconUnselected.toString());
+        };
+        obj.selected
+        obj.unselected
+        return {
+          controller,
+          obj,
+        };
       }
     }
   };
@@ -1360,10 +1390,10 @@ function createController(tagName) {
   const obj = {};
   const elem = document.createElement(tagName);
   ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
-  obj.show() {
+  obj.show = () => {
     div.style.visibility = "visible";
   };
-  obj.hide() {
+  obj.hide = () => {
     div.style.visibility = "hidden";
   };
   obj.elem = elem;
