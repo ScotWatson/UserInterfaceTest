@@ -1073,11 +1073,19 @@ function createFormLevel(args, view) {
         div.appendChild(divStatus);
         divStatus.style.display = "block";
         divStatus.style.gridArea = "radio";
-        imgSelect.addEventListener("click", objOption.select);
+        imgSelect.addEventListener("click", () => {
+          
+        });
         obj.element = objControl;
         obj.isSelected = () => {
           return !(imgSelect.src === urlIconUnselected.toString());
         };
+        function selected() {
+          objControl.expand();
+        }
+        function unselected() {
+          objControl.contract();
+        }
         obj.getValue = objControl.getValue;
         obj.valueChanged = objControl.valueChanged;
         obj.getValue = () => {
@@ -1116,6 +1124,7 @@ function createFormLevel(args, view) {
         div.style.minHeight = "var(--min-touch-size)";
         const funcCreate = formElementTypes.get(option.type);
         const { div: divControl, obj: objControl } = funcCreate(args);
+        objControl.expand();
         divControl.style.gridArea = "control";
         div.appendChild(divControl);
         const divStatus = document.createElement("img");
@@ -1123,14 +1132,8 @@ function createFormLevel(args, view) {
         divStatus.style.display = "block";
         divStatus.style.gridArea = "status";
         obj.element = objControl;
-        obj.select = () => {
-          throw new Error("All items must be selected.");
-        };
-        obj.unselect = () => {
-          throw new Error("All items must be selected.");
-        };
         obj.isSelected = () => {
-          return !(imgSelect.src === urlIconUnselected.toString());
+          return true;
         };
         return {
           controller,
