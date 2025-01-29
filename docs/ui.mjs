@@ -880,11 +880,11 @@ function createMapFrame(args) {
   };
 }
 
-const formElementTypes = new Map();
-formElementTypes.set("text-entry", createTextEntry);
-formElementTypes.set("numeric-entry", createNumericEntry);
-formElementTypes.set("text-display", createTextDisplay);
-formElementTypes.set("button", createButton);
+const elementTypes = new Map();
+elementTypes.set("text-entry", createTextEntry);
+elementTypes.set("numeric-entry", createNumericEntry);
+elementTypes.set("text-display", createTextDisplay);
+elementTypes.set("button", createButton);
 
 function createElementListLevel(args) {
   const obj = {};
@@ -899,7 +899,7 @@ function createElementListLevel(args) {
   const elements = new Map();
   obj.addElement = (args) => {
     const { type } = args;
-    const funcCreate = formElementTypes.get(type);
+    const funcCreate = elementTypes.get(type);
     const { controller: controllerElement, obj: objElement } = funcCreate(args);
     elements.set(objElement, { controller: controllerElement, obj: objElement });
     divContent.appendChild(controllerElement.elem);
@@ -961,11 +961,11 @@ function createTextEntry(args) {
   };
 }
 
-const selectFormElementTypes = new Map();
-selectFormElementTypes.set("text-entry", createTextEntry);
-selectFormElementTypes.set("numeric-entry", createNumericEntry);
-selectFormElementTypes.set("select", createSelect);
-selectFormElementTypes.set("button", createButton);
+const formElementTypes = new Map();
+formElementTypes.set("text-entry", createTextEntry);
+formElementTypes.set("numeric-entry", createNumericEntry);
+formElementTypes.set("select", createSelect);
+formElementTypes.set("button", createButton);
 
 function createSelect(args) {
   const divText = document.createElement("div");
