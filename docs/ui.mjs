@@ -1254,7 +1254,8 @@ function createFormLevel(args, view) {
   };
 }
 function createNumericEntry(args) {
-  const div = document.createElement("div");
+  const controller = createController();
+  const div = controller.elem;
   div.style.display = "grid";
   div.style.width = "100%";
   div.style.height = "max-content";
@@ -1313,12 +1314,13 @@ function createNumericEntry(args) {
     },
   };
   return {
-    div,
+    controller,
     obj,
   };
 }
 function createTextDisplay(args) {
-  const div = document.createElement("div");
+  const controller = createController();
+  const div = controller.elem;
   div.style.display = "block";
   div.style.width = "100%";
   div.style.minHeight = "var(--min-touch-size)";
@@ -1338,12 +1340,13 @@ function createTextDisplay(args) {
     }),
   };
   return {
-    div,
+    controller,
     obj,
   };
 }
 function createButton(args) {
-  const div = document.createElement("div");
+  const controller = createController();
+  const div = controller.elem;
   div.style.display = "block";
   div.style.width = "100%";
   div.style.height = "50px";
@@ -1366,7 +1369,7 @@ function createButton(args) {
     }),
   };
   return {
-    div,
+    controller,
     obj,
   };
 }
