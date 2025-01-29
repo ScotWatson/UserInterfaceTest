@@ -1402,7 +1402,7 @@ function createController(tagName) {
   const elem = document.createElement(tagName);
   ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
   let displayStyle = "block";
-  obj.setDisplayStyle(newDisplayStyle) {
+  obj.setDisplayStyle = (newDisplayStyle) => {
     displayStyle = newDisplayStyle;
     if (elem.style.display !== "none") {
       elem.style.display = displayStyle;
