@@ -402,7 +402,7 @@ function createView(args) {
     const funcCreate = viewTypeFunctions.get(type);
     const { controller: controllerContents, obj: objContents } = funcCreate(options);
     divContents.appendChild(controllerContents.elem);
-    divView.style.gridArea = "main";
+    controllerContents.elem.style.gridArea = "main";
     const { controller: controllerActionList, obj: objActionList} = createActionList(actions);
     div.appendChild(controllerActionList.elem);
     const level = {
