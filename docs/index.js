@@ -93,7 +93,7 @@ function start([ Page, UI, AsyncEvents ]) {
             args: {
               minOptions: 0,
               maxOptions: 0,
-              options: [];
+              options: [],
             },
           },
           {
