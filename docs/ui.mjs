@@ -612,6 +612,7 @@ function createListFrame(args) {
   divScroll.style.alignContent = "space-around";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
+  obj.reomved = controller.removed;
   obj.addItem = ({ icon, title, item }) => {
     const divNewLine = document.createElement("div");
     divScroll.appendChild(divNewLine);
