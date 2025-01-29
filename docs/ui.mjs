@@ -357,9 +357,9 @@ function createView(args) {
       }
     };
     for (const level of levels) {
-      level.objViewVisibility.hide();
+      level.controllerContents.hide();
     }
-    levels[levels.length - 1].objViewVisibility.show();
+    levels[levels.length - 1].controllerContents.show();
   }
   imgActions.addEventListener("click", () => {
     toggleActions();
