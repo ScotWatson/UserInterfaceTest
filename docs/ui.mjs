@@ -1394,10 +1394,10 @@ function createController(tagName) {
   const elem = document.createElement(tagName);
   ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
   obj.show = () => {
-    div.style.visibility = "visible";
+    elem.style.visibility = "visible";
   };
   obj.hide = () => {
-    div.style.visibility = "hidden";
+    elem.style.visibility = "hidden";
   };
   obj.elem = elem;
   return obj;
