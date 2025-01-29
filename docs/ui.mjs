@@ -898,9 +898,9 @@ function createElementListLevel(args) {
   obj.addElement = (args) => {
     const { type } = args;
     const funcCreate = formElementTypes.get(type);
-    const { div: divElement, obj: objElement } = funcCreate(args);
-    elements.set(objElement, { div: divElement, obj: objElement });
-    divContent.appendChild(divElement);
+    const { controller: controllerElement, obj: objElement } = funcCreate(args);
+    elements.set(objElement, { controller: controllerElement, obj: objElement });
+    divContent.appendChild(controllerElement.elem);
     return objElement;
   };
   obj.clear = () => {
