@@ -150,12 +150,12 @@ function createNavigationTabBar(args) {
     divTabTitleText.style.overflow = "hidden";
     divTabTitleText.style.textOverflow = "ellipsis";
     return {
-      div,
+      controller,
       obj,
     };
   }
   return {
-    div,
+    controller,
     obj,
   };
 }
