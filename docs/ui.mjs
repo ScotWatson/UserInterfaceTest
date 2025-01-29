@@ -1190,7 +1190,7 @@ function createFormLevel(args, view) {
       divContent.style.display = "block";
       divScroll.appendChild(divContent);
       for (const option of options) {
-        const { controller, obj } = createDefaultOption(args);
+        const { controller, obj } = createDefaultOption(option);
         optionsArray.push(objOption);
         divContent.appendChild(controllerOption.elem);
         imgSelect.addEventListener("click", () => {
