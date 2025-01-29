@@ -106,6 +106,7 @@ function createNavigationTabBar(args) {
     const { controller: controllerView, obj: objView } = createView(view);
     viewControllers.push(controllerView);
     controllerView.elem.style.gridArea = "view";
+    div.appendChild(controllerView.elem);
     objTab.show = () => {
       for (const controller of viewControllers) {
         controller.hide();
