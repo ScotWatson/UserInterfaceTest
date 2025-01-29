@@ -79,7 +79,7 @@ function createNavigationTabBar(args) {
   const controller = createController();
   obj.removed = controller.removed;
   const div = controller.elem;
-  div.style.display = "grid";
+  controller.setDisplayStyle("grid");
   div.style.width = "100%";
   div.style.height = "100%";
   div.style.gridTemplateColumns = "var(--min-touch-size) 6fr";
@@ -123,7 +123,7 @@ function createNavigationTabBar(args) {
     const obj = {};
     const controller = createController("button");
     const div = controller.elem;
-    div.style.display = "grid";
+    controller.setDisplayStyle("grid");
     div.style.gridTemplateColumns = "var(--min-touch-size)";
     div.style.gridTemplateRows = "var(--min-touch-size) var(--caption-size)";
     div.style.gridTemplateAreas = '"icon" "title"';
@@ -171,7 +171,7 @@ function createView(args) {
   const { type, options, title, actions } = args;
   const controller = createController();
   const div = controller.elem;
-  div.style.display = "grid";
+  controller.setDisplayStyle("grid");
   div.style.backgroundColor = "white";
   div.style.gridTemplateColumns = "1fr";
   div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
@@ -435,7 +435,7 @@ function createView(args) {
     const controller = createController();
     obj.removed = controller.removed;
     const div = controller.elem;
-    div.style.display = "grid";
+    controller.setDisplayStyle("grid");
     div.style.gridArea = "secondary";
     div.style.gridTemplateColumns = "1fr";
     div.style.gridTemplateRows = "var(--min-touch-size) 1fr";
@@ -493,7 +493,8 @@ function createView(args) {
     const obj = {};
     const controller = createController();
     const div = controller.elem;
-    div.style.display = "none";
+    controller.setDisplayStyle("flex");
+    controller.hide();
     div.style.flexDirection = "column";
     div.style.position = "relative";
     div.style.right = "0px";
@@ -504,10 +505,10 @@ function createView(args) {
       obj.actions.push(objAction);
     }
     obj.show = () => {
-      div.style.display = "block";
+      controller.show();
     }
     obj.hide = () => {
-      div.style.display = "none";
+      controller.hide();
     }
     return {
       controller,
@@ -518,7 +519,7 @@ function createView(args) {
     const obj = {};
     const controller = createController();
     const div = controller.elem;
-    div.style.display = "block";
+    controller.setDisplayStyle("block");
     div.style.height = "var(--min-touch-size)";
     div.style.width = "100%";
     obj.clicked = new AsyncEvents.EventIterable(({ next, complete, error }) => {
@@ -889,7 +890,7 @@ function createElementListLevel(args) {
   const obj = {};
   const controller = createController();
   const div = controller.elem;
-  div.style.display = "block";
+  controller.setDisplayStyle("block");
   div.style.overflow = "hidden";
   const divContent = document.createElement("div");
   div.appendChild(divContent);
@@ -917,7 +918,7 @@ function createTextEntry(args) {
   const obj = {};
   const controller = createController();
   const div = controller.elem;
-  div.style.display = "grid";
+  controller.setDisplayStyle("grid");
   div.style.width = "100%";
   if (args.icon) {
     div.style.gridTemplateColumns = "var(--min-touch-size) 1fr";
@@ -1021,7 +1022,7 @@ function createFormLevel(args, view) {
   if (minOptions === options.length) {
     displayType = "allSelected";
   }
-  div.style.display = "block";
+  controller.setDisplayStyle("block");
   div.style.height = "100%";
   obj.selectionChanged = AsyncEvents.EventIterable(({ next, complete, error }) => {
     
@@ -1053,7 +1054,7 @@ function createFormLevel(args, view) {
         const controller = createController();
         const div = controller.elem;
         obj.removed = controller.removed;
-        div.style.display = "grid";
+        controller.setDisplayStyle("grid");
         div.style.gridTemplateRows = "1fr";
         div.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
         div.style.gridTemplateAreas = '"radio control status"';
@@ -1120,7 +1121,7 @@ function createFormLevel(args, view) {
         const controller = createController();
         const div = controller.elem;
         obj.removed = controller.removed;
-        div.style.display = "grid";
+        controller.setDisplayStyle("grid");
         div.style.gridTemplateRows = "1fr";
         div.style.gridTemplateColumns = "1fr var(--min-touch-size)";
         div.style.gridTemplateAreas = '"control status"';
@@ -1146,7 +1147,7 @@ function createFormLevel(args, view) {
       }
     }
     default: {
-      div.style.display = "grid";
+      controller.setDisplayStyle("grid");
       div.style.gridTemplateRows = "max-content 1fr";
       div.style.gridTemplateColumns = "1fr";
       div.style.gridTemplateAreas = '"header" "scroll"';
@@ -1207,7 +1208,7 @@ function createFormLevel(args, view) {
         const controller = createController();
         const div = controller.elem;
         obj.removed = controller.removed;
-        div.style.display = "grid";
+        controller.setDisplayStyle("grid");
         div.style.gridTemplateRows = "1fr";
         div.style.gridTemplateColumns = "1fr var(--min-touch-size) var(--min-touch-size)";
         div.style.gridTemplateAreas = '"control switch status"';
@@ -1257,7 +1258,7 @@ function createFormLevel(args, view) {
 function createNumericEntry(args) {
   const controller = createController();
   const div = controller.elem;
-  div.style.display = "grid";
+  controller.setDisplayStyle("grid");
   div.style.width = "100%";
   div.style.height = "max-content";
   div.style.gridTemplateColumns = "1fr";
@@ -1322,7 +1323,7 @@ function createNumericEntry(args) {
 function createTextDisplay(args) {
   const controller = createController();
   const div = controller.elem;
-  div.style.display = "block";
+  controller.setDisplayStyle("block");
   div.style.width = "100%";
   div.style.minHeight = "var(--min-touch-size)";
   const divPrimary = document.createElement("div");
@@ -1348,7 +1349,7 @@ function createTextDisplay(args) {
 function createButton(args) {
   const controller = createController();
   const div = controller.elem;
-  div.style.display = "block";
+  controller.setDisplayStyle("block");
   div.style.width = "100%";
   div.style.height = "50px";
   const btn = document.createElement("button");
@@ -1400,11 +1401,18 @@ function createController(tagName) {
   const obj = {};
   const elem = document.createElement(tagName);
   ({ promise: obj.removed, resolve: obj.remove } = createControlledPromise());
+  let displayStyle = "block";
+  obj.setDisplayStyle(newDisplayStyle) {
+    displayStyle = newDisplayStyle;
+    if (elem.style.display !== "none") {
+      elem.style.display = displayStyle;
+    }
+  }
   obj.show = () => {
-    elem.style.visibility = "visible";
+    elem.style.display = displayStyle;
   };
   obj.hide = () => {
-    elem.style.visibility = "hidden";
+    elem.style.display = "none";
   };
   obj.elem = elem;
   return obj;
