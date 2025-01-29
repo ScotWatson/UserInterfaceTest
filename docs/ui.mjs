@@ -1216,7 +1216,7 @@ function createFormLevel(args, view) {
         div.style.gridTemplateAreas = '"control switch status"';
         div.style.width = "100%";
         div.style.minHeight = "var(--min-touch-size)";
-        const funcCreate = formElementTypes.get(option.type);
+        const funcCreate = formElementTypes.get(type);
         const { div: divControl, obj: objControl } = funcCreate(args);
         divControl.style.gridArea = "control";
         div.appendChild(divControl);
