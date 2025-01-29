@@ -113,7 +113,7 @@ function createNavigationTabBar(args) {
       controllerView.show();
     },
     objTab.view = objView,
-    controllerView.elem.addEventListener("click", () => {
+    controllerTab.elem.addEventListener("click", () => {
       objTab.show();
     });
     obj.tabs.push(objTab);
