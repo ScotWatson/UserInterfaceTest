@@ -733,6 +733,7 @@ function createMapFrame(args) {
   obj.getViewport = () => {
     return viewport;
   };
+  obj.removed = controller.removed;
   function cloneDOMMatrix2d(matrix) {
     return new DOMMatrix([ matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f ]);
   }
