@@ -566,6 +566,7 @@ function createTilesFrame(args) {
   divScroll.style.alignContent = "space-around";
   divScroll.style.boxSizing = "border-box";
   const elements = [];
+  obj.removed = controller.removed;
   obj.addItem = ({ icon, title, item }) => {
     const divNewTile = document.createElement("div");
     divScroll.appendChild(divNewTile);
