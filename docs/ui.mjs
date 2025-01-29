@@ -400,14 +400,14 @@ function createView(args) {
     const { type, options, title, actions } = args;
     const obj = {};
     const funcCreate = viewTypeFunctions.get(type);
-    const { controller: controllerView, obj: objView } = funcCreate(options, view);
-    divContents.appendChild(controllerView.elem);
+    const { controller: controllerContents, obj: objContents } = funcCreate(options);
+    divContents.appendChild(controllerContents.elem);
     divView.style.gridArea = "main";
     const { controller: controllerActionList, obj: objActionList} = createActionList(actions);
     div.appendChild(controllerActionList.elem);
     const level = {
       title,
-      controllerView,
+      controllerContents,
       controllerActionList,
       remove: obj.remove,
     };
@@ -418,12 +418,12 @@ function createView(args) {
       secondary.obj.remove();
     }
     levels.push(level);
-    obj.removed = controllerView.removed;
+    obj.removed = controllerContents.removed;
     obj.removed.then(() => {
-      controllerView.remove();
+      controllerContents.remove();
       controllerActionList.remove();
     });
-    obj.contents = objView;
+    obj.contents = objContents;
     obj.actions = objActionList.actions;
     updateBreadcrumbs();
     return obj;
