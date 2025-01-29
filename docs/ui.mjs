@@ -102,10 +102,10 @@ function createNavigationTabBar(args) {
   for (const tab of tabs) {
     const { icon, title, view } = tab;
     const { controller: controllerTab, obj: objTab } = createTab({ icon, title });
-    divViewButtons.appendChild(divTab);
+    divViewButtons.appendChild(controllerTab.elem);
     const { controller: controllerView, obj: objView } = createView(view);
     viewContainers.push(controllerView);
-    divViewContainer.appendChild(divView);
+    divViewContainer.appendChild(controllerView.elem);
     objTab.show = () => {
       for (const controller of viewControllers) {
         controller.hide();
