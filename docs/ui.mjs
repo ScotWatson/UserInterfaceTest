@@ -1024,7 +1024,8 @@ function createFormLevel(args, view) {
   }
   controller.setDisplayStyle("block");
   div.style.height = "100%";
-  obj.selectionChanged = AsyncEvents.EventIterable(({ next, complete, error }) => {
+  /*
+  obj.selectionChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
     
   });
   {
@@ -1032,6 +1033,7 @@ function createFormLevel(args, view) {
     getValue();
     valueChanged;
   }
+  */
   switch (displayType) {
     case "radio": {
       const divContent = createVerticalScroll(div);
