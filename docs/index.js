@@ -89,8 +89,12 @@ function start([ Page, UI, AsyncEvents ]) {
         maxOptions: 2,
         options: [
           {
-            type: "text-display",
-            args: {},
+            type: "select",
+            args: {
+              minOptions: 0,
+              maxOptions: 0,
+              options: [];
+            },
           },
           {
             type: "text-entry",
