@@ -62,7 +62,7 @@ export function initialize(args) {
   bodyShadowRoot.appendChild(divWindow);
   const funcCreate = rootTypeFunctions.get(type);
   const { controller: controllerView, obj: objView } = funcCreate(options);
-  divWindow.appendChild(divView);
+  divWindow.appendChild(controllerView.elem);
   return {
     view: objView,
   };
