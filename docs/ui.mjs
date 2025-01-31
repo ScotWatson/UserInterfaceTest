@@ -885,6 +885,69 @@ elementTypes.set("text-entry", createTextEntry);
 elementTypes.set("numeric-entry", createNumericEntry);
 elementTypes.set("text-display", createTextDisplay);
 elementTypes.set("button", createButton);
+elementTypes.set("double-text-display", createDoubleTextDisplay);
+elementTypes.set("radio-list", createRadioList);
+elementTypes.set("optional-numeric", createOptionalNumeric);
+elementTypes.set("optional-text", createOptionalText);
+elementTypes.set("boolean", createBoolean);
+elementTypes.set("optional-picker", createOptionalPicker);
+elementTypes.set("picker", createPicker);
+
+const radioElementTypes = new Map();
+radioElementTypes.set("numeric", createRadioNumeric);
+radioElementTypes.set("text", createRadioText);
+radioElementTypes.set("picker", createRadioPicker);
+
+function createRadioList(args) {
+  const {} = args;
+  const obj = {};
+  function createRadioNumeric(args) {
+    const { primaryText, secondaryText } = args;
+    const obj = {};
+    const div = document.createElement("div");
+    const imgRadio = document.createElement("img");
+    div.appendChild(imgRadio);
+    const divText = document.createElement("div");
+    div.appendChild(divText);
+    const divPrimary = document.createElement("div");
+    divText.appendChild(divPrimary);
+    divPrimary.innerHTML = primaryText;
+    const divSecondary = document.createElement("div");
+    divText.appendChild(divSecondary);
+    divSecondary.innerHTML = secondaryText;
+    const divValue = document.createElement("div");
+    const inpRange = document.createElement("input");
+    const spanValue = document.createElement("span");
+    const inpValue = document.createElement("input");
+    const btnAccept = document.createElement("button");
+    controller.select() {
+      imgRadio.src = urlIconRadioSelected;
+    }
+    controller.unselect() {
+      imgRadio.src = urlIconRadioUnselected;
+    }
+  }
+  function createRadioText() {
+    const obj = {};
+    const div = document.createElement("div");
+    const imgRadio = document.createElement("img");
+    const divText = document.createElement("div");
+    const divPrimary = document.createElement("div");
+    const divSecondary = document.createElement("div");
+    const inpRange = document.createElement("input");
+    const spanValue = document.createElement("span");
+    const inpValue = document.createElement("input");
+    const btnAccept = document.createElement("button");
+  }
+  function createRadioPicker() {
+    const obj = {};
+    const div = document.createElement("div");
+    const imgRadio = document.createElement("img");
+    const divText = document.createElement("div");
+    const divPrimary = document.createElement("div");
+    const divSecondary = document.createElement("div");
+  }
+}
 
 function createElementListLevel(args) {
   const obj = {};
@@ -967,8 +1030,11 @@ formElementTypes.set("numeric-entry", createNumericEntry);
 formElementTypes.set("select", createSelect);
 formElementTypes.set("button", createButton);
 
-function createSelect(args) {
+function createRaw(args) {
+  const div = document.createElement("div");
+  div.style.display = "block";
   const divText = document.createElement("div");
+  div.appendChild(divText);
   divText.style.display = "block";
   const divPrimary = document.createElement("div");
   divText.appendChild(divPrimary);
@@ -980,30 +1046,78 @@ function createSelect(args) {
   divSecondary.style.display = "block";
   divSecondary.style.width = "100%";
   divSecondary.style.fontSize = "var(--body-text-size)";
-  const imgSubmenu = document.createElement("img");
-  div.appendChild(imgSubmenu);
-  imgSubmenu.src = "./right-caret.svg";  
-  const obj = {
-    expanded: new AsyncEvents.EventIterable(({ next, complete, error }) => {
-      imgSubmenu.addEventListener("click", () => {
-        const callback = (options) => {
-          view.addLevel({
-            title: primaryText,
-            type: "form",
-            options,
-          });
-        }
-        next(callback);
-      });
-    }),
+  const obj = {};
+  obj.setValue = () => {
+   
+  };
+  obj.getValue = () => {
+    
+  };
+  obj.valueChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
+    
+  });
+}
+function createSelect(args) {
+  const { callback } = args;
+  const div = document.createElement("div");
+  div.style.display = "block";
+  const divText = document.createElement("div");
+  div.appendChild(divText);
+  divText.style.display = "block";
+  const divPrimary = document.createElement("div");
+  divText.appendChild(divPrimary);
+  divPrimary.style.display = "block";
+  divPrimary.style.width = "100%";
+  divPrimary.style.fontSize = "var(--subheader-size)";
+  const divSecondary = document.createElement("div");
+  divText.appendChild(divSecondary);
+  divSecondary.style.display = "block";
+  divSecondary.style.width = "100%";
+  divSecondary.style.fontSize = "var(--body-text-size)";
+  const imgStatus = document.createElement("img");
+  div.appendChild(imgStatus);
+  imgStatus.style.display = "none";
+  imgStatus.src = "./alert.svg";
+  const obj = {};
+  div.addEventListener("click", () => {
+    const options = callback();
+    const objLevel = view.addLevel({
+      title: primaryText,
+      type: "form",
+      options,
+    });
+    objLevel.contents.
+  });
+  obj.setValue = () => {
+    
+  };
+  obj.getValue = () => {
+    
+  };
+  obj.valueChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
+    
+  });
+  obj.expand = () => {
+    
+  };
+  obj.collapse = () => {
+    
   };
   return {
-    controller,
+    div,
     obj,
   };
 }
 
-function createFormLevel(args, view) {
+function createFormTask(args) {
+  const { title, description, minOptions, maxOptions, options } = args;
+  const objView = createView({
+    type: "form",
+    
+  });
+}
+
+function createFormLevel(args) {
   const { minOptions, maxOptions, options } = args;
   const obj = {};
   const controller = createController();
@@ -1059,7 +1173,7 @@ function createFormLevel(args, view) {
         controller.setDisplayStyle("grid");
         div.style.gridTemplateRows = "1fr";
         div.style.gridTemplateColumns = "var(--min-touch-size) 1fr var(--min-touch-size)";
-        div.style.gridTemplateAreas = '"radio control status"';
+        div.style.gridTemplateAreas = '"radio control"';
         div.style.width = "100%";
         div.style.minHeight = "var(--min-touch-size)";
         const imgSelect = document.createElement("img");
@@ -1076,10 +1190,6 @@ function createFormLevel(args, view) {
         const { div: divControl, obj: objControl } = funcCreate(args);
         divControl.style.gridArea = "control";
         div.appendChild(divControl);
-        const divStatus = document.createElement("img");
-        div.appendChild(divStatus);
-        divStatus.style.display = "block";
-        divStatus.style.gridArea = "radio";
         imgSelect.addEventListener("click", () => {
           
         });
@@ -1095,12 +1205,6 @@ function createFormLevel(args, view) {
         }
         obj.getValue = objControl.getValue;
         obj.valueChanged = objControl.valueChanged;
-        obj.getValue = () => {
-          
-        };
-        obj.valueChanged = new AsyncEvents.EventIterable(({ next, complete, error }) => {
-          
-        });
         return {
           controller,
           obj,
