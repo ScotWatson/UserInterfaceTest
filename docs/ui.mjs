@@ -1523,3 +1523,65 @@ function createController(tagName) {
   obj.elem = elem;
   return obj;
 }
+function createHeaderFooterLevel(args) {
+  const { header, footer, type, options } = args;
+  const level = document.createElement("div");
+  level.style.display = "grid";
+  level.style.gridTemplateRows = "1fr";
+  level.style.gridTemplateColumns = "1fr";
+  level.style.gridTemplateAreas = '"main"';
+  level.style.width = "100%";
+  level.style.height = "100%";
+  level.style.overflow = "hidden";
+  const main = document.createElement("div");
+  level.apendChild(main);
+  main.style.display = "grid";
+  main.style.gridTemplateRows = "auto 1fr auto";
+  main.style.gridTemplateColumns = "1fr";
+  main.style.gridTemplateAreas = '"header" "content" "footer"';
+  const header = document.createElement("header");
+  main.appendChild(header);
+  header.style.display = "block";
+  header.style.gridArea = "header";
+  for (const element of header) {
+    const elementConstructor = elementFunctions(element.type);
+    const { controller, obj } = elementConstructor(element.options);
+    header.appendChild(controller.elem);
+    obj.header.push(obj);
+  }
+  const { controller, obj } = createElementList(options);
+  const content = controller.elem;
+  content.style.gridArea = "content";
+  const footer = document.createElement("footer");
+  footer.style.display = "block";
+  footer.style.gridArea = "footer";
+  for (const element of footer) {
+    const elementConstructor = elementFunctions(element.type);
+    const { controller, obj } = elementConstructor(element.options);
+    footer.appendChild(controller.elem);
+    obj.header.push(obj);
+  }
+  const obj = {};
+  let panel = null;
+  obj.openPanel(args) {
+    panel = document.createElement("div");
+    panel.style.gridArea = "panel";
+    const panelTitleBar = document.createElement("div");
+    panel.appendChild(panelTitleBar);
+    const panelTitle = document.createElement("div");
+    panelTitleBar.appendChild(panelTitle);
+    const panelClose = document.createElement("img");
+    panelTitleBar.appendChild(panelClose);
+    const panelContents = document.createElement("div");
+    const { controller, obj } = createElementList(options);
+    panel.appendChild(panelContents);
+    level.appendChild(panel);
+    level.style.gridTemplateRows = "1fr";
+    level.style.gridTemplateColumns = "1fr 1fr";
+    level.style.gridTemplateAreas = '"main" "panel"';
+  }
+  obj.closePanel() {
+    panel.remove();
+  }
+  return { controller, div };
+}
